@@ -1,0 +1,159 @@
+@import '../../../GlobalStyles/GlobalStyles.scss';
+.wrapper {
+	--search-border-r: 92px;
+	--search-height: 46px;
+	--search-top-space: 9px;
+	--search-btn-width: 52px;
+
+	height: var(--default-layout-header-height);
+	width: 100%;
+	// box-shadow: 1px 1px rgb(0 0 0 /12%);
+	display: flex;
+	justify-content: center;
+	z-index: 1;
+	border-bottom: 1px solid var(--bg-box-color);
+}
+
+.inner {
+	height: 100%;
+	width: var(--default-layout-width);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 var(--default-layout-horizontal-spacer);
+}
+
+.search,
+.search-result {
+	width: 361px;
+}
+
+.search {
+	display: flex;
+	position: relative;
+	height: 46px;
+	padding-left: 16px;
+	border-radius: var(--search-border-r);
+	background-color: var(--bg-box-color);
+	border: 1.5px solid transparent;
+
+	input {
+		flex: 1;
+		height: 100%;
+		font-size: 1.6rem;
+		background-color: transparent;
+		color: rgba(var(--text-color-rgb), 0.9);
+	}
+
+	input:not(:placeholder-shown) ~ .search-btn {
+		color: rgba(var(--text-color-rgb), 0.75);
+	}
+
+	&::after {
+		content: ' ';
+		position: absolute;
+		width: 1px;
+		height: calc(var(--search-height) - var(--search-top-space) * 2);
+		top: var(--search-top-space);
+		right: 52px;
+		background-color: rgba(var(--text-color-rgb), 0.12);
+	}
+
+	&:focus-within {
+		caret-color: var(--primary);
+		border-color: rgba(24, 22, 35, 0.2);
+	}
+}
+
+.search-title {
+	color: var(--text-color);
+	font-size: 1.4rem;
+	font-weight: 600;
+}
+
+.clear,
+.loading,
+.search-btn {
+	@extend .transparent;
+}
+
+.clear,
+.loading {
+	position: absolute;
+	right: 52px;
+	top: 50%;
+	width: calc(var(--search-btn-width) * 0.75);
+	transform: translateY(-50%);
+}
+.search-btn {
+	width: var(--search-btn-width);
+	height: 100%;
+	border-top-right-radius: var(--search-border-r);
+	border-bottom-right-radius: var(--search-border-r);
+	font-size: 1.8rem;
+
+	&:hover {
+		cursor: pointer;
+		background-color: rgba(var(--text-color-rgb), 0.04);
+	}
+	&:active {
+		background-color: rgba(var(--text-color-rgb), 0.07);
+	}
+}
+.action {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	.logo {
+		display: flex;
+		margin: 0 0px 0 20px;
+		padding: 5px;
+		order: 3;
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+.more-btn {
+	order: 6;
+	font-size: 2rem;
+	margin-left: 15px;
+	padding: 4px 9px;
+	background-color: transparent;
+	cursor: pointer;
+	color: var(--text-color);
+}
+.action-btn-plan,
+.inbox-icon {
+	background-color: transparent;
+	color: var(--text-color);
+	cursor: pointer;
+}
+.action-btn-plan {
+	padding: 3px 5px;
+	order: 4;
+	margin-bottom: -2px;
+	font-size: 2.2rem;
+	margin-left: 10px;
+	margin-right: 7px;
+}
+.inbox-btn {
+	background-color: transparent;
+	order: 5;
+	width: 48px;
+}
+
+.inbox-icon {
+	margin-right: 8px;
+	margin-bottom: -3px;
+}
+.user-avatar {
+	order: 6;
+	border-radius: 999px;
+	width: 32px;
+	height: 32px;
+	object-fit: cover;
+}

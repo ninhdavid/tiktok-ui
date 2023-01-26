@@ -1,14 +1,20 @@
-const { override, useBabelRc } = require('customize-cra');
+const {
+	override,
+	useBabelRc,
+	disableEsLint,
+	overrideDevServer,
+	watchAll,
+} = require('customize-cra');
 
-module.exports = override(
-	// eslint-disable-next-line react-hooks/rules-of-hooks
-	useBabelRc()
-);
-module.exports = function override(config, env) {
-	console.log('React app rewired works!');
-
-	config.resolve.fallback = {
-		fs: false,
-	};
-	return config;
+module.exports = {
+	webpack: override(
+		// usual webpack plugin
+		disableEsLint(),
+		// eslint-disable-next-line react-hooks/rules-of-hooks
+		useBabelRc()
+	),
+	devServer: overrideDevServer(
+		// dev server plugin
+		watchAll()
+	),
 };
