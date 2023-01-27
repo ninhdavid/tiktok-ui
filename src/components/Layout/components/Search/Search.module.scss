@@ -1,0 +1,92 @@
+@import '../../../GlobalStyles/GlobalStyles.scss';
+
+.search,
+.search-result {
+	width: 361px;
+}
+
+.search {
+	display: flex;
+	position: relative;
+	height: 46px;
+	padding-left: 16px;
+	border-radius: var(--search-border-r);
+	background-color: var(--bg-box-color);
+	border: 1.5px solid transparent;
+
+	input {
+		flex: 1;
+		height: 100%;
+		font-size: 1.6rem;
+		background-color: transparent;
+		color: rgba(var(--text-color-rgb), 0.9);
+	}
+
+	input:not(:placeholder-shown) ~ .search-btn {
+		color: rgba(var(--text-color-rgb), 0.75);
+	}
+
+	&::after {
+		content: ' ';
+		position: absolute;
+		width: 1px;
+		height: calc(var(--search-height) - var(--search-top-space) * 2);
+		top: var(--search-top-space);
+		right: 52px;
+		background-color: rgba(var(--text-color-rgb), 0.12);
+	}
+
+	&:focus-within {
+		caret-color: var(--primary);
+		border-color: rgba(24, 22, 35, 0.2);
+	}
+}
+
+.search-title {
+	color: var(--text-color);
+	font-size: 1.4rem;
+	font-weight: 600;
+}
+
+.clear,
+.loading,
+.search-btn {
+	@extend .transparent;
+}
+.loading {
+	animation: spinner 1s linear infinite;
+}
+@keyframes spinner {
+	from {
+		transform: translateY(-50%) rotate(0);
+	}
+	to {
+		transform: translateY(-50%) rotate(360deg);
+	}
+}
+
+.clear,
+.loading {
+	position: absolute;
+	right: 52px;
+	top: 50%;
+	width: calc(var(--search-btn-width) * 0.75);
+}
+.clear {
+	transform: translateY(-50%);
+}
+.search-btn {
+	width: var(--search-btn-width);
+	height: 100%;
+	border-top-right-radius: var(--search-border-r);
+	border-bottom-right-radius: var(--search-border-r);
+	font-size: 1.8rem;
+
+	&:hover {
+		cursor: pointer;
+		background-color: rgba(var(--text-color-rgb), 0.04);
+	}
+	&:active {
+		background-color: rgba(var(--text-color-rgb), 0.07);
+	}
+}

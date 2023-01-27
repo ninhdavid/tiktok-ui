@@ -1,0 +1,77 @@
+@import 'normalize.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+	--primary: #fe2c55;
+	--primary-rgb: 254, 44, 85;
+
+	--text-color: rgba(255, 255, 255, 0.9);
+	--text-color-rgb: 255, 255, 255;
+
+	--bg-box-color: rgba(255, 255, 255, 0.12);
+	//default layout
+	--default-layout-width: 1150px;
+	--default-layout-header-height: 60px;
+	--default-layout-horizontal-spacer: 20px;
+}
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: 'Fira Sans', sans-serif;
+	font-size: 1.6rem;
+	line-height: 1.5;
+	text-rendering: optimizeSpeed;
+	background-color: rgb(18, 18, 18);
+	color: rgba(255, 255, 255, 0.9);
+}
+
+button,
+input,
+[tabindex] {
+	outline: none;
+	border: none;
+}
+
+a[href] {
+	color: var(--text-color);
+	text-decoration: none;
+}
+
+//text color
+.transparent {
+	background-color: transparent;
+	color: rgba(var(--text-color-rgb), 0.34);
+}
+
+//Custom tippy tooltip
+
+body {
+	.tippy-box {
+		background-color: rgba(84, 84, 84, 0.92);
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 1.6rem;
+		line-height: 2.2rem;
+	}
+
+	.tippy-arrow {
+		color: rgba(84, 84, 84, 0.92);
+	}
+
+	.tippy-content {
+		padding: 8px 9px;
+	}
+
+	.tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
+		top: -6px;
+	}
+}
