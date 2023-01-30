@@ -1,7 +1,6 @@
 //menu wrapper
 .menu-list {
 	width: 224px;
-
 	.menu-item {
 		background-color: transparent;
 		margin-left: 0;
@@ -14,7 +13,9 @@
 	margin-top: 8px;
 	padding-bottom: 8px;
 }
-
+.menu-scroll {
+	overflow-y: auto;
+}
 .menu-item {
 	justify-content: flex-start;
 	width: 100%;
@@ -37,6 +38,7 @@
 	position: relative;
 	height: 50px;
 	margin-top: -8px;
+	flex-shrink: 0;
 }
 .back-btn {
 	width: 50px;

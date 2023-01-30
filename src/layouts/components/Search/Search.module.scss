@@ -1,4 +1,4 @@
-@import '../../../GlobalStyles/GlobalStyles.scss';
+@import '../../../components/GlobalStyles/GlobalStyles.scss';
 
 .search,
 .search-result {
@@ -20,6 +20,8 @@
 		font-size: 1.6rem;
 		background-color: transparent;
 		color: rgba(var(--text-color-rgb), 0.9);
+		padding-right: 40px;
+		margin-top: 1px;
 	}
 
 	input:not(:placeholder-shown) ~ .search-btn {

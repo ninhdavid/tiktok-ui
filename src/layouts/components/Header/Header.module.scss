@@ -3,13 +3,15 @@
 	--search-height: 46px;
 	--search-top-space: 9px;
 	--search-btn-width: 52px;
-
+	position: fixed;
+	top: 0;
+	left: 0;
 	height: var(--default-layout-header-height);
 	width: 100%;
 	// box-shadow: 1px 1px rgb(0 0 0 /12%);
 	display: flex;
 	justify-content: center;
-	z-index: 1;
+	z-index: 2;
 	border-bottom: 1px solid var(--bg-box-color);
 }
 
@@ -30,7 +32,7 @@
 	flex-direction: row;
 	.logo {
 		display: flex;
-		margin: 0 0px 0 20px;
+		margin: 0 0px 0 25px;
 		padding: 5px;
 		order: 3;
 
@@ -59,7 +61,7 @@
 	order: 4;
 	margin-bottom: -2px;
 	font-size: 2.2rem;
-	margin-left: 10px;
+	margin-left: 15px;
 	margin-right: 7px;
 }
 .inbox-btn {
@@ -67,6 +69,7 @@
 	background-color: transparent;
 	order: 5;
 	width: 48px;
+	margin-right: 12px;
 	&::after {
 		content: '3';
 		display: flex;
@@ -76,8 +79,8 @@
 		background-color: var(--primary);
 		color: var(--text-color);
 		font-size: 1.2rem;
-		top: -6%;
-		right: 12%;
+		top: -7%;
+		right: 10%;
 		min-width: 16px;
 		height: 14px;
 		border-radius: 50%;
@@ -85,8 +88,7 @@
 }
 
 .inbox-icon {
-	margin-right: 8px;
-	margin-bottom: -3px;
+	margin-bottom: -4px;
 }
 
 .user-avatar {
