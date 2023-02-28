@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -17,13 +18,16 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import Tippy from '@tippyjs/react/';
 import 'tippy.js/dist/tippy.css';
+
+import config from '~/config/routes';
 import styles from './Header.module.scss';
 import images from '~/assets/images';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
-import { InboxIcon } from '~/components/Icons';
+import { InboxIcon } from '~/components/Icons/Icon';
 import Image from '~/components/Image';
-import Search from '../Search';
+import Search from '../Search/Search';
+
 const cx = classNames.bind(styles);
 
 const MENU_ITEMS = [
@@ -47,6 +51,86 @@ const MENU_ITEMS = [
 					type: 'language',
 					code: 'ja-jp',
 					title: '日本語 (日本)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
+				},
+				{
+					type: 'language',
+					code: 'en',
+					title: 'English',
+				},
+				{
+					type: 'language',
+					code: 'vi-vn',
+					title: 'Tiếng Việt (Việt Nam)',
 				},
 			],
 		},
@@ -107,10 +191,12 @@ function Header() {
 	return (
 		<header className={cx('wrapper')}>
 			<div className={cx('inner')}>
-				<div className={cx('logo')}>
+				<Link to={config.home} className={cx('logo')}>
 					<img src={images.logo} alt="Tiktok" />
-				</div>
+				</Link>
+
 				<Search />
+
 				<div className={cx('action')}>
 					<Button leftIcon={<FontAwesomeIcon icon={faPlus} />} text>
 						Upload
@@ -145,7 +231,7 @@ function Header() {
 						{currentUser ? (
 							<Image
 								className={cx('user-avatar')}
-								src="https://p16-sign-sg.tiktokcdn.com/aweme/720x720/tiktok-obj/1684048218833921.jpeg?x-expires=1674907200&x-signature=6%2FDUMLP1Wyd8lB%2FMs494LRbBSwA%3D"
+								src=""
 								// issue image default
 								fallback="https://scontent.fkix2-2.fna.fbcdn.net/v/t1.18169-1/12311050_792983130848231_3233101808038080795_n.jpg?stp=c0.47.60.60a_cp0_dst-jpg_p60x60&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=20-5tKFCtKEAX_s1JYB&_nc_ht=scontent.fkix2-2.fna&oh=00_AfBbX7tLsp_l6OiFURDY7W3fUxioRqMkkthFEp9lmG57AQ&oe=63FA2584"
 								alt="Nguyen Van A"
