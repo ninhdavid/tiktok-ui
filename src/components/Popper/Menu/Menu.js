@@ -1,12 +1,12 @@
 import { useState } from 'react';
-
-import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
+import Tippy from '@tippyjs/react/headless';
+
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import Header from './Header';
 import styles from './Menu.module.scss';
 import MenuItem from './MenuItem';
-import PropTypes from 'prop-types';
 
 const cx = classNames.bind(styles);
 const defaultFn = () => {};
