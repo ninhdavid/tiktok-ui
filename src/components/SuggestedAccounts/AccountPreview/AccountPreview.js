@@ -30,14 +30,14 @@ function AccountPreview(props) {
 				</p>
 				<p className={cx('name')}>Theanh28 Entertainment</p>
 				<p className={cx('analytics')}>
-					<p>
+					<span>
 						<strong className={cx('value')}>8.2M </strong>
 						<span className={cx('label')}>Followers</span>
-					</p>
-					<p>
+					</span>
+					<span>
 						<strong className={cx('value')}>8.2M </strong>
 						<span className={cx('label')}>Likes</span>
-					</p>
+					</span>
 				</p>
 			</div>
 		</div>
