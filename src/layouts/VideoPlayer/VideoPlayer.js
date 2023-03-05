@@ -2,20 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faComment,
-	faHeart,
-	faMusic,
-	faShare,
-} from '@fortawesome/free-solid-svg-icons';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { faMusic } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './VideoPlayer.module.scss';
 import Avatar from '~/components/Avatar';
 import UserInfo from '~/components/UserInfo';
 import { AccountItemLink } from '~/components/AccountItem';
 import Button from '~/components/Button';
-import videos from '~/assets/Videos';
+import VideoContent from './VideoContent';
 
 const cx = classNames.bind(styles);
 
@@ -24,7 +18,7 @@ function VideoPlayer({ data }) {
 		<div className={cx('container')}>
 			<div className={cx('wrapper')}>
 				<AccountItemLink className={cx('info-section')}>
-					<Avatar className={cx('avatar')} />
+					<Avatar className={cx('avatar')} src="" />
 				</AccountItemLink>
 				<div className={cx('content-section')}>
 					<header className={cx('header-section')}>
@@ -41,33 +35,7 @@ function VideoPlayer({ data }) {
 							<p>SOng</p>
 						</span>
 					</header>
-					<div className={cx('video-content')}>
-						<section className={cx('video-section')}>
-							<video width={280} controls className={cx('video-card')}>
-								<source src={videos.videoTest} type="video/mp4"></source>
-							</video>
-						</section>
-						<section className={cx('sidebar-section')}>
-							<span className={cx('interact-section')}>
-								<div className={cx('icon-content')}>
-									<FontAwesomeIcon icon={faHeart} className={cx('icon')} />
-								</div>
-								<p>30.0k</p>
-							</span>
-							<span className={cx('interact-section')}>
-								<div className={cx('icon-content')}>
-									<FontAwesomeIcon icon={faComment} className={cx('icon')} />
-								</div>
-								<p>30.0k</p>
-							</span>
-							<span className={cx('interact-section')}>
-								<div className={cx('icon-content')}>
-									<FontAwesomeIcon icon={faShare} className={cx('icon')} />
-								</div>
-								<p>30.0k</p>
-							</span>
-						</section>
-					</div>
+					<VideoContent />
 				</div>
 			</div>
 		</div>
