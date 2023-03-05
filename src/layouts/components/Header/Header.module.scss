@@ -11,8 +11,9 @@
 	// box-shadow: 1px 1px rgb(0 0 0 /12%);
 	display: flex;
 	justify-content: center;
-	z-index: 2;
 	border-bottom: 1px solid var(--bg-box-color);
+	z-index: 10;
+	background-color: rgb(18, 18, 18);
 }
 
 .inner {

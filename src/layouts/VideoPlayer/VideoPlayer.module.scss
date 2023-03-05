@@ -1,0 +1,61 @@
+.container {
+	padding: 24px 0;
+	margin-left: 16px;
+	margin-right: 16px;
+
+	position: relative;
+}
+.wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	padding: 20px 0;
+}
+.content-section {
+	width: 624px;
+	margin-left: 12px;
+	position: relative;
+	flex: 1 1 624px;
+}
+.header-section {
+	display: flex;
+	// justify-content: space-between;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-right: 114px;
+}
+
+.info-section {
+	// display: flex;
+}
+
+.avatar {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	object-fit: cover;
+	background-color: #fff;
+}
+
+.follow-btn {
+	height: 28px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.song-name {
+	// display: inline;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 22px;
+	margin-top: 4px;
+	margin-bottom: 12px;
+	cursor: pointer;
+}
+.icon-tone {
+	margin-right: 6px;
+	font-size: 1.1rem;
+}

@@ -9,7 +9,7 @@ import {
 import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 
-import * as searchService from '~/serveices/searchService';
+import * as searchService from '~/services/searchService';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem/';
 import styles from './Search.module.scss';
@@ -64,7 +64,7 @@ function Search() {
 				visible={showResult && searchResult.length > 0}
 				render={(attrs) => (
 					<div className={cx('search-result')} tabIndex="-1" {...attrs}>
-						<PopperWrapper>
+						<PopperWrapper className={cx('result-section')}>
 							<h4 className={cx('search-title')}>Account</h4>
 							{searchResult.map((result) => (
 								<AccountItem key={result.id} data={result} />
