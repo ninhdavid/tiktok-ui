@@ -9,7 +9,7 @@ import Avatar from '~/components/Avatar';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview({ data }) {
+function AccountPreview({ data, type }) {
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -19,7 +19,7 @@ function AccountPreview({ data }) {
 					alt={data.nickname}
 				/>
 
-				<Button className={cx('follow-btn')} primary>
+				<Button className={cx('follow-btn')} outline>
 					Follow
 				</Button>
 			</header>

@@ -7,6 +7,7 @@ import { CheckActiveIcon } from '../Icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import styles from './SuggestedAccounts.module.scss';
 import AccountPreview from './AccountPreview';
+import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
@@ -30,11 +31,11 @@ function AccountItem({ data }) {
 				render={renderPreview}
 			>
 				<div className={cx('account-item')}>
-					<img
+					<Avatar
 						className={cx('avatar')}
 						src={data.avatar}
 						alt={data.nickname}
-					></img>
+					/>
 					<div className={cx('item-info')}>
 						<p className={cx('nickname')}>
 							<strong>{data.nickname}</strong>

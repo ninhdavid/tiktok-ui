@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
@@ -7,16 +7,34 @@ import AccountItem from './AccountItem';
 
 const cx = classNames.bind(styles);
 
-function SuggestedAccounts({ data = [], label, moreFunc, moreLabel }) {
+function SuggestedAccounts({
+	data = [],
+	label,
+	moreFunc,
+	moreLabel,
+	initialData,
+}) {
+	const [isShowAll, setIsShowAll] = useState(false);
+
+	function handleClick() {
+		setIsShowAll(!isShowAll);
+		moreFunc();
+	}
 	return (
 		<div className={cx('wrapper')}>
 			<p className={cx('label')}>{label}</p>
-			{data.map((account, index) => (
-				<AccountItem key={index} data={account} />
-			))}
-
-			<p className={cx('more-btn')} onClick={moreFunc}>
-				{moreLabel}
+			{isShowAll
+				? data.map((account, index) => (
+						<AccountItem key={index} data={account} />
+				  ))
+				: initialData &&
+				  initialData
+						.slice(0, 5)
+						.map((account, index) => (
+							<AccountItem key={index} data={account} />
+						))}
+			<p className={cx('more-btn')} onClick={handleClick}>
+				{isShowAll ? 'See less' : 'See all'}
 			</p>
 		</div>
 	);

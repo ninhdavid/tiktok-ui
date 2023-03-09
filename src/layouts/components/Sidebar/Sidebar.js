@@ -21,13 +21,17 @@ const INIT_PAGE = 1;
 const PER_PAGE = 5;
 
 function Sidebar() {
+	const authUser = useContext(AuthUserContext);
+
 	const [suggestPerPage, setSuggestPerPage] = useState(PER_PAGE);
 	const [suggestUsers, setSuggestUsers] = useState([]);
 	const [followPerPage, setFollowPerPage] = useState(INIT_PAGE);
 	const [followUsers, setFollowUser] = useState([]);
-	const authUser = useContext(AuthUserContext);
+
 	const accessToken =
 		authUser && authUser.meta.token ? authUser.meta.token : '';
+
+	const [initialSuggestedUsers, setInitialSuggestedUsers] = useState([]);
 
 	// Get suggested users
 	useEffect(() => {
@@ -40,6 +44,7 @@ function Sidebar() {
 			.then((data) => {
 				if (Array.isArray(data)) {
 					setSuggestUsers(data);
+					setInitialSuggestedUsers(data);
 				}
 			})
 			.catch((error) => {
@@ -71,11 +76,11 @@ function Sidebar() {
 
 	function moreSuggestUsers() {
 		if (suggestUsers.length === PER_PAGE) {
-			// Get 20 users
-			// setSuggestPerPage(PER_PAGE * 4);
+			// setSuggestPerPage(PER_PAGE * 4); // Get 20 users
 			setSuggestPerPage(PER_PAGE * 2);
 		} else {
 			setSuggestPerPage(PER_PAGE);
+			setSuggestUsers(initialSuggestedUsers);
 		}
 	}
 
@@ -115,21 +120,24 @@ function Sidebar() {
 			</Menu>
 			<SuggestedAccounts
 				label="Suggested Accounts"
-				moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
+				// moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
 				data={suggestUsers}
 				moreFunc={moreSuggestUsers}
+				initialData={initialSuggestedUsers}
 			/>
+
 			{accessToken && (
 				<SuggestedAccounts
 					label="Following Accounts"
-					moreLabel={
-						followUsers.length === PER_PAGE * 6 ||
-						followUsers.length < PER_PAGE * followPerPage
-							? 'See less'
-							: 'See more'
-					}
+					// moreLabel={
+					// 	followUsers.length === PER_PAGE * 6 ||
+					// 	followUsers.length < PER_PAGE * followPerPage
+					// 		? 'See less'
+					// 		: 'See more'
+					// }
 					data={followUsers}
 					moreFunc={moreFollowUsers}
+					initialData={initialSuggestedUsers}
 				/>
 			)}
 		</aside>

@@ -8,31 +8,41 @@ import styles from './VideoContent.module.scss';
 
 const cx = classNames.bind(styles);
 
-function VideoSidebar(props) {
+function VideoSidebar({ data }) {
+	function numberRandom(number) {
+		const num = number > 0;
+		const result = num
+			? (number * (Math.random() * 10)).toFixed(1) + 'K'
+			: number;
+		return result;
+	}
+
 	return (
 		<section className={cx('sidebar-section')}>
 			<span className={cx('interact-section')}>
 				<div className={cx('icon-content')}>
 					<FontAwesomeIcon icon={faHeart} className={cx('icon')} />
 				</div>
-				<p>30.0k</p>
+				<p>{numberRandom(data.likes_count)}</p>
 			</span>
 			<span className={cx('interact-section')}>
 				<div className={cx('icon-content')}>
 					<FontAwesomeIcon icon={faComment} className={cx('icon')} />
 				</div>
-				<p>30.0k</p>
+				<p>{numberRandom(data.comments_count)}</p>
 			</span>
 			<span className={cx('interact-section')}>
 				<div className={cx('icon-content')}>
 					<FontAwesomeIcon icon={faShare} className={cx('icon')} />
 				</div>
-				<p>30.0k</p>
+				<p>{numberRandom(data.shares_count)}</p>
 			</span>
 		</section>
 	);
 }
 
-VideoSidebar.propTypes = {};
+VideoSidebar.propTypes = {
+	data: PropTypes.object.isRequired,
+};
 
 export default VideoSidebar;
