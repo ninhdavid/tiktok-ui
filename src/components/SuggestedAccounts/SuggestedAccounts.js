@@ -8,6 +8,7 @@ import AccountItem from './AccountItem';
 const cx = classNames.bind(styles);
 
 function SuggestedAccounts({
+	className,
 	data = [],
 	label,
 	moreFunc,
@@ -21,7 +22,7 @@ function SuggestedAccounts({
 		moreFunc();
 	}
 	return (
-		<div className={cx('wrapper')}>
+		<div className={(cx('wrapper'), ([className] = className))}>
 			<p className={cx('label')}>{label}</p>
 			{isShowAll
 				? data.map((account, index) => (

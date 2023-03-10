@@ -44,7 +44,8 @@ function Home() {
 	useEffect(() => {
 		const timeout = loadMore();
 		return () => clearTimeout(timeout);
-	}, [loadMore]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<>

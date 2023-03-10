@@ -14,6 +14,9 @@ import {
 import SuggestedAccounts from '~/components/SuggestedAccounts/SuggestedAccounts';
 import * as userService from '~/services/userService';
 import { AuthUserContext } from '~/App';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopyright } from '@fortawesome/free-regular-svg-icons';
+import HashTag from '~/components/HashTag';
 
 const cx = classNames.bind(styles);
 
@@ -96,9 +99,101 @@ function Sidebar() {
 			setFollowPerPage((prevPage) => prevPage + 1);
 		}
 	}
+	const introduce = [
+		{
+			tagName: 'About',
+			href: '#',
+		},
+		{
+			tagName: 'Newsroom',
+			href: '#',
+		},
+		{
+			tagName: 'Contact',
+			href: '#',
+		},
+		{
+			tagName: 'Careers',
+			href: '#',
+		},
+		{
+			tagName: 'ByteDance',
+			href: '#',
+		},
+	];
+	const recommend = [
+		{
+			tagName: 'TikTok for Good',
+			href: '#',
+		},
+		{
+			tagName: 'Advertise',
+			href: '#',
+		},
+		{
+			tagName: 'Developers',
+			href: '#',
+		},
+		{
+			tagName: 'Transparency',
+			href: '#',
+		},
+		{
+			tagName: 'TikTok Rewards',
+			href: '#',
+		},
+		{
+			tagName: 'TikTok Browse',
+			href: '#',
+		},
+		{
+			tagName: 'TikTok Embeds',
+			href: '#',
+		},
+	];
+	const support = [
+		{
+			tagName: 'Help',
+			href: '#',
+		},
+		{
+			tagName: 'Safety',
+			href: '#',
+		},
+		{
+			tagName: 'Terms',
+			href: '#',
+		},
+		{
+			tagName: 'Privacy',
+			href: '#',
+		},
+		{
+			tagName: 'Creator Portal',
+			href: '#',
+		},
+		{
+			tagName: 'Community Guidelines',
+			href: '#',
+		},
+	];
+	function renderLink(initial) {
+		return initial.map((result, index) => (
+			<a
+				className={cx('footer-link')}
+				key={index}
+				href={result.href}
+				alt={result.tagName}
+				style={{ color: 'rgba(255, 255, 255, 0.5)', marginTop: '5px' }}
+			>
+				{result.tagName}
+			</a>
+		));
+	}
+
 	return (
 		<aside className={cx('wrapper')}>
-			<Menu>
+			<Menu className={cx('menu')}>
 				<MenuItem
 					title="For You"
 					to={config.routes.home}
@@ -119,6 +214,7 @@ function Sidebar() {
 				/>
 			</Menu>
 			<SuggestedAccounts
+				className={cx('suggestedAccounts')}
 				label="Suggested Accounts"
 				// moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
 				data={suggestUsers}
@@ -128,6 +224,7 @@ function Sidebar() {
 
 			{accessToken && (
 				<SuggestedAccounts
+					className={cx('followedAccounts')}
 					label="Following Accounts"
 					// moreLabel={
 					// 	followUsers.length === PER_PAGE * 6 ||
@@ -140,6 +237,35 @@ function Sidebar() {
 					initialData={initialSuggestedUsers}
 				/>
 			)}
+			<div className={cx('discover-section')}>
+				<p>Discover</p>
+				<section>
+					<div className={cx('hashtag')}>
+						<HashTag primary rounded tag="hashtag" className={cx('icon')}>
+							Testing hashtag
+						</HashTag>
+					</div>
+					<div className={cx('music')}>
+						<HashTag primary rounded tag="music" className={cx('icon')}>
+							Testing
+						</HashTag>
+						<HashTag primary rounded tag="music" className={cx('icon')}>
+							Testing
+						</HashTag>
+					</div>
+				</section>
+			</div>
+
+			<div className={cx('footer-section')}>
+				<div className={cx('footer-content')}>
+					<div className={cx('footer-introduce')}>{renderLink(introduce)}</div>
+					<div className={cx('footer-recommend')}>{renderLink(recommend)}</div>
+					<div className={cx('footer-support')}>{renderLink(support)}</div>
+					<div className={cx('footer-copyright')}>
+						<FontAwesomeIcon icon={faCopyright} /> 2023 TikTok
+					</div>
+				</div>
+			</div>
 		</aside>
 	);
 }

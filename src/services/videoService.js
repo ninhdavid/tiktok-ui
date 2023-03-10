@@ -13,5 +13,8 @@ export const getVideos = async ({ type, page, accessToken = '' }) => {
 		});
 	} catch (error) {
 		console.log(error);
+		return new Promise((resolve) =>
+			setTimeout(() => resolve(getVideos({ type, page, accessToken })), 1000)
+		);
 	}
 };
