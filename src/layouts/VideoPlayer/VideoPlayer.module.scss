@@ -2,7 +2,6 @@
 	padding: 24px 0;
 	margin-left: 16px;
 	margin-right: 16px;
-
 	position: relative;
 }
 .wrapper {
@@ -24,6 +23,22 @@
 	align-items: flex-start;
 	margin-right: 114px;
 }
+//user info section
+.user-section {
+	display: flex;
+	align-items: center;
+	height: 30px;
+	&:hover > p {
+		text-decoration: underline;
+	}
+	& > span {
+		color: rgba(255, 255, 255, 0.9);
+	}
+}
+
+.avatar-section:hover ~ .content-section .header-section .user-section p {
+	text-decoration: underline;
+}
 
 .info-section {
 	// display: flex;
@@ -38,6 +53,7 @@
 }
 
 .follow-btn {
+	border-radius: 4px;
 	height: 28px;
 	position: absolute;
 	top: 0;
@@ -52,7 +68,6 @@
 	font-size: 16px;
 	line-height: 22px;
 	margin-top: 4px;
-	margin-bottom: 12px;
 	cursor: pointer;
 }
 .icon {

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMusic } from '@fortawesome/free-solid-svg-icons';
 import Tippy from '@tippyjs/react/headless';
 
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -33,7 +31,7 @@ function VideoPlayer({ video }) {
 	return (
 		<div className={cx('container')}>
 			<div className={cx('wrapper')}>
-				<div>
+				<div className={cx('avatar-section')}>
 					<Tippy
 						interactive
 						delay={[800, 500]}
@@ -60,12 +58,15 @@ function VideoPlayer({ video }) {
 						<Tippy
 							interactive
 							delay={[800, 500]}
-							offset={[-10, 2]}
+							offset={[-80, 32]}
 							render={renderPreview}
 							placement="bottom-start"
 						>
 							<span tabIndex="0">
-								<AccountItemLink to={`/@${video.user.nickname}`}>
+								<AccountItemLink
+									to={`/@${video.user.nickname}`}
+									className={cx('user-section')}
+								>
 									<UserInfo
 										fullName={`${video.user.first_name}  ${video.user.last_name}`}
 										tick={video.user.tick}
@@ -75,31 +76,25 @@ function VideoPlayer({ video }) {
 							</span>
 						</Tippy>
 
-						<Button outline className={cx('follow-btn')}>
+						<Button outline small className={cx('follow-btn')}>
 							Follow
 						</Button>
 
 						<div>
 							<Description data={video} />
 						</div>
-						<p>
-							{video.description}
-							<br />
-							{video.tags && (
-								<HashTag textLink tag="music">
-									{video.tags}
-								</HashTag>
-							)}
-						</p>
-						<span className={cx('song-name')}>
-							<p>
-								{video.music && (
-									<HashTag textLink tag="music" className={cx('icon')}>
-										{video.music}
-									</HashTag>
-								)}
-							</p>
-						</span>
+
+						{video.music && (
+							<span className={cx('song-name')}>
+								<p>
+									{video.music && (
+										<HashTag textLink tag="music" className={cx('icon')}>
+											{video.music}
+										</HashTag>
+									)}
+								</p>
+							</span>
+						)}
 					</header>
 
 					<VideoContent data={video} />

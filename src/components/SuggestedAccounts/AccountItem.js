@@ -26,7 +26,7 @@ function AccountItem({ data }) {
 			<Tippy
 				interactive
 				delay={[800, 0]}
-				offset={[-20, 0]}
+				offset={[-20, 2]}
 				placement="bottom"
 				render={renderPreview}
 			>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
-import ReactDOMServer from 'react-dom/server';
 
-import styles from './Description.module.scss';
+// import classNames from 'classnames/bind';
+// import styles from './Description.module.scss';
 import HashTag from '../HashTag';
 
-const cx = classNames.bind(styles);
+// const cx = classNames.bind(styles);
 
 function Description({ data }) {
 	const [description, setDescription] = useState('');
@@ -36,9 +35,14 @@ function Description({ data }) {
 				} else if (text.match(atRegex)) {
 					const user = text.substring(1);
 					return (
-						<a href={`/user/${user}`} textLink className="at-tag" key={index}>
+						<HashTag
+							href={`/user/${user}`}
+							textLink
+							className="at-tag"
+							key={index}
+						>
 							{text}
-						</a>
+						</HashTag>
 					);
 				} else {
 					return (

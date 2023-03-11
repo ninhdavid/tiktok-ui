@@ -18,3 +18,29 @@ export const getVideos = async ({ type, page, accessToken = '' }) => {
 		);
 	}
 };
+
+const token =
+	'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC90aWt0b2suZnVsbHN0YWNrLmVkdS52blwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY3ODM1NjQwOSwiZXhwIjoxNjgwOTQ4NDA5LCJuYmYiOjE2NzgzNTY0MDksImp0aSI6IjJVNmZZOTRkcTRoOUhZR0siLCJzdWIiOjUyMjksInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.b6qHG8yTHVIAUMtKHgWlPJ5yX4p6ptmcnBuIbaKjlPY';
+
+export const likedVideo = async ({ postId, accessToken = token }) => {
+	try {
+		return await httpRequest.post(`posts/${postId}/like`, [], {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
+export const unLikedVideo = async ({ postId, accessToken = token }) => {
+	try {
+		return await httpRequest.post(`posts/${postId}/unlike`, [], {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};

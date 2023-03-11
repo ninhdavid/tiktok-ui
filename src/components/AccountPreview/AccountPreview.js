@@ -9,7 +9,7 @@ import Avatar from '~/components/Avatar';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview({ data, type }) {
+function AccountPreview({ data }) {
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -41,6 +41,9 @@ function AccountPreview({ data, type }) {
 						<strong className={cx('value')}>{data.likes_count} </strong>
 						<span className={cx('label')}>Likes</span>
 					</span>
+				</p>
+				<p className={cx('bio')}>
+					<span>{data.bio}</span>
 				</p>
 			</div>
 		</div>

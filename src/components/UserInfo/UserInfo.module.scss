@@ -1,11 +1,18 @@
 .name {
-	font-weight: 500;
-	font-size: 1.4rem;
 	color: rgba(var(--text-color-rgb), 0.9);
+	font-weight: 700;
+	font-size: 1.8rem;
+	// line-height: 25px;
+	display: inline-block;
+	margin-right: 4px;
 }
 .username {
-	font-size: 1.3rem;
 	color: rgba(var(--text-color-rgb), 0.5);
+	font-weight: 400;
+	font-size: 1.4rem;
+	display: inline-block;
+	text-align: center;
+	// line-height: 28px;
 }
 
 .check-icon {

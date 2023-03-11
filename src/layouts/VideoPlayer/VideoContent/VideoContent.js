@@ -10,7 +10,7 @@ const cx = classNames.bind(styles);
 
 function VideoContent({ data }) {
 	return (
-		<div className={cx('video-content')}>
+		<div className={cx('video-container')}>
 			<VideoSection poster={data.thumb_url} src={data.file_url} />
 			<VideoSidebar data={data} />
 		</div>
