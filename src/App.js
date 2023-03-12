@@ -2,6 +2,7 @@ import { Fragment, createContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/layouts';
+import LoginModal from './layouts/components/LoginModal';
 
 export const AuthUserContext = createContext();
 function App() {
@@ -28,9 +29,12 @@ function App() {
 									key={index}
 									path={route.path}
 									element={
-										<Layout>
-											<Page />
-										</Layout>
+										<>
+											<Layout>
+												<Page />
+												<LoginModal />
+											</Layout>
+										</>
 									}
 								/>
 							);

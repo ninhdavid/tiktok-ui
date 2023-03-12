@@ -147,7 +147,7 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-	const currentUser = true;
+	const currentUser = false;
 
 	const handleMenuChange = (menuItem) => {
 		switch (menuItem.type) {
@@ -236,11 +236,9 @@ function Header() {
 								alt="Nguyen Van A"
 							/>
 						) : (
-							<>
-								<button className={cx('more-btn')}>
-									<FontAwesomeIcon icon={faEllipsisVertical} />
-								</button>
-							</>
+							<button className={cx('more-btn')}>
+								<FontAwesomeIcon icon={faEllipsisVertical} />
+							</button>
 						)}
 					</Menu>
 				</div>
