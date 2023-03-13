@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,9 +36,13 @@ import {
 	EmailAndPasswordLoginForm,
 	ResetPasswordWithPhone,
 	ResetPasswordWithEmail,
+	DefaultUserLogin,
+	SignUpUsername,
 } from '../ModalWrapper/ModalPartials';
 import SignUpModal from '../ModalWrapper/SignUpModal';
-import UserInfo from '~/components/UserInfo';
+import { AuthUserContext } from '~/App';
+import Avatar from '~/components/Avatar';
+import { useLoginAuth } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -165,14 +169,30 @@ function Header() {
 	const [children, setChildren] = useState(<LoginModal />);
 	const [modalBodyName, setModalBodyName] = useState('login');
 	const [navigateBack, setNavigateBack] = useState(null);
-	const currentUser = false;
-
+	const authUser = useContext(AuthUserContext);
+	const [newData, setNewData] = useState(null);
+	useEffect(() => {
+		if (authUser) {
+			setNewData(authUser);
+		}
+	}, []);
 	const handleMenuChange = (menuItem) => {
 		switch (menuItem.type) {
 			case 'languages':
 				//handle change languages
 				break;
 			default:
+		}
+		switch (menuItem.to) {
+			case '/logout':
+				localStorage.removeItem('user');
+				window.location.reload();
+				break;
+			case '/@profile':
+				window.location.href = `/@${authUser.data.nickname}`;
+				break;
+			default:
+				break;
 		}
 	};
 
@@ -225,9 +245,17 @@ function Header() {
 				setChildren(<SignUpModal />);
 				setNavigateBack(null);
 				break;
+			case 'signup-with-username':
+				setChildren(<SignUpUsername />);
+				setNavigateBack('signup');
+				break;
+			case 'login-with-default':
+				setChildren(<DefaultUserLogin />);
+				setNavigateBack('login');
+				break;
 			case 'login-with-phone':
 				setChildren(<PhoneAndCodeLoginForm />);
-				setNavigateBack('login-with-email');
+				setNavigateBack('login');
 				break;
 			case 'login-with-phone-and-password':
 				setChildren(<PhoneAndPasswordLoginForm />);
@@ -243,7 +271,7 @@ function Header() {
 				break;
 			case 'reset-password-with-email':
 				setChildren(<ResetPasswordWithEmail />);
-				setNavigateBack('reset-password-with-phone');
+				setNavigateBack('login-with-phone-and-password');
 				break;
 			default:
 				setChildren(<LoginModal />);
@@ -264,8 +292,14 @@ function Header() {
 					<Button leftIcon={<FontAwesomeIcon icon={faPlus} />} text>
 						Upload
 					</Button>
-					{currentUser ? (
+
+					{authUser ? (
 						<>
+							<Tippy delay="300" content="Create effects">
+								<div className={cx('logo')}>
+									<img src={images.effectSite} alt="effectSite" />
+								</div>
+							</Tippy>
 							<Tippy delay="300" content="Messages" placement="bottom">
 								<button className={cx('action-btn-plan')}>
 									<FontAwesomeIcon icon={faPaperPlane} />
@@ -303,23 +337,18 @@ function Header() {
 						)}
 					</ModalBodyNameContext.Provider>
 
-					<Tippy delay="300" content="Create effects">
-						<div className={cx('logo')}>
-							<img src={images.effectSite} alt="effectSite" />
-						</div>
-					</Tippy>
 					<Menu
-						items={currentUser ? userMenu : MENU_ITEMS}
+						items={authUser ? userMenu : MENU_ITEMS}
 						onChange={handleMenuChange}
 					>
-						{currentUser ? (
-							// <Image
-							// 	className={cx('user-avatar')}
-							// 	src="https://scontent.fkix2-2.fna.fbcdn.net/v/t1.18169-1/12311050_792983130848231_3233101808038080795_n.jpg?stp=c0.47.60.60a_cp0_dst-jpg_p60x60&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=20-5tKFCtKEAX_s1JYB&_nc_ht=scontent.fkix2-2.fna&oh=00_AfBbX7tLsp_l6OiFURDY7W3fUxioRqMkkthFEp9lmG57AQ&oe=63FA2584"
-							// 	// issue image default
-							// 	alt="Nguyen Van A"
-							// />
-							<UserInfo />
+						{authUser ? (
+							<span>
+								<Avatar
+									className={cx('user-avatar')}
+									src={authUser.data.avatar}
+									alt={authUser.data.nickname}
+								/>
+							</span>
 						) : (
 							<button className={cx('more-btn')}>
 								<FontAwesomeIcon icon={faEllipsisVertical} />

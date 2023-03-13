@@ -145,6 +145,16 @@
 		font-size: 1.2rem;
 		font-weight: 400;
 		color: rgba(255, 255, 255, 0.75);
+		cursor: pointer;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+.login-password > span {
+	cursor: pointer;
+	&:hover {
+		text-decoration: underline;
 	}
 }
 
@@ -165,7 +175,10 @@
 	height: 100%;
 	background: transparent;
 	caret-color: rgb(255, 59, 92);
+	color: var(--text-color);
 	width: 100%;
+	padding: 0 8px;
+	font-size: 1.6rem;
 }
 .label,
 .label-phone {

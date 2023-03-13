@@ -11,24 +11,26 @@ const cx = classNames.bind(styles);
 
 function LoginModal() {
 	const value = useContext(ModalBodyNameContext);
-	console.log(value);
+
 	const selector = [
 		{
 			// href: '/login/phone-or-email',
 			icon: <FontAwesomeIcon icon={faUser} className={cx('icon')} />,
 			text: 'Default Account',
+			navigate: 'login-with-default',
 		},
 		{
 			href: '/login/phone-or-email',
 			icon: <FontAwesomeIcon icon={faUser} className={cx('icon')} />,
 			text: 'Use phone / email / username',
+			navigate: 'login-with-phone',
 		},
 	];
 
-	// function handleOnClick(e) {
-	// 	e.preventDefault();
-	// 	value.handleModalBodyName('login-with-email');
-	// }
+	function handleOnClick(e, tag) {
+		e.preventDefault();
+		value.handleModalBodyName(tag);
+	}
 
 	const renderLoginForm = () => {
 		return selector.map((result, index) => {
@@ -36,9 +38,12 @@ function LoginModal() {
 				<a
 					href={result.href}
 					alt={result.text}
+					// onClick={(e) => {
+					// 	e.preventDefault();
+					// 	value.handleModalBodyName(result.navigate);
+					// }}
 					onClick={(e) => {
-						e.preventDefault();
-						value.handleModalBodyName('login-with-email');
+						handleOnClick(e, result.navigate);
 					}}
 					key={index}
 				>
@@ -52,8 +57,7 @@ function LoginModal() {
 					key={index}
 					className={cx('menu-item')}
 					onClick={(e) => {
-						e.preventDefault();
-						value.handleModalBodyName('login-with-email');
+						handleOnClick(e, result.navigate);
 					}}
 				>
 					{result.icon}
@@ -69,31 +73,6 @@ function LoginModal() {
 				<p>Log in to TikTok</p>
 
 				{renderLoginForm()}
-				{/* <form className={cx('form-section')}>
-									<div className={cx('login-form')}>
-										<div className={cx('header')}>
-											<span>Phone</span>
-											<span>Log in with email or username</span>
-										</div>
-										<div className={cx('input-section')}>
-											<div className={cx('input-content')}>
-												<span className={cx('label-phone')}>VN +84</span>
-												<input className={cx('input-phone')}></input>
-											</div>
-											<div className={cx('input-content')}>
-												<input className={cx('input')}></input>
-												<span className={cx('label')}>Send code</span>
-											</div>
-										</div>
-										<div className={cx('login-password')}>
-											<span>Log in with password</span>
-											<span>Log in with password</span>
-										</div>
-										<div>
-											<button className={cx('login-btn')}>Log in</button>
-										</div>
-									</div>
-								</form> */}
 			</div>
 		</div>
 	);

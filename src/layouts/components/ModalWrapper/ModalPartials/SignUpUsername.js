@@ -8,7 +8,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { ModalBodyNameContext } from '../../Header/Header';
 const cx = classNames.bind(styles);
 
-function ResetPasswordWithPhone(props) {
+function SignUpUsername(props) {
 	const value = useContext(ModalBodyNameContext);
 	const handleLoginEmail = (e, tag) => {
 		e.preventDefault();
@@ -17,44 +17,28 @@ function ResetPasswordWithPhone(props) {
 	return (
 		<div className={cx('modal-content')}>
 			<div className={cx('login-section')}>
-				<p>Reset password</p>
+				<p>Sign up</p>
 
 				<form className={cx('form-section')}>
 					<div className={cx('login-form')}>
 						<div className={cx('header')}>
-							<span>Enter phone number</span>
-							<span
-								onClick={(e) =>
-									handleLoginEmail(e, 'reset-password-with-email')
-								}
-							>
-								Reset with email
-							</span>
+							<span>Email</span>
+							<span></span>
 						</div>
 						<div className={cx('input-section')}>
 							<div className={cx('input-content')}>
-								<span className={cx('label-phone')}>VN +84</span>
 								<input
+									type="text"
+									name="email"
+									placeholder="Email"
 									className={cx('input-phone')}
-									type="text"
-									name="phoneNumber"
-									placeholder="Phone number"
 								></input>
 							</div>
 							<div className={cx('input-content')}>
 								<input
 									className={cx('input')}
-									name="phoneConfirm"
-									type="text"
-									placeholder="Enter 6-digital code"
-								></input>
-								<span className={cx('label')}>Send code</span>
-							</div>
-							<div className={cx('input-content')}>
-								<input
-									className={cx('input')}
-									name="password"
 									type="password"
+									name="password"
 									placeholder="Password"
 								></input>
 							</div>
@@ -70,6 +54,6 @@ function ResetPasswordWithPhone(props) {
 	);
 }
 
-ResetPasswordWithPhone.propTypes = {};
+SignUpUsername.propTypes = {};
 
-export default ResetPasswordWithPhone;
+export default SignUpUsername;

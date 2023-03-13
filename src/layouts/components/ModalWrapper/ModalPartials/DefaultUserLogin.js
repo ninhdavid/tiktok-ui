@@ -6,49 +6,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './ModalPartials.module.scss';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { ModalBodyNameContext } from '../../Header/Header';
+import { useLoginAuth } from '~/hooks';
+
 const cx = classNames.bind(styles);
 
-function ResetPasswordWithPhone(props) {
+function DefaultUserLogin(props) {
 	const value = useContext(ModalBodyNameContext);
+	const [loginUser, isLoggedIn] = useLoginAuth();
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+
 	const handleLoginEmail = (e, tag) => {
 		e.preventDefault();
 		value.handleModalBodyName(tag);
 	};
+	function handleSubmit(e) {
+		e.preventDefault();
+		loginUser(username, password);
+	}
 	return (
 		<div className={cx('modal-content')}>
 			<div className={cx('login-section')}>
-				<p>Reset password</p>
+				<p>Log in</p>
 
-				<form className={cx('form-section')}>
+				<form className={cx('form-section')} onSubmit={handleSubmit}>
 					<div className={cx('login-form')}>
 						<div className={cx('header')}>
-							<span>Enter phone number</span>
-							<span
-								onClick={(e) =>
-									handleLoginEmail(e, 'reset-password-with-email')
-								}
-							>
-								Reset with email
-							</span>
+							<span>Email or username</span>
 						</div>
 						<div className={cx('input-section')}>
 							<div className={cx('input-content')}>
-								<span className={cx('label-phone')}>VN +84</span>
 								<input
+									name="email"
+									type="text"
+									placeholder="Email or username"
 									className={cx('input-phone')}
-									type="text"
-									name="phoneNumber"
-									placeholder="Phone number"
+									value="defaulttester01@gmail.com"
 								></input>
-							</div>
-							<div className={cx('input-content')}>
-								<input
-									className={cx('input')}
-									name="phoneConfirm"
-									type="text"
-									placeholder="Enter 6-digital code"
-								></input>
-								<span className={cx('label')}>Send code</span>
 							</div>
 							<div className={cx('input-content')}>
 								<input
@@ -56,12 +50,15 @@ function ResetPasswordWithPhone(props) {
 									name="password"
 									type="password"
 									placeholder="Password"
+									value="123456"
 								></input>
 							</div>
 						</div>
 
 						<div>
-							<button className={cx('login-btn')}>Log in</button>
+							<button type="submit" className={cx('login-btn')}>
+								Log in
+							</button>
 						</div>
 					</div>
 				</form>
@@ -70,6 +67,6 @@ function ResetPasswordWithPhone(props) {
 	);
 }
 
-ResetPasswordWithPhone.propTypes = {};
+DefaultUserLogin.propTypes = {};
 
-export default ResetPasswordWithPhone;
+export default DefaultUserLogin;

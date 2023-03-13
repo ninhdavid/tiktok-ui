@@ -98,6 +98,9 @@
 	font-size: 15px;
 	line-height: 18px;
 	color: rgb(255, 59, 92);
+	&:hover {
+		text-decoration: underline;
+	}
 }
 
 //button
@@ -157,8 +160,11 @@
 	display: flex;
 	width: 100%;
 	margin-bottom: 9px;
-	background: rgba(255, 255, 255, 0.12);
+	// background: rgba(255, 255, 255, 0.12);
 	height: 44px;
+	input {
+		color: var(--text-color);
+	}
 }
 .input,
 .input-phone {
