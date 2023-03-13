@@ -1,3 +1,4 @@
+import React, { createContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,8 +28,21 @@ import Menu from '~/components/Popper/Menu';
 import { InboxIcon } from '~/components/Icons/Icon';
 import Image from '~/components/Image';
 import Search from '../Search/Search';
+import LoginModal from '../ModalWrapper/LoginModal';
+import ModalWrapper from '../ModalWrapper';
+import {
+	PhoneAndCodeLoginForm,
+	PhoneAndPasswordLoginForm,
+	EmailAndPasswordLoginForm,
+	ResetPasswordWithPhone,
+	ResetPasswordWithEmail,
+} from '../ModalWrapper/ModalPartials';
+import SignUpModal from '../ModalWrapper/SignUpModal';
+import UserInfo from '~/components/UserInfo';
 
 const cx = classNames.bind(styles);
+
+export const ModalBodyNameContext = createContext();
 
 const MENU_ITEMS = [
 	{
@@ -147,6 +161,10 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
+	const [isShowModal, setIsShowModal] = useState(false);
+	const [children, setChildren] = useState(<LoginModal />);
+	const [modalBodyName, setModalBodyName] = useState('login');
+	const [navigateBack, setNavigateBack] = useState(null);
 	const currentUser = false;
 
 	const handleMenuChange = (menuItem) => {
@@ -188,6 +206,51 @@ function Header() {
 		},
 	];
 
+	const handleModalBodyName = (value) => {
+		setModalBodyName(value ?? 'login');
+	};
+	const value = {
+		modalBodyName,
+		navigateBack,
+		handleModalBodyName,
+	};
+
+	useEffect(() => {
+		switch (modalBodyName) {
+			case 'login':
+				setChildren(<LoginModal />);
+				setNavigateBack(null);
+				break;
+			case 'signup':
+				setChildren(<SignUpModal />);
+				setNavigateBack(null);
+				break;
+			case 'login-with-phone':
+				setChildren(<PhoneAndCodeLoginForm />);
+				setNavigateBack('login-with-email');
+				break;
+			case 'login-with-phone-and-password':
+				setChildren(<PhoneAndPasswordLoginForm />);
+				setNavigateBack('login-with-phone');
+				break;
+			case 'login-with-email':
+				setChildren(<EmailAndPasswordLoginForm />);
+				setNavigateBack('login');
+				break;
+			case 'reset-password-with-phone':
+				setChildren(<ResetPasswordWithPhone />);
+				setNavigateBack('login-with-phone-and-password');
+				break;
+			case 'reset-password-with-email':
+				setChildren(<ResetPasswordWithEmail />);
+				setNavigateBack('reset-password-with-phone');
+				break;
+			default:
+				setChildren(<LoginModal />);
+				break;
+		}
+	}, [modalBodyName]);
+
 	return (
 		<header className={cx('wrapper')}>
 			<div className={cx('inner')}>
@@ -216,9 +279,30 @@ function Header() {
 						</>
 					) : (
 						<>
-							<Button primary>Log in</Button>
+							<Button
+								primary
+								onClick={(e) => {
+									e.preventDefault();
+									setIsShowModal(true);
+								}}
+							>
+								Log in
+							</Button>
 						</>
 					)}
+
+					<ModalBodyNameContext.Provider value={value}>
+						{isShowModal && (
+							<ModalWrapper
+								children={children}
+								onClose={() => {
+									setIsShowModal(false);
+									setModalBodyName('');
+								}}
+							/>
+						)}
+					</ModalBodyNameContext.Provider>
+
 					<Tippy delay="300" content="Create effects">
 						<div className={cx('logo')}>
 							<img src={images.effectSite} alt="effectSite" />
@@ -229,12 +313,13 @@ function Header() {
 						onChange={handleMenuChange}
 					>
 						{currentUser ? (
-							<Image
-								className={cx('user-avatar')}
-								src="https://scontent.fkix2-2.fna.fbcdn.net/v/t1.18169-1/12311050_792983130848231_3233101808038080795_n.jpg?stp=c0.47.60.60a_cp0_dst-jpg_p60x60&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=20-5tKFCtKEAX_s1JYB&_nc_ht=scontent.fkix2-2.fna&oh=00_AfBbX7tLsp_l6OiFURDY7W3fUxioRqMkkthFEp9lmG57AQ&oe=63FA2584"
-								// issue image default
-								alt="Nguyen Van A"
-							/>
+							// <Image
+							// 	className={cx('user-avatar')}
+							// 	src="https://scontent.fkix2-2.fna.fbcdn.net/v/t1.18169-1/12311050_792983130848231_3233101808038080795_n.jpg?stp=c0.47.60.60a_cp0_dst-jpg_p60x60&_nc_cat=102&ccb=1-7&_nc_sid=7206a8&_nc_ohc=20-5tKFCtKEAX_s1JYB&_nc_ht=scontent.fkix2-2.fna&oh=00_AfBbX7tLsp_l6OiFURDY7W3fUxioRqMkkthFEp9lmG57AQ&oe=63FA2584"
+							// 	// issue image default
+							// 	alt="Nguyen Van A"
+							// />
+							<UserInfo />
 						) : (
 							<button className={cx('more-btn')}>
 								<FontAwesomeIcon icon={faEllipsisVertical} />
