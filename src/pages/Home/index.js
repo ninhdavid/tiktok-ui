@@ -25,7 +25,6 @@ function Home() {
 		return setTimeout(() => {
 			videoService
 				.getVideos({ type: 'for-you', page: page, accessToken: accessToken })
-				// .getVideos({ type: 'for-you', page: page })
 				.then((res) => {
 					if (Array.isArray(res.data)) {
 						setVideos((prev) => [...prev, ...res.data]);
@@ -41,7 +40,6 @@ function Home() {
 				});
 		}, 300);
 	}, [page, accessToken, setVideos]);
-	// }, [page, setVideos]);
 
 	useEffect(() => {
 		const timeout = loadMore();

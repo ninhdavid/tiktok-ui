@@ -59,7 +59,8 @@
 .outline {
 	color: var(--primary);
 	border-color: currentColor;
-	background-color: var(--bg-box-color);
+	// background-color: var(--bg-box-hex-color);
+	background-color: #2f2f2f;
 
 	&:hover {
 		background-color: rgba(254, 44, 85, 0.06);

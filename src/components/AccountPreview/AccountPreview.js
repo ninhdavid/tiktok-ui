@@ -6,13 +6,26 @@ import styles from './AccountPreview.module.scss';
 import { CheckActiveIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import Avatar from '~/components/Avatar';
+import { useFollowAnUser } from '~/hooks';
 import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
-	const [isFollow, setIsFollow] = useState(false);
+	const [isFollowed, setIsFollowed] = useState(false);
 	const { authUser } = useContext(AuthUserContext);
+	const [followedUser, unFollowedUser, isFollow] = useFollowAnUser();
+	const handleToggleFollow = () => {
+		if (isFollowed) {
+			unFollowedUser(data.id, authUser.meta.token);
+			setIsFollowed(false);
+			console.log('unfollow');
+		} else {
+			followedUser(data.id, authUser.meta.token);
+			setIsFollowed(true);
+			console.log('followed');
+		}
+	};
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -21,12 +34,20 @@ function AccountPreview({ data }) {
 					src={data.avatar}
 					alt={data.nickname}
 				/>
-				{data.is_followed ? (
-					<Button className={cx('follow-btn')} textOutline>
+				{isFollowed ? (
+					<Button
+						className={cx('follow-btn')}
+						textOutline
+						onClick={handleToggleFollow}
+					>
 						Following
 					</Button>
 				) : (
-					<Button className={cx('follow-btn')} outline>
+					<Button
+						className={cx('follow-btn')}
+						outline
+						onClick={handleToggleFollow}
+					>
 						Follow
 					</Button>
 				)}

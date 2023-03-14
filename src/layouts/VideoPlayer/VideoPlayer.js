@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Tippy from '@tippyjs/react/headless';
@@ -15,10 +15,24 @@ import AccountPreview from '~/components/AccountPreview';
 import VideoContent from './VideoContent';
 import HashTag from '~/components/HashTag';
 import Description from '~/components/Description';
+import { useFollowAnUser } from '~/hooks';
+import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
 function VideoPlayer({ video }) {
+	const [isFollowed, setIsFollowed] = useState(false);
+	const { authUser } = useContext(AuthUserContext);
+	const [followedUser, unFollowedUser, isFollow] = useFollowAnUser();
+	const handleToggleFollow = () => {
+		if (isFollowed) {
+			unFollowedUser(video.user.id, authUser.meta.token);
+			setIsFollowed(false);
+		} else {
+			followedUser(video.user.id, authUser.meta.token);
+			setIsFollowed(true);
+		}
+	};
 	const renderPreview = (props) => {
 		return (
 			<div tabIndex="-1" {...props}>
@@ -76,9 +90,25 @@ function VideoPlayer({ video }) {
 							</span>
 						</Tippy>
 
-						<Button outline small className={cx('follow-btn')}>
-							Follow
-						</Button>
+						{isFollowed ? (
+							<Button
+								className={cx('follow-btn')}
+								textOutline
+								small
+								onClick={handleToggleFollow}
+							>
+								Following
+							</Button>
+						) : (
+							<Button
+								className={cx('follow-btn')}
+								outline
+								small
+								onClick={handleToggleFollow}
+							>
+								Follow
+							</Button>
+						)}
 
 						<div>
 							<Description data={video} />

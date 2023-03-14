@@ -1,8 +1,11 @@
 import * as httpRequest from '~/utils/httpRequest';
 
-export const getSuggestedUsers = async ({ page, perPage }) => {
+export const getSuggestedUsers = async ({ page, perPage, accessToken }) => {
 	try {
 		const res = await httpRequest.get('users/suggested', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
 			params: {
 				page,
 				per_page: perPage,
@@ -28,9 +31,9 @@ export const getFollowingUsers = async ({ page, accessToken }) => {
 		console.log(error);
 	}
 };
-export const followAnUser = async ({ userId, accessToken }) => {
+export const followAnUser = async (userId, accessToken) => {
 	try {
-		return await httpRequest.post(`users/${userId}/follow`, {
+		return await httpRequest.post(`users/${userId}/follow`, [], {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
@@ -39,9 +42,9 @@ export const followAnUser = async ({ userId, accessToken }) => {
 		console.log(error);
 	}
 };
-export const unFollowAnUser = async ({ userId, accessToken }) => {
+export const unFollowAnUser = async (userId, accessToken) => {
 	try {
-		return await httpRequest.post(`users/${userId}/unfollow`, {
+		return await httpRequest.post(`users/${userId}/unfollow`, [], {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
