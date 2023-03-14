@@ -1,26 +1,59 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 import styles from './AccountPreview.module.scss';
 import { CheckActiveIcon } from '~/components/Icons';
 import Button from '~/components/Button';
+import Avatar from '~/components/Avatar';
+import { useFollowAnUser } from '~/hooks';
+import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
+	const [isFollowed, setIsFollowed] = useState(false);
+	const { authUser } = useContext(AuthUserContext);
+	const [followedUser, unFollowedUser, isFollow] = useFollowAnUser();
+	const handleToggleFollow = () => {
+		if (isFollowed) {
+			unFollowedUser(data.id, authUser.meta.token);
+			setIsFollowed(false);
+		} else {
+			followedUser(data.id, authUser.meta.token);
+			setIsFollowed(true);
+		}
+	};
+
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
-				<img
+				<Avatar
 					className={cx('avatar')}
 					src={data.avatar}
 					alt={data.nickname}
-				></img>
+				/>
 
-				<Button className={cx('follow-btn')} primary>
+				{/* <Button className={cx('follow-btn')} primary>
 					Follow
-				</Button>
+				</Button> */}
+				{isFollowed ? (
+					<Button
+						className={cx('follow-btn')}
+						textOutline
+						onClick={handleToggleFollow}
+					>
+						Following
+					</Button>
+				) : (
+					<Button
+						className={cx('follow-btn')}
+						outline
+						onClick={handleToggleFollow}
+					>
+						Follow
+					</Button>
+				)}
 			</header>
 			<div className={cx('content')}>
 				<p className={cx('nickname')}>

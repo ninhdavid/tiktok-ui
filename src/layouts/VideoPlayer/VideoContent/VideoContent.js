@@ -8,15 +8,17 @@ import VideoSection from './VideoSection';
 
 const cx = classNames.bind(styles);
 
-function VideoContent(props) {
+function VideoContent({ data }) {
 	return (
-		<div className={cx('video-content')}>
-			<VideoSection />
-			<VideoSidebar />
+		<div className={cx('video-container')}>
+			<VideoSection poster={data.thumb_url} src={data.file_url} />
+			<VideoSidebar data={data} />
 		</div>
 	);
 }
 
-VideoContent.propTypes = {};
+VideoContent.propTypes = {
+	data: PropTypes.object.isRequired,
+};
 
 export default VideoContent;

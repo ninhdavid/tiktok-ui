@@ -1,6 +1,5 @@
 .wrapper {
-	border-top: 1px solid #2f2f2f;
-	padding: 16px 0;
+	padding: 8px 0;
 }
 
 .label {
@@ -14,7 +13,7 @@
 .more-btn {
 	color: var(--primary);
 	font-size: 1.4rem;
-	font-weight: 600;
+	font-weight: 400;
 	padding: 8px;
 	cursor: pointer;
 }
@@ -23,12 +22,16 @@
 	display: flex;
 	padding: 8px;
 	cursor: pointer;
+	&:hover {
+		background-color: rgba(var(--text-color-rgb), 0.04);
+	}
 }
 .avatar {
 	width: 32px;
 	height: 32px;
 	border-radius: 50%;
 	object-fit: cover;
+	cursor: pointer;
 }
 .item-info {
 	flex: 1;

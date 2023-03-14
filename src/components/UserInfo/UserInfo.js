@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 import styles from './UserInfo.module.scss';
 const cx = classNames.bind(styles);
 
-function UserInfo({ fullname, tick, nickname }) {
+function UserInfo({ fullName, tick, nickname }) {
 	return (
 		<>
 			{/* <div className={cx('info')}> */}
 			<p className={cx('name')}>
-				<span>{fullname}</span>
+				<span>{fullName}</span>
 				{tick && (
 					<FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
 				)}
@@ -23,7 +23,7 @@ function UserInfo({ fullname, tick, nickname }) {
 }
 
 UserInfo.propTypes = {
-	fullname: PropTypes.string.isRequired,
+	fullName: PropTypes.string.isRequired,
 	tick: PropTypes.bool.isRequired,
 	nickname: PropTypes.string.isRequired,
 };

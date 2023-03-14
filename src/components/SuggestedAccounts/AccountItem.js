@@ -7,34 +7,37 @@ import { CheckActiveIcon } from '../Icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import styles from './SuggestedAccounts.module.scss';
 import AccountPreview from './AccountPreview';
+import Avatar from '../Avatar';
 
 const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
 	const renderPreview = (props) => {
-		return (
-			<div tabIndex="-1" {...props}>
-				<PopperWrapper>
-					<AccountPreview data={data} />
-				</PopperWrapper>
-			</div>
-		);
+		if (!data.is_followed) {
+			return (
+				<div tabIndex="-1" {...props}>
+					<PopperWrapper>
+						<AccountPreview data={data} />
+					</PopperWrapper>
+				</div>
+			);
+		}
 	};
 	return (
 		<div>
 			<Tippy
 				interactive
 				delay={[800, 0]}
-				offset={[-20, 0]}
+				offset={[-20, 2]}
 				placement="bottom"
 				render={renderPreview}
 			>
 				<div className={cx('account-item')}>
-					<img
+					<Avatar
 						className={cx('avatar')}
 						src={data.avatar}
 						alt={data.nickname}
-					></img>
+					/>
 					<div className={cx('item-info')}>
 						<p className={cx('nickname')}>
 							<strong>{data.nickname}</strong>

@@ -35,7 +35,7 @@
 		display: flex;
 		margin: 0 0px 0 25px;
 		padding: 5px;
-		order: 3;
+		// order: 3;
 
 		&:hover {
 			cursor: pointer;
@@ -43,7 +43,7 @@
 	}
 }
 .more-btn {
-	order: 6;
+	// order: 6;
 	font-size: 2rem;
 	margin-left: 15px;
 	padding: 4px 9px;
@@ -59,7 +59,7 @@
 }
 .action-btn-plan {
 	padding: 3px 5px;
-	order: 4;
+	// order: 4;
 	margin-bottom: -2px;
 	font-size: 2.2rem;
 	margin-left: 15px;
@@ -68,7 +68,7 @@
 .inbox-btn {
 	position: relative;
 	background-color: transparent;
-	order: 5;
+	// order: 5;
 	width: 48px;
 	margin-right: 12px;
 	&::after {
@@ -93,9 +93,9 @@
 }
 
 .user-avatar {
-	order: 6;
 	border-radius: 999px;
 	width: 32px;
 	height: 32px;
 	object-fit: cover;
+	float: right;
 }

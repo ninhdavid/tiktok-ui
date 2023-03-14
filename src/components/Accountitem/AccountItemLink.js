@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-function AccountItemLink({ to, children, className }) {
+function AccountItemLink({ to, children, className, ref }) {
 	return (
-		<Link to={to} className={className}>
+		<Link to={to} className={className} ref={ref}>
 			{children}
 		</Link>
 	);
