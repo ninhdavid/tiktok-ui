@@ -24,7 +24,7 @@ const INIT_PAGE = 1;
 const PER_PAGE = 5;
 
 function Sidebar() {
-	const authUser = useContext(AuthUserContext);
+	const { authUser } = useContext(AuthUserContext);
 
 	const [suggestPerPage, setSuggestPerPage] = useState(PER_PAGE);
 	const [suggestUsers, setSuggestUsers] = useState([]);
@@ -35,6 +35,7 @@ function Sidebar() {
 		authUser && authUser.meta.token ? authUser.meta.token : '';
 
 	const [initialSuggestedUsers, setInitialSuggestedUsers] = useState([]);
+	const [initialFollowedUsers, setInitialFollowedUsers] = useState([]);
 
 	// Get suggested users
 	useEffect(() => {
@@ -64,6 +65,7 @@ function Sidebar() {
 					if (Array.isArray(data)) {
 						if (followPerPage === INIT_PAGE) {
 							setFollowUser(data);
+							setInitialFollowedUsers(data);
 						} else {
 							setFollowUser((prev) => [...prev, ...data]);
 						}
@@ -234,7 +236,7 @@ function Sidebar() {
 					// }
 					data={followUsers}
 					moreFunc={moreFollowUsers}
-					initialData={initialSuggestedUsers}
+					initialData={initialFollowedUsers}
 				/>
 			)}
 			<div className={cx('discover-section')}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
@@ -6,10 +6,13 @@ import styles from './AccountPreview.module.scss';
 import { CheckActiveIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import Avatar from '~/components/Avatar';
+import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
+	const [isFollow, setIsFollow] = useState(false);
+	const { authUser } = useContext(AuthUserContext);
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -18,10 +21,15 @@ function AccountPreview({ data }) {
 					src={data.avatar}
 					alt={data.nickname}
 				/>
-
-				<Button className={cx('follow-btn')} outline>
-					Follow
-				</Button>
+				{data.is_followed ? (
+					<Button className={cx('follow-btn')} textOutline>
+						Following
+					</Button>
+				) : (
+					<Button className={cx('follow-btn')} outline>
+						Follow
+					</Button>
+				)}
 			</header>
 			<div className={cx('content')}>
 				<p className={cx('nickname')}>

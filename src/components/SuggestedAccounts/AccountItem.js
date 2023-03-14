@@ -13,13 +13,15 @@ const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
 	const renderPreview = (props) => {
-		return (
-			<div tabIndex="-1" {...props}>
-				<PopperWrapper>
-					<AccountPreview data={data} />
-				</PopperWrapper>
-			</div>
-		);
+		if (!data.is_followed) {
+			return (
+				<div tabIndex="-1" {...props}>
+					<PopperWrapper>
+						<AccountPreview data={data} />
+					</PopperWrapper>
+				</div>
+			);
+		}
 	};
 	return (
 		<div>

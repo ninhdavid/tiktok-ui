@@ -1,14 +1,60 @@
-import { Fragment, createContext } from 'react';
+import { Fragment, createContext, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/layouts';
+import { useLoginAuth } from '~/hooks';
 
 export const AuthUserContext = createContext();
 function App() {
-	const authUser = JSON.parse(localStorage.getItem('user'));
+	// const storageUser = JSON.parse(localStorage.getItem('user'));
+	// const [authUser, setAuthUser] = useState(storageUser);
+
+	// useEffect(() => {
+	// 	const handleStorageChange = () => {
+	// 		setAuthUser(storageUser);
+	// 	};
+
+	// 	window.addEventListener('storage', handleStorageChange);
+	// 	return () => {
+	// 		window.removeEventListener('storage', handleStorageChange);
+	// 	};
+	// }, []);
+	// const [authUser, setAuthUser] = useState(() => {
+	// 	const storageUser = JSON.parse(localStorage.getItem('user'));
+	// 	return storageUser || null;
+	// });
+
+	// useEffect(() => {
+	// 	const handleStorageChange = () => {
+	// 		const storageUser = JSON.parse(localStorage.getItem('user'));
+	// 		setAuthUser(storageUser);
+	// 	};
+
+	// 	window.addEventListener('storage', handleStorageChange);
+	// 	return () => {
+	// 		window.removeEventListener('storage', handleStorageChange);
+	// 	};
+	// }, []);
+	const storageUser = JSON.parse(localStorage.getItem('user'));
+	const [authUser, setAuthUser] = useState(storageUser);
+	useEffect(() => {
+		setAuthUser(storageUser);
+	}, []);
+
+	useEffect(() => {
+		localStorage.setItem('user', JSON.stringify(authUser));
+	}, [authUser]);
+	// const [loginUser, isLoggedIn, setIsLoggedIn, error] = useLoginAuth();
+
+	// useEffect(() => {
+	// 	if (isLoggedIn) {
+	// 		const user = JSON.parse(localStorage.getItem('user'));
+	// 		setAuthUser(user);
+	// 	}
+	// }, [isLoggedIn]);
 
 	return (
-		<AuthUserContext.Provider value={authUser}>
+		<AuthUserContext.Provider value={{ authUser, setAuthUser }}>
 			<Router>
 				<div className="App">
 					<Routes>

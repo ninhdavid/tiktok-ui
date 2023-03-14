@@ -38,6 +38,7 @@ import {
 	ResetPasswordWithEmail,
 	DefaultUserLogin,
 	SignUpUsername,
+	SignUpWithEmailAndPassword,
 } from '../ModalWrapper/ModalPartials';
 import SignUpModal from '../ModalWrapper/SignUpModal';
 import { AuthUserContext } from '~/App';
@@ -164,18 +165,13 @@ const MENU_ITEMS = [
 	},
 ];
 
-function Header() {
+function Header({ newData }) {
 	const [isShowModal, setIsShowModal] = useState(false);
 	const [children, setChildren] = useState(<LoginModal />);
 	const [modalBodyName, setModalBodyName] = useState('login');
 	const [navigateBack, setNavigateBack] = useState(null);
-	const authUser = useContext(AuthUserContext);
-	const [newData, setNewData] = useState(null);
-	useEffect(() => {
-		if (authUser) {
-			setNewData(authUser);
-		}
-	}, []);
+	const { authUser } = useContext(AuthUserContext); //authUser nhận giá trị là JSON.parse(localStorage.getItem('user'));
+	const [newdata, setNewdata] = useState(authUser);
 	const handleMenuChange = (menuItem) => {
 		switch (menuItem.type) {
 			case 'languages':
@@ -245,8 +241,8 @@ function Header() {
 				setChildren(<SignUpModal />);
 				setNavigateBack(null);
 				break;
-			case 'signup-with-username':
-				setChildren(<SignUpUsername />);
+			case 'signup-with-email-and-password':
+				setChildren(<SignUpWithEmailAndPassword />);
 				setNavigateBack('signup');
 				break;
 			case 'login-with-default':
@@ -336,8 +332,8 @@ function Header() {
 							/>
 						)}
 					</ModalBodyNameContext.Provider>
-
 					<Menu
+						key={authUser ? 'userMenu' : 'defaultMenu'}
 						items={authUser ? userMenu : MENU_ITEMS}
 						onChange={handleMenuChange}
 					>
@@ -355,6 +351,24 @@ function Header() {
 							</button>
 						)}
 					</Menu>
+					{/* 
+					{authUser ? (
+						<Menu items={userMenu}>
+							<span>
+								<Avatar
+									className={cx('user-avatar')}
+									src={authUser.data.avatar}
+									alt={authUser.data.nickname}
+								/>
+							</span>
+						</Menu>
+					) : (
+						<Menu items={MENU_ITEMS} onChange={handleMenuChange}>
+							<button className={cx('more-btn')}>
+								<FontAwesomeIcon icon={faEllipsisVertical} />
+							</button>
+						</Menu>
+					)} */}
 				</div>
 			</div>
 		</header>

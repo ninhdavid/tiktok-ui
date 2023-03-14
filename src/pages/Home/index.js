@@ -17,15 +17,15 @@ function Home() {
 	const [videos, setVideos] = useState([]);
 	const [page, setPage] = useState(INIT_PAGE);
 	const [noMoreVideo, setNoMoreVideo] = useState(false);
-	// const authUser = useContext(AuthUserContext);
-	// const accessToken =
-	// 	authUser && authUser.meta.token ? authUser.meta.token : '';
+	const { authUser } = useContext(AuthUserContext);
+	const accessToken =
+		authUser && authUser.meta.token ? authUser.meta.token : '';
 
 	const loadMore = useCallback(() => {
 		return setTimeout(() => {
 			videoService
-				// .getVideos({ type: 'for-you', page: page, accessToken: accessToken })
-				.getVideos({ type: 'for-you', page: page })
+				.getVideos({ type: 'for-you', page: page, accessToken: accessToken })
+				// .getVideos({ type: 'for-you', page: page })
 				.then((res) => {
 					if (Array.isArray(res.data)) {
 						setVideos((prev) => [...prev, ...res.data]);
@@ -40,15 +40,14 @@ function Home() {
 					console.log(error);
 				});
 		}, 300);
-		// }, [page, accessToken, setVideos]);
-	}, [page, setVideos]);
+	}, [page, accessToken, setVideos]);
+	// }, [page, setVideos]);
 
 	useEffect(() => {
 		const timeout = loadMore();
 		return () => clearTimeout(timeout);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
 	return (
 		<>
 			{/* <VideoPlayer />*/}

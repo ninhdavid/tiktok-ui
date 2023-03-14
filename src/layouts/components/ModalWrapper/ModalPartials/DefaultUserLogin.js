@@ -7,14 +7,16 @@ import styles from './ModalPartials.module.scss';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { ModalBodyNameContext } from '../../Header/Header';
 import { useLoginAuth } from '~/hooks';
+import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
-function DefaultUserLogin(props) {
+function DefaultUserLogin({ onClose }) {
 	const value = useContext(ModalBodyNameContext);
 	const [loginUser, isLoggedIn] = useLoginAuth();
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+	const [username, setUsername] = useState('defaulttester01@gmail.com');
+	const [password, setPassword] = useState('123456');
+	const { authUser, setAuthUser } = useContext(AuthUserContext);
 
 	const handleLoginEmail = (e, tag) => {
 		e.preventDefault();
@@ -22,8 +24,10 @@ function DefaultUserLogin(props) {
 	};
 	function handleSubmit(e) {
 		e.preventDefault();
-		loginUser(username, password);
+		loginUser(username, password, setAuthUser);
+		onClose();
 	}
+
 	return (
 		<div className={cx('modal-content')}>
 			<div className={cx('login-section')}>
@@ -41,7 +45,8 @@ function DefaultUserLogin(props) {
 									type="text"
 									placeholder="Email or username"
 									className={cx('input-phone')}
-									value="defaulttester01@gmail.com"
+									value={username}
+									onChange={(e) => setUsername(e.target.value)}
 								></input>
 							</div>
 							<div className={cx('input-content')}>
@@ -50,7 +55,8 @@ function DefaultUserLogin(props) {
 									name="password"
 									type="password"
 									placeholder="Password"
-									value="123456"
+									onChange={(e) => setPassword(e.target.value)}
+									value={password}
 								></input>
 							</div>
 						</div>

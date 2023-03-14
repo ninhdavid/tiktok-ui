@@ -4,4 +4,4 @@ export { default as PhoneAndPasswordLoginForm } from './PhoneAndPasswordLoginFor
 export { default as ResetPasswordWithEmail } from './ResetPasswordWithEmail';
 export { default as ResetPasswordWithPhone } from './ResetPasswordWithPhone';
 export { default as DefaultUserLogin } from './DefaultUserLogin';
-export { default as SignUpUsername } from './SignUpUsername';
+export { default as SignUpWithEmailAndPassword } from './SignUpWithEmailAndPassword';

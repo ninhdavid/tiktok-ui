@@ -16,8 +16,8 @@ function SignUpModal() {
 		{
 			// href: '/login/phone-or-email',
 			icon: <FontAwesomeIcon icon={faUser} className={cx('icon')} />,
-			text: 'Username and password',
-			navigate: 'signup-with-username',
+			text: 'Email and password',
+			navigate: 'signup-with-email-and-password',
 		},
 		{
 			href: '/signup/phone-or-email',

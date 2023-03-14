@@ -7,18 +7,21 @@ import styles from './ModalPartials.module.scss';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { ModalBodyNameContext } from '../../Header/Header';
 import { useLoginAuth } from '~/hooks';
+import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
 function EmailAndPasswordLoginForm({ onClose }) {
 	const value = useContext(ModalBodyNameContext);
-	const [loginUser, isLoggedIn, setIsLoggedIn] = useLoginAuth();
+	const [loginUser] = useLoginAuth();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
+	const { authUser, setAuthUser } = useContext(AuthUserContext);
+
 	function handleSubmit(e) {
 		e.preventDefault();
-		loginUser(username, password);
+		loginUser(username, password, setAuthUser);
 		onClose();
 	}
 	const handleLoginEmail = (e, tag) => {

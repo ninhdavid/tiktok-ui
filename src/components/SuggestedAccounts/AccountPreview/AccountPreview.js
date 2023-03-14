@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
@@ -10,6 +10,11 @@ import Avatar from '~/components/Avatar';
 const cx = classNames.bind(styles);
 
 function AccountPreview({ data }) {
+	const [isFollowed, setIsFollowed] = useState(false);
+
+	const handleOnFollow = () => {
+		setIsFollowed(true);
+	};
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -19,9 +24,22 @@ function AccountPreview({ data }) {
 					alt={data.nickname}
 				/>
 
-				<Button className={cx('follow-btn')} primary>
+				{/* <Button className={cx('follow-btn')} primary>
 					Follow
-				</Button>
+				</Button> */}
+				{data.is_followed ? (
+					<Button
+						className={cx('follow-btn')}
+						textOutline
+						onClick={handleOnFollow}
+					>
+						Following
+					</Button>
+				) : (
+					<Button className={cx('follow-btn')} outline>
+						Follow
+					</Button>
+				)}
 			</header>
 			<div className={cx('content')}>
 				<p className={cx('nickname')}>

@@ -7,6 +7,7 @@ import classNames from 'classnames/bind';
 import styles from './VideoContent.module.scss';
 import images from '~/assets/images';
 import * as videoService from '~/services/videoService';
+import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +15,7 @@ function VideoSidebar({ data }) {
 	const [spin, setSpin] = useState(false);
 	const [isLiked, setIsLiked] = useState(data.is_liked);
 	const [likeCount, setLikeCount] = useState(data.likes_count);
+	const { authUser } = useContext(AuthUserContext);
 
 	// useEffect(() => {
 	// 	// Make API call to get latest is_liked value and update state
@@ -31,46 +33,47 @@ function VideoSidebar({ data }) {
 
 	function handleToggleLike() {
 		//need authUser and authUser.meta.token to like
-		// if (authUser || authUser.meta || authUser.meta.token) {
-
-		if (isLiked) {
-			videoService
-				.unLikedVideo({
-					videoId: data.id,
-					videoUuid: data.uuid,
-				})
-				.then((res) => {
-					if (res.data) {
-						setIsLiked(res.data.is_liked);
-						setLikeCount(res.data.likes_count);
-						setSpin(false);
-					}
-				})
-				.catch((error) => {
-					console.log(error + ': fail to load is_liked');
-				});
-		} else {
-			videoService
-				.likedVideo({
-					videoId: data.id,
-					videoUuid: data.uuid,
-				})
-				.then((res) => {
-					if (res.data) {
-						setIsLiked(res.data.is_liked);
-						setLikeCount(res.data.likes_count);
-						setSpin(true);
-					}
-				})
-				.catch((error) => {
-					console.log(error + ':fail to liked');
-				});
+		if (authUser && authUser.meta && authUser.meta.token) {
+			if (isLiked) {
+				videoService
+					.unLikedVideo({
+						videoId: data.id,
+						videoUuid: data.uuid,
+						accessToken: authUser.meta.token,
+					})
+					.then((res) => {
+						if (res.data) {
+							setIsLiked(res.data.is_liked);
+							setLikeCount(res.data.likes_count);
+							setSpin(false);
+						}
+					})
+					.catch((error) => {
+						console.log(error + ': fail to load is_liked');
+					});
+			} else {
+				videoService
+					.likedVideo({
+						videoId: data.id,
+						videoUuid: data.uuid,
+						accessToken: authUser.meta.token,
+					})
+					.then((res) => {
+						if (res.data) {
+							setIsLiked(res.data.is_liked);
+							setLikeCount(res.data.likes_count);
+							setSpin(true);
+						}
+					})
+					.catch((error) => {
+						console.log(error + ':fail to liked');
+					});
+			}
+			setTimeout(() => {
+				setSpin(false);
+			}, 1500);
 		}
-		setTimeout(() => {
-			setSpin(false);
-		}, 1500);
 	}
-
 	return (
 		<section className={cx('sidebar-section')}>
 			<span className={cx('interact-section')}>
