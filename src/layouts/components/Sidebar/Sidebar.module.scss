@@ -34,6 +34,29 @@
 	height: 1px;
 }
 
+//login button
+.login-section {
+	position: relative;
+	padding: 20px 8px 12px 8px;
+	margin: 0;
+	& > p > span {
+		color: rgba(255, 255, 255, 0.5);
+		line-height: 2.2rem;
+		font-size: 1.6rem;
+	}
+}
+.login-btn {
+	min-width: 168px;
+	min-height: 48px;
+	width: 100%;
+	font-size: 1.8rem;
+	margin-top: 20px;
+	border-radius: 4px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 //discover-section
 
 .discover-section {

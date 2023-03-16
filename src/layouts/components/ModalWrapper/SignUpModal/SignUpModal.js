@@ -1,10 +1,12 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './SignUpModal.module.scss';
-import { ModalBodyNameContext } from '../../Header/Header';
+// import { ModalBodyNameContext } from '../../Header/Header';
+import { ModalBodyNameContext } from '../Modal';
+
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
@@ -26,11 +28,6 @@ function SignUpModal() {
 			navigate: 'signup',
 		},
 	];
-
-	// function handleOnClick(e) {
-	// 	e.preventDefault();
-	// 	value.handleModalBodyName('login-with-email');
-	// }
 
 	const renderLoginForm = () => {
 		return selector.map((result, index) => {

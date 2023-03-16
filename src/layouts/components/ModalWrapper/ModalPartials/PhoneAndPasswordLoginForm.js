@@ -1,14 +1,13 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './ModalPartials.module.scss';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { ModalBodyNameContext } from '../../Header/Header';
+import { ModalBodyNameContext } from '../Modal';
+
 const cx = classNames.bind(styles);
 
-function PhoneAndPasswordLoginForm(props) {
+function PhoneAndPasswordLoginForm() {
 	const value = useContext(ModalBodyNameContext);
 	const handleLoginEmail = (e, tag) => {
 		e.preventDefault();

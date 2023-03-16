@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
@@ -6,26 +6,48 @@ import styles from './AccountPreview.module.scss';
 import { CheckActiveIcon } from '~/components/Icons';
 import Button from '~/components/Button';
 import Avatar from '~/components/Avatar';
-import { useFollowAnUser } from '~/hooks';
 import { AuthUserContext } from '~/App';
+import { useFollowAnUser } from '~/hooks/useFollowAnUser';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview({ data }) {
-	const [isFollowed, setIsFollowed] = useState(false);
+function AccountPreview({ data, isFollowedUser, onClick }) {
 	const { authUser } = useContext(AuthUserContext);
-	const [followedUser, unFollowedUser, isFollow] = useFollowAnUser();
+	const [showFollow, setShowFollow] = useState(false);
+	// const [isFollowed, setIsFollowed] = useState(false);
+	// const [isFollowed, followedUser, unFollowedUser] = useFollowAnUser(
+	// 	data.is_followed
+	// );
+	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
+
 	const handleToggleFollow = () => {
 		if (isFollowed) {
-			unFollowedUser(data.id, authUser.meta.token);
-			setIsFollowed(false);
-			console.log('unfollow');
+			unFollowedUser(data.id, authUser);
 		} else {
-			followedUser(data.id, authUser.meta.token);
-			setIsFollowed(true);
-			console.log('followed');
+			followedUser(data.id, authUser);
 		}
 	};
+
+	// const handleToggleFollow = () => {
+	// 	if (showFollow) {
+	// 		unFollowedUser(data.id, authUser.meta.token);
+	// 		// setIsFollowed(false);
+	// 		setShowFollow(false);
+	// 		console.log(isFollowed);
+	// 	} else {
+	// 		followedUser(data.id, authUser.meta.token);
+	// 		// setIsFollowed(true);
+	// 		setShowFollow(true);
+	// 		console.log(isFollowed);
+	// 	}
+	// };
+	// useEffect(() => {
+	// 	if (data.is_followed) {
+	// 		setIsFollowed(true);
+	// 	} else {
+	// 		setIsFollowed(false);
+	// 	}
+	// }, [data.is_followed, authUser]);
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -34,6 +56,23 @@ function AccountPreview({ data }) {
 					src={data.avatar}
 					alt={data.nickname}
 				/>
+				{/* {isFollowedUser || state.isFollowed ? (
+					<Button
+						className={cx('follow-btn')}
+						textOutline
+						onClick={onClick ? onClick : handleFollow}
+					>
+						Following
+					</Button>
+				) : (
+					<Button
+						className={cx('follow-btn')}
+						outline
+						onClick={onClick ? onClick : handleFollow}
+					>
+						Follow
+					</Button>
+				)} */}
 				{isFollowed ? (
 					<Button
 						className={cx('follow-btn')}

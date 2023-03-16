@@ -6,14 +6,17 @@ import Tippy from '@tippyjs/react/headless';
 import { CheckActiveIcon } from '../Icons';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import styles from './SuggestedAccounts.module.scss';
-import AccountPreview from './AccountPreview';
+// import AccountPreview from './AccountPreview';
+import AccountPreview from '../AccountPreview';
 import Avatar from '../Avatar';
+import { useFollowAnUser } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
 function AccountItem({ data }) {
 	const renderPreview = (props) => {
 		if (!data.is_followed) {
+			//1st: (!data.is_followed): giá trị này hoạt động tôt
 			return (
 				<div tabIndex="-1" {...props}>
 					<PopperWrapper>
@@ -41,7 +44,6 @@ function AccountItem({ data }) {
 					<div className={cx('item-info')}>
 						<p className={cx('nickname')}>
 							<strong>{data.nickname}</strong>
-							{/* <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} /> */}
 							{data.tick && (
 								<span className={cx('check-icon')}>{<CheckActiveIcon />}</span>
 							)}

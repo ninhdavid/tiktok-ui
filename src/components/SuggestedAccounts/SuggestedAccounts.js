@@ -45,5 +45,9 @@ function SuggestedAccounts({
 SuggestedAccounts.propTypes = {
 	label: PropTypes.string.isRequired,
 	data: PropTypes.array,
+	className: PropTypes.string.isRequired,
+	moreFunc: PropTypes.func,
+	moreLabel: PropTypes.string,
+	initialData: PropTypes.array.isRequired,
 };
 export default SuggestedAccounts;

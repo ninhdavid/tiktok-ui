@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,24 +26,10 @@ import images from '~/assets/images';
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
 import { InboxIcon } from '~/components/Icons/Icon';
-import Image from '~/components/Image';
 import Search from '../Search/Search';
-import LoginModal from '../ModalWrapper/LoginModal';
-import ModalWrapper from '../ModalWrapper';
-import {
-	PhoneAndCodeLoginForm,
-	PhoneAndPasswordLoginForm,
-	EmailAndPasswordLoginForm,
-	ResetPasswordWithPhone,
-	ResetPasswordWithEmail,
-	DefaultUserLogin,
-	SignUpUsername,
-	SignUpWithEmailAndPassword,
-} from '../ModalWrapper/ModalPartials';
-import SignUpModal from '../ModalWrapper/SignUpModal';
 import { AuthUserContext } from '~/App';
 import Avatar from '~/components/Avatar';
-import { useLoginAuth } from '~/hooks';
+import Modal from '~/layouts/components/ModalWrapper/Modal';
 
 const cx = classNames.bind(styles);
 
@@ -165,13 +151,12 @@ const MENU_ITEMS = [
 	},
 ];
 
-function Header({ newData }) {
+function Header() {
 	const [isShowModal, setIsShowModal] = useState(false);
-	const [children, setChildren] = useState(<LoginModal />);
 	const [modalBodyName, setModalBodyName] = useState('login');
-	const [navigateBack, setNavigateBack] = useState(null);
+
 	const { authUser } = useContext(AuthUserContext); //authUser nhận giá trị là JSON.parse(localStorage.getItem('user'));
-	const [newdata, setNewdata] = useState(authUser);
+
 	const handleMenuChange = (menuItem) => {
 		switch (menuItem.type) {
 			case 'languages':
@@ -222,59 +207,6 @@ function Header({ newData }) {
 		},
 	];
 
-	const handleModalBodyName = (value) => {
-		setModalBodyName(value ?? 'login');
-	};
-	const value = {
-		modalBodyName,
-		navigateBack,
-		handleModalBodyName,
-	};
-
-	useEffect(() => {
-		switch (modalBodyName) {
-			case 'login':
-				setChildren(<LoginModal />);
-				setNavigateBack(null);
-				break;
-			case 'signup':
-				setChildren(<SignUpModal />);
-				setNavigateBack(null);
-				break;
-			case 'signup-with-email-and-password':
-				setChildren(<SignUpWithEmailAndPassword />);
-				setNavigateBack('signup');
-				break;
-			case 'login-with-default':
-				setChildren(<DefaultUserLogin />);
-				setNavigateBack('login');
-				break;
-			case 'login-with-phone':
-				setChildren(<PhoneAndCodeLoginForm />);
-				setNavigateBack('login');
-				break;
-			case 'login-with-phone-and-password':
-				setChildren(<PhoneAndPasswordLoginForm />);
-				setNavigateBack('login-with-phone');
-				break;
-			case 'login-with-email':
-				setChildren(<EmailAndPasswordLoginForm />);
-				setNavigateBack('login');
-				break;
-			case 'reset-password-with-phone':
-				setChildren(<ResetPasswordWithPhone />);
-				setNavigateBack('login-with-phone-and-password');
-				break;
-			case 'reset-password-with-email':
-				setChildren(<ResetPasswordWithEmail />);
-				setNavigateBack('login-with-phone-and-password');
-				break;
-			default:
-				setChildren(<LoginModal />);
-				break;
-		}
-	}, [modalBodyName]);
-
 	return (
 		<header className={cx('wrapper')}>
 			<div className={cx('inner')}>
@@ -321,7 +253,7 @@ function Header({ newData }) {
 						</>
 					)}
 
-					<ModalBodyNameContext.Provider value={value}>
+					{/* <ModalBodyNameContext.Provider value={value}>
 						{isShowModal && (
 							<ModalWrapper
 								children={children}
@@ -331,7 +263,15 @@ function Header({ newData }) {
 								}}
 							/>
 						)}
-					</ModalBodyNameContext.Provider>
+					</ModalBodyNameContext.Provider> */}
+					{isShowModal && (
+						<Modal
+							onClose={() => {
+								setIsShowModal(false);
+								setModalBodyName('');
+							}}
+						/>
+					)}
 					<Menu
 						key={authUser ? 'userMenu' : 'defaultMenu'}
 						items={authUser ? userMenu : MENU_ITEMS}
