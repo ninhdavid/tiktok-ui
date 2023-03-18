@@ -165,18 +165,12 @@
 // export default useFollowAnUser;
 
 //4
-import {
-	useState,
-	useEffect,
-	useReducer,
-	createContext,
-	useContext,
-} from 'react';
-import {
-	followAnUser,
-	unFollowAnUser,
-	checkFollowedUser,
-} from '~/services/userService';
+
+// import {
+// 	followAnUser,
+// 	unFollowAnUser,
+// 	checkFollowedUser,
+// } from '~/services/userService';
 
 // const initialState = {
 // 	loading: true,
@@ -359,7 +353,6 @@ import {
 // }
 
 //7
-import * as userService from '~/services/userService';
 // export const FollowContext = createContext();
 
 // export const FollowProvider = ({ children }) => {
@@ -406,8 +399,16 @@ import * as userService from '~/services/userService';
 // };
 
 //8
+import {
+	useState,
+	useEffect,
+	useReducer,
+	createContext,
+	useContext,
+} from 'react';
 
 import { AuthUserContext } from '~/App';
+import * as userService from '~/services/userService';
 
 const FollowAnUserContext = createContext();
 
@@ -427,11 +428,9 @@ export function FollowAnUserProvider({ children }) {
 			.then((res) => {
 				if (res) {
 					setFollowStatus(res.data.is_followed);
-					console.log('follow  ' + res.data);
-
-					console.log('follow  ' + res.data.is_followed);
+					console.log('hook: follow  ' + res.data.is_followed);
 				} else {
-					console.log('Fail to follow user');
+					console.log('hook: Fail to follow user');
 				}
 			})
 			.catch((error) => {
@@ -444,11 +443,10 @@ export function FollowAnUserProvider({ children }) {
 			.unFollowAnUser(userId, accessToken)
 			.then((res) => {
 				if (res) {
-					console.log('unfollow  ' + res.data);
-					console.log('unfollow  ' + res.data.is_followed);
+					console.log('hook: unfollow  ' + res.data.is_followed);
 					setFollowStatus(res.data.is_followed);
 				} else {
-					console.log('Fail to unfollow user');
+					console.log('hook: Fail to unfollow user');
 				}
 			})
 			.catch((error) => {
@@ -462,6 +460,7 @@ export function FollowAnUserProvider({ children }) {
 
 	const value = {
 		isFollowed,
+		setIsFollowed,
 		followedUser,
 		unFollowedUser,
 	};

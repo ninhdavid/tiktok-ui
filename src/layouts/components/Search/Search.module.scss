@@ -1,5 +1,7 @@
 @import '../../../components/GlobalStyles/GlobalStyles.scss';
-
+.wrapper {
+	padding: 0 8px;
+}
 .search,
 .search-result {
 	width: 361px;
@@ -84,8 +86,10 @@
 	height: 100%;
 	border-top-right-radius: var(--search-border-r);
 	border-bottom-right-radius: var(--search-border-r);
-	font-size: 1.8rem;
-
+	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	&:hover {
 		cursor: pointer;
 		background-color: rgba(var(--text-color-rgb), 0.04);

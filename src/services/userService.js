@@ -53,16 +53,15 @@ export const unFollowAnUser = async (userId, accessToken) => {
 		console.log(error);
 	}
 };
-export const checkFollowedUser = async (userId, accessToken) => {
+
+export const getUserProfile = async (userNickname, accessToken) => {
 	try {
-		const response = await httpRequest.get(`users/${userId}/followed`, {
+		const res = await httpRequest.get(`users/${userNickname}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
-		const data = response.data;
-		console.log(data);
-		return data.is_followed;
+		return res.data;
 	} catch (error) {
 		console.log(error);
 	}

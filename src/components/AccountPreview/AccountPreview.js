@@ -8,6 +8,7 @@ import Button from '~/components/Button';
 import Avatar from '~/components/Avatar';
 import { AuthUserContext } from '~/App';
 import { useFollowAnUser } from '~/hooks/useFollowAnUser';
+import ButtonComponent from '~/components/ButtonFollow';
 
 const cx = classNames.bind(styles);
 
@@ -19,12 +20,13 @@ function AccountPreview({ data, isFollowedUser, onClick }) {
 	// 	data.is_followed
 	// );
 	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
-
+	const accessToken =
+		authUser && authUser.meta.token ? authUser.meta.token : '';
 	const handleToggleFollow = () => {
 		if (isFollowed) {
-			unFollowedUser(data.id, authUser);
+			unFollowedUser(data.id, accessToken);
 		} else {
-			followedUser(data.id, authUser);
+			followedUser(data.id, accessToken);
 		}
 	};
 
@@ -56,40 +58,11 @@ function AccountPreview({ data, isFollowedUser, onClick }) {
 					src={data.avatar}
 					alt={data.nickname}
 				/>
-				{/* {isFollowedUser || state.isFollowed ? (
-					<Button
-						className={cx('follow-btn')}
-						textOutline
-						onClick={onClick ? onClick : handleFollow}
-					>
-						Following
-					</Button>
-				) : (
-					<Button
-						className={cx('follow-btn')}
-						outline
-						onClick={onClick ? onClick : handleFollow}
-					>
-						Follow
-					</Button>
-				)} */}
-				{isFollowed ? (
-					<Button
-						className={cx('follow-btn')}
-						textOutline
-						onClick={handleToggleFollow}
-					>
-						Following
-					</Button>
-				) : (
-					<Button
-						className={cx('follow-btn')}
-						outline
-						onClick={handleToggleFollow}
-					>
-						Follow
-					</Button>
-				)}
+				<ButtonComponent
+					data={data}
+					onClick={handleToggleFollow}
+					className="preview-follow-btn"
+				/>
 			</header>
 			<div className={cx('content')}>
 				<p className={cx('nickname')}>

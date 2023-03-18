@@ -13,15 +13,24 @@ const cx = classNames.bind(styles);
 
 function DefaultLayout({ children }) {
 	return (
-		<FollowAnUserProvider>
-			<div className={cx('wrapper')}>
+		// <FollowAnUserProvider>
+		<div className={cx('wrapper')}>
+			<div className={'wrapper-content'}>
 				<Header />
 				<div className={cx('container')}>
-					<Sidebar />
-					<div className={cx('content')}>{children}</div>
+					<div className={cx('sidebar')}>
+						<div className={cx('sidebar-none')}></div>
+						<div className={cx('sidebar-active')}>
+							<Sidebar />
+						</div>
+					</div>
+					<div className={cx('content')}>
+						<div className={cx('children-content')}>{children}</div>
+					</div>
 				</div>
 			</div>
-		</FollowAnUserProvider>
+		</div>
+		// </FollowAnUserProvider>
 	);
 }
 DefaultLayout.propTypes = {

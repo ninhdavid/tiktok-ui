@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import classNames from 'classnames/bind';
@@ -21,6 +21,7 @@ import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import HashTag from '~/components/HashTag';
 import Button from '~/components/Button';
 import { Modal } from '../ModalWrapper';
+import { useStylesByElementWidth } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -29,6 +30,9 @@ const PER_PAGE = 5;
 
 function Sidebar() {
 	const { authUser } = useContext(AuthUserContext);
+
+	const sectionRef = useRef(null);
+	const isSmall = useStylesByElementWidth(sectionRef, 240);
 
 	const [suggestPerPage, setSuggestPerPage] = useState(PER_PAGE);
 	const [suggestUsers, setSuggestUsers] = useState([]);
@@ -238,6 +242,7 @@ function Sidebar() {
 			</div>
 		);
 	}
+
 	return (
 		<aside className={cx('wrapper')}>
 			<Menu className={cx('menu')}>
@@ -308,7 +313,10 @@ function Sidebar() {
 							Testing hashtag
 						</HashTag>
 					</div>
-					<div className={cx('music')}>
+					<div
+						ref={sectionRef}
+						className={!isSmall ? cx('music') : cx('small-section')}
+					>
 						<HashTag primary rounded tag="music" className={cx('icon')}>
 							Testing
 						</HashTag>

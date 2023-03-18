@@ -16,44 +16,29 @@ import HashTag from '~/components/HashTag';
 import Description from '~/components/Description';
 import { AuthUserContext } from '~/App';
 import { useFollowAnUser } from '~/hooks/useFollowAnUser';
+import ButtonComponent from '~/components/ButtonFollow';
 
 const cx = classNames.bind(styles);
 
 function VideoPlayer({ video }) {
-	// const [isFollowed, setIsFollowed] = useState(false);
+	const [show, setShow] = useState(video.user.is_followed);
 	const { authUser } = useContext(AuthUserContext);
-	// const [isFollowed, followedUser, unFollowedUser] = useFollowAnUser(
-	// 	video.user.is_followed
-	// );
-
+	const accessToken =
+		authUser && authUser.meta.token ? authUser.meta.token : '';
 	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
 
 	const handleToggleFollow = () => {
-		if (video.user.is_followed) {
-			unFollowedUser(video.user.id, authUser);
-			console.log('unfollow');
+		if (isFollowed) {
+			unFollowedUser(video.user.id, accessToken);
+			console.log('render video pages: unfollow');
+			// setShow(isFollowed);
 		} else {
-			console.log('follow');
-			followedUser(video.user.id, authUser);
+			console.log('render video pages: follow');
+			followedUser(video.user.id, accessToken);
+			// setShow(isFollowed);
 		}
 	};
 
-	// const handleToggleFollow = () => {
-	// 	if (isFollowed) {
-	// 		unFollowedUser(video.user.id, authUser.meta.token);
-	// 		// setIsFollowed(false);
-	// 	} else {
-	// 		followedUser(video.user.id, authUser.meta.token);
-	// 		// setIsFollowed(true);
-	// 	}
-	// };
-	// useEffect(() => {
-	// 	if (video.user.is_followed) {
-	// 		setIsFollowed(true);
-	// 	} else {
-	// 		setIsFollowed(false);
-	// 	}
-	// }, [video.user.is_followed, authUser]);
 	const renderPreview = (props) => {
 		return (
 			<div tabIndex="-1" {...props}>
@@ -115,43 +100,11 @@ function VideoPlayer({ video }) {
 							</span>
 						</Tippy>
 
-						{/* {state.isFollowed ? (
-							<Button
-								className={cx('follow-btn')}
-								textOutline
-								onClick={handleFollow}
-							>
-								Following
-							</Button>
-						) : (
-							<Button
-								className={cx('follow-btn')}
-								outline
-								onClick={handleFollow}
-							>
-								Follow
-							</Button>
-						)} */}
-
-						{isFollowed ? (
-							<Button
-								className={cx('follow-btn')}
-								textOutline
-								small
-								onClick={handleToggleFollow}
-							>
-								Following
-							</Button>
-						) : (
-							<Button
-								className={cx('follow-btn')}
-								outline
-								small
-								onClick={handleToggleFollow}
-							>
-								Follow
-							</Button>
-						)}
+						<ButtonComponent
+							onClick={handleToggleFollow}
+							data={video.user}
+							className="video-follow-btn"
+						/>
 
 						<div>
 							<Description data={video} />

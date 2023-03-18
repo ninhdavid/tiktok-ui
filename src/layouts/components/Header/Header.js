@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,7 +20,6 @@ import {
 import Tippy from '@tippyjs/react/';
 import 'tippy.js/dist/tippy.css';
 
-import config from '~/config/routes';
 import styles from './Header.module.scss';
 import images from '~/assets/images';
 import Button from '~/components/Button';
@@ -30,6 +29,8 @@ import Search from '../Search/Search';
 import { AuthUserContext } from '~/App';
 import Avatar from '~/components/Avatar';
 import Modal from '~/layouts/components/ModalWrapper/Modal';
+import config from '~/config';
+import { useStylesByElementWidth } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -151,7 +152,7 @@ const MENU_ITEMS = [
 	},
 ];
 
-function Header() {
+function Header({ className }) {
 	const [isShowModal, setIsShowModal] = useState(false);
 	const [modalBodyName, setModalBodyName] = useState('login');
 
@@ -209,8 +210,8 @@ function Header() {
 
 	return (
 		<header className={cx('wrapper')}>
-			<div className={cx('inner')}>
-				<Link to={config.home} className={cx('logo')}>
+			<div className={!className ? cx('inner') : cx('innerSmall')}>
+				<Link to={config.routes.home} className={cx('logo')}>
 					<img src={images.logo} alt="Tiktok" />
 				</Link>
 
@@ -254,16 +255,16 @@ function Header() {
 					)}
 
 					{/* <ModalBodyNameContext.Provider value={value}>
-						{isShowModal && (
-							<ModalWrapper
-								children={children}
-								onClose={() => {
-									setIsShowModal(false);
-									setModalBodyName('');
-								}}
-							/>
-						)}
-					</ModalBodyNameContext.Provider> */}
+							{isShowModal && (
+								<ModalWrapper
+									children={children}
+									onClose={() => {
+										setIsShowModal(false);
+										setModalBodyName('');
+									}}
+								/>
+							)}
+						</ModalBodyNameContext.Provider> */}
 					{isShowModal && (
 						<Modal
 							onClose={() => {
@@ -292,23 +293,23 @@ function Header() {
 						)}
 					</Menu>
 					{/* 
-					{authUser ? (
-						<Menu items={userMenu}>
-							<span>
-								<Avatar
-									className={cx('user-avatar')}
-									src={authUser.data.avatar}
-									alt={authUser.data.nickname}
-								/>
-							</span>
-						</Menu>
-					) : (
-						<Menu items={MENU_ITEMS} onChange={handleMenuChange}>
-							<button className={cx('more-btn')}>
-								<FontAwesomeIcon icon={faEllipsisVertical} />
-							</button>
-						</Menu>
-					)} */}
+						{authUser ? (
+							<Menu items={userMenu}>
+								<span>
+									<Avatar
+										className={cx('user-avatar')}
+										src={authUser.data.avatar}
+										alt={authUser.data.nickname}
+									/>
+								</span>
+							</Menu>
+						) : (
+							<Menu items={MENU_ITEMS} onChange={handleMenuChange}>
+								<button className={cx('more-btn')}>
+									<FontAwesomeIcon icon={faEllipsisVertical} />
+								</button>
+							</Menu>
+						)} */}
 				</div>
 			</div>
 		</header>

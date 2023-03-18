@@ -34,7 +34,8 @@ function SuggestedAccounts({
 						.map((account, index) => (
 							<AccountItem key={index} data={account} />
 						))}
-			{(data.length > 5 || initialData > 5) && (
+
+			{(data.length >= 5 || initialData >= 5) && (
 				<p className={cx('more-btn')} onClick={handleClick}>
 					{isShowAll ? 'See less' : 'See all'}
 				</p>

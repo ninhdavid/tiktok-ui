@@ -6,15 +6,30 @@ import styles from './VideoContent.module.scss';
 
 const cx = classNames.bind(styles);
 
-function VideoSection({ src, poster }) {
+function VideoSection({ className, src, poster }) {
+	function handleOnMouseOver(e) {
+		if (className) {
+			e.target.play();
+		}
+	}
+
+	function handleOnMouseLeave(e) {
+		if (className) {
+			e.target.pause();
+		}
+	}
 	return (
-		<section className={cx('video-section')}>
+		<section className={className ? className : cx('video-section')}>
 			<video
-				width={280}
+				width={className ? 208 : 280}
 				controls
-				className={cx('video-card')}
+				className={className ? cx('video-card--fullWidth') : cx('video-card')}
 				loop
+				playsInline
+				muted
 				poster={poster}
+				onMouseOver={(e) => handleOnMouseOver(e)}
+				onMouseLeave={(e) => handleOnMouseLeave(e)}
 			>
 				{/* <source src={videos.videoTest} type="video/mp4"></source> */}
 				<source src={src} type="video/mp4"></source>
@@ -24,7 +39,7 @@ function VideoSection({ src, poster }) {
 }
 
 VideoSection.propTypes = {
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	poster: PropTypes.string,
 };
 

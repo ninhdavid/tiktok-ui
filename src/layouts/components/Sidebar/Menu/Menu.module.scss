@@ -5,6 +5,7 @@
 	font-weight: 700;
 	border-radius: 4px;
 	transition: background-color ease-in-out 200ms;
+	padding-bottom: 5px;
 
 	&.active {
 		color: var(--primary);
@@ -23,8 +24,9 @@
 }
 
 .title {
-	margin-left: 4px;
 	padding: 8px;
+	display: flex;
+	align-items: center;
 }
 
 .icon,

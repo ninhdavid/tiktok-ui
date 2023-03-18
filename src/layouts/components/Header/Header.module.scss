@@ -16,13 +16,24 @@
 	background-color: rgb(18, 18, 18);
 }
 
-.inner {
+.inner,
+.innerSmall {
 	height: 100%;
 	width: var(--default-layout-width);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	padding: 0 var(--default-layout-horizontal-spacer);
+	// padding-right: 24px;
+	& > .logo {
+		display: flex;
+		width: 300px;
+		padding-left: 4px;
+	}
+}
+.innerSmall {
+	min-width: 100vw;
+	width: 100%;
 }
 
 .action {
@@ -45,8 +56,8 @@
 .more-btn {
 	// order: 6;
 	font-size: 2rem;
-	margin-left: 15px;
-	padding: 4px 9px;
+	margin-left: 19px;
+	padding: 4px 10px;
 	background-color: transparent;
 	cursor: pointer;
 	color: var(--text-color);

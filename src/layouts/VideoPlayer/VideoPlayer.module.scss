@@ -1,8 +1,18 @@
 .container {
-	padding: 24px 0;
-	margin-left: 16px;
-	margin-right: 16px;
 	position: relative;
+	&:after {
+		content: '';
+		position: absolute;
+		transform: scaleY(0.5);
+		-webkit-transform: scaleY(0.5);
+		-moz-transform: scaleY(0.5);
+		-ms-transform: scaleY(0.5);
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
+		left: 8px;
+		right: 8px;
+		bottom: 0;
+		height: 1px;
+	}
 }
 .wrapper {
 	display: flex;

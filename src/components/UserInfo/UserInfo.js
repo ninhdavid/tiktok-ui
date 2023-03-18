@@ -11,12 +11,12 @@ function UserInfo({ fullName, tick, nickname }) {
 		<>
 			{/* <div className={cx('info')}> */}
 			<p className={cx('name')}>
-				<span>{fullName}</span>
+				<span>{nickname}</span>
 				{tick && (
 					<FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} />
 				)}
 			</p>
-			<span className={cx('username')}>{nickname}</span>
+			<span className={cx('username')}>{fullName}</span>
 			{/* </div> */}
 		</>
 	);
