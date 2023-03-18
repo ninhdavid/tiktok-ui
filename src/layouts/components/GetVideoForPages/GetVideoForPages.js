@@ -60,7 +60,7 @@ function GetVideoForPages({ type }) {
 					}
 				}}
 				itemContent={(index, video) => (
-					<VideoPlayer key={index} video={video} />
+					<VideoPlayer key={video.user.id} video={video} />
 				)}
 				components={{
 					Footer: () => {

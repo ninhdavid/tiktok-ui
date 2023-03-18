@@ -12,10 +12,11 @@
 	display: flex;
 	// justify-content: space-between;
 	width: var(--default-layout-width);
-	padding: 0 var(--default-layout-horizontal-spacer);
-	padding-left: calc(var(--default-layout-horizontal-spacer) * 0.85);
+	// padding: 0 var(--default-layout-horizontal-spacer);
+	padding-left: 8px;
 	width: 100vw;
 }
+
 .sidebar-content {
 	max-width: 240px;
 }
@@ -23,4 +24,5 @@
 	flex: 1;
 	// width: 692px;
 	// max-width: 692px;
+	margin-left: -8px;
 }

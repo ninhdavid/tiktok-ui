@@ -9,7 +9,6 @@ import styles from './VideoPlayer.module.scss';
 import Avatar from '~/components/Avatar';
 import UserInfo from '~/components/UserInfo';
 import { AccountItemLink } from '~/components/AccountItem';
-import Button from '~/components/Button';
 import AccountPreview from '~/components/AccountPreview';
 import VideoContent from './VideoContent';
 import HashTag from '~/components/HashTag';
@@ -63,7 +62,7 @@ function VideoPlayer({ video }) {
 						render={renderPreview}
 						placement="bottom-start"
 					>
-						<span tabIndex="0">
+						<span tabIndex="-1">
 							<AccountItemLink
 								to={`/@${video.user.nickname}`}
 								className={cx('info-section')}
@@ -86,7 +85,7 @@ function VideoPlayer({ video }) {
 							render={renderPreview}
 							placement="bottom-start"
 						>
-							<span tabIndex="0">
+							<span tabIndex="-1">
 								<AccountItemLink
 									to={`/@${video.user.nickname}`}
 									className={cx('user-section')}

@@ -15,6 +15,7 @@ function FullWidthLayout({ children }) {
 			<div className={cx('wrapper')}>
 				<div className={cx('wrapper-content')}>
 					<Header className={'isFullWidth'} />
+
 					<div className={cx('container')}>
 						<div className={cx('sidebar-content')}>
 							<Sidebar />
