@@ -9,7 +9,7 @@ function Avatar({ className, src, alt, ...props }) {
 
 Avatar.propTypes = {
 	className: PropTypes.string,
-	src: PropTypes.string.isRequired,
+	src: PropTypes.string,
 	alt: PropTypes.string,
 };
 

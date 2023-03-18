@@ -7,6 +7,7 @@ function Menu({ children, className }) {
 
 Menu.propTypes = {
 	children: PropTypes.node.isRequired,
+	className: PropTypes.string.isRequired,
 };
 
 export default Menu;

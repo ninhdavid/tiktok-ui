@@ -28,7 +28,7 @@ function AccountItem({ data }) {
 				</p>
 				<span className={cx('username')}>{data.nickname}</span> */}
 				<UserInfo
-					fullname={data.full_name}
+					fullName={`${data.first_name}  ${data.last_name}`}
 					tick={data.tick}
 					nickname={data.nickname}
 				/>

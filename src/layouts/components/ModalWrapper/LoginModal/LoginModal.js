@@ -4,8 +4,10 @@ import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './LoginModal.module.scss';
-import { ModalBodyNameContext } from '../../Header/Header';
+// import { ModalBodyNameContext } from '../../Header/Header';
+
 import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { ModalBodyNameContext } from '../Modal';
 
 const cx = classNames.bind(styles);
 

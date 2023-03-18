@@ -1,15 +1,11 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faAngleLeft,
-	faClose,
-	faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './ModalWrapper.module.scss';
-import { ModalBodyNameContext } from '../Header/Header';
+import { ModalBodyNameContext } from './Modal';
 
 const cx = classNames.bind(styles);
 
@@ -106,6 +102,9 @@ function ModalWrapper({ children, onClose }) {
 	);
 }
 
-ModalWrapper.propTypes = {};
+ModalWrapper.propTypes = {
+	children: PropTypes.node.isRequired,
+	onClose: PropTypes.func.isRequired,
+};
 
 export default ModalWrapper;

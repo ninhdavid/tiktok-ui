@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
@@ -14,7 +14,7 @@ const cx = classNames.bind(styles);
 function AccountPreview({ data }) {
 	const [isFollowed, setIsFollowed] = useState(false);
 	const { authUser } = useContext(AuthUserContext);
-	const [followedUser, unFollowedUser, isFollow] = useFollowAnUser();
+	const [followedUser, unFollowedUser] = useFollowAnUser();
 	const handleToggleFollow = () => {
 		if (isFollowed) {
 			unFollowedUser(data.id, authUser.meta.token);
@@ -24,7 +24,13 @@ function AccountPreview({ data }) {
 			setIsFollowed(true);
 		}
 	};
-
+	useEffect(() => {
+		if (data.is_followed) {
+			setIsFollowed(true);
+		} else {
+			setIsFollowed(false);
+		}
+	}, [data.is_followed]);
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
@@ -34,9 +40,6 @@ function AccountPreview({ data }) {
 					alt={data.nickname}
 				/>
 
-				{/* <Button className={cx('follow-btn')} primary>
-					Follow
-				</Button> */}
 				{isFollowed ? (
 					<Button
 						className={cx('follow-btn')}
@@ -58,7 +61,6 @@ function AccountPreview({ data }) {
 			<div className={cx('content')}>
 				<p className={cx('nickname')}>
 					<strong>{data.nickname}</strong>
-					{/* <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} /> */}
 					{data.tick && (
 						<span className={cx('check-icon')}>{<CheckActiveIcon />}</span>
 					)}
@@ -80,7 +82,7 @@ function AccountPreview({ data }) {
 }
 
 AccountPreview.propTypes = {
-	data: PropTypes.object.isRequired,
+	data: PropTypes.object,
 };
 
 export default AccountPreview;

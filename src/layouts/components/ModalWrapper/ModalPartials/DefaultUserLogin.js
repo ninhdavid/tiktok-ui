@@ -1,27 +1,19 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './ModalPartials.module.scss';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { ModalBodyNameContext } from '../../Header/Header';
 import { useLoginAuth } from '~/hooks';
 import { AuthUserContext } from '~/App';
 
 const cx = classNames.bind(styles);
 
 function DefaultUserLogin({ onClose }) {
-	const value = useContext(ModalBodyNameContext);
-	const [loginUser, isLoggedIn] = useLoginAuth();
+	const [loginUser] = useLoginAuth();
 	const [username, setUsername] = useState('defaulttester01@gmail.com');
 	const [password, setPassword] = useState('123456');
-	const { authUser, setAuthUser } = useContext(AuthUserContext);
+	const { setAuthUser } = useContext(AuthUserContext);
 
-	const handleLoginEmail = (e, tag) => {
-		e.preventDefault();
-		value.handleModalBodyName(tag);
-	};
 	function handleSubmit(e) {
 		e.preventDefault();
 		loginUser(username, password, setAuthUser);
@@ -37,6 +29,7 @@ function DefaultUserLogin({ onClose }) {
 					<div className={cx('login-form')}>
 						<div className={cx('header')}>
 							<span>Email or username</span>
+							<span></span>
 						</div>
 						<div className={cx('input-section')}>
 							<div className={cx('input-content')}>
@@ -73,6 +66,6 @@ function DefaultUserLogin({ onClose }) {
 	);
 }
 
-DefaultUserLogin.propTypes = {};
+DefaultUserLogin.propTypes = { onClose: PropTypes.func };
 
 export default DefaultUserLogin;

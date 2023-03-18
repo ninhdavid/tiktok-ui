@@ -57,7 +57,7 @@ function Search() {
 	};
 
 	return (
-		<div>
+		<div className={cx('wrapper')}>
 			{/* <div> disable tippy error */}
 			<HeadlessTippy
 				interactive={true}

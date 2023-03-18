@@ -53,3 +53,16 @@ export const unFollowAnUser = async (userId, accessToken) => {
 		console.log(error);
 	}
 };
+
+export const getUserProfile = async (userNickname, accessToken) => {
+	try {
+		const res = await httpRequest.get(`users/${userNickname}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
+		return res.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

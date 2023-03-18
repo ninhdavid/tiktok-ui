@@ -1,4 +1,6 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+
 import classNames from 'classnames/bind';
 import config from '~/config';
 import styles from './Sidebar.module.scss';
@@ -17,6 +19,9 @@ import { AuthUserContext } from '~/App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 import HashTag from '~/components/HashTag';
+import Button from '~/components/Button';
+import { Modal } from '../ModalWrapper';
+import { useStylesByElementWidth } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
@@ -26,16 +31,24 @@ const PER_PAGE = 5;
 function Sidebar() {
 	const { authUser } = useContext(AuthUserContext);
 
+	const sectionRef = useRef(null);
+	const isSmall = useStylesByElementWidth(sectionRef, 240);
+
 	const [suggestPerPage, setSuggestPerPage] = useState(PER_PAGE);
 	const [suggestUsers, setSuggestUsers] = useState([]);
 	const [followPerPage, setFollowPerPage] = useState(INIT_PAGE);
 	const [followUsers, setFollowUser] = useState([]);
+	const [showSuggestedAccounts, setShowSuggestedAccounts] = useState(true);
+
+	const [isShowModal, setIsShowModal] = useState(false);
+	const [modalBodyName, setModalBodyName] = useState('login');
 
 	const accessToken =
 		authUser && authUser.meta.token ? authUser.meta.token : '';
 
 	const [initialSuggestedUsers, setInitialSuggestedUsers] = useState([]);
 	const [initialFollowedUsers, setInitialFollowedUsers] = useState([]);
+	const location = useLocation();
 
 	// Get suggested users
 	useEffect(() => {
@@ -101,6 +114,21 @@ function Sidebar() {
 			setFollowPerPage((prevPage) => prevPage + 1);
 		}
 	}
+
+	const handleMenuItemClick = (route) => {
+		if (route === config.routes.following && !authUser) {
+			setShowSuggestedAccounts(false);
+		} else {
+			setShowSuggestedAccounts(true);
+		}
+	};
+	useEffect(() => {
+		if (location.pathname === config.routes.following && !authUser) {
+			setShowSuggestedAccounts(false);
+		} else {
+			setShowSuggestedAccounts(true);
+		}
+	}, [location.pathname, authUser]);
 	const introduce = [
 		{
 			tagName: 'About',
@@ -193,6 +221,28 @@ function Sidebar() {
 		));
 	}
 
+	function renderBtnLogin() {
+		return (
+			<div className={cx('login-section')}>
+				<p>
+					<span>
+						Log in to follow creators, like videos, and view comments.
+					</span>
+				</p>
+				<Button
+					className={cx('login-btn')}
+					outline
+					onClick={(e) => {
+						e.preventDefault();
+						setIsShowModal(true);
+					}}
+				>
+					Log in
+				</Button>
+			</div>
+		);
+	}
+
 	return (
 		<aside className={cx('wrapper')}>
 			<Menu className={cx('menu')}>
@@ -201,29 +251,45 @@ function Sidebar() {
 					to={config.routes.home}
 					icon={<HomeIcon />}
 					activeIcon={<HomeIconActive />}
+					onClick={() => handleMenuItemClick(config.routes.home)}
 				/>
 				<MenuItem
 					title="Following"
 					to={config.routes.following}
 					icon={<FollowedUsersIcon />}
 					activeIcon={<FollowedUsersActiveIcon />}
+					onClick={() => handleMenuItemClick(config.routes.following)}
 				/>
 				<MenuItem
 					title="LIVE"
 					to={config.routes.live}
 					icon={<LiveIcon />}
 					activeIcon={<LiveActiveIcon />}
+					onClick={() => handleMenuItemClick(config.routes.live)}
 				/>
-			</Menu>
-			<SuggestedAccounts
-				className={cx('suggestedAccounts')}
-				label="Suggested Accounts"
-				// moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
-				data={suggestUsers}
-				moreFunc={moreSuggestUsers}
-				initialData={initialSuggestedUsers}
-			/>
 
+				{!accessToken && renderBtnLogin()}
+			</Menu>
+
+			{isShowModal && (
+				<Modal
+					onClose={() => {
+						setIsShowModal(false);
+						setModalBodyName('');
+					}}
+				/>
+			)}
+
+			{showSuggestedAccounts && (
+				<SuggestedAccounts
+					className={cx('suggestedAccounts')}
+					label="Suggested Accounts"
+					// moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
+					data={suggestUsers}
+					moreFunc={moreSuggestUsers}
+					initialData={initialSuggestedUsers}
+				/>
+			)}
 			{accessToken && (
 				<SuggestedAccounts
 					className={cx('followedAccounts')}
@@ -247,7 +313,10 @@ function Sidebar() {
 							Testing hashtag
 						</HashTag>
 					</div>
-					<div className={cx('music')}>
+					<div
+						ref={sectionRef}
+						className={!isSmall ? cx('music') : cx('small-section')}
+					>
 						<HashTag primary rounded tag="music" className={cx('icon')}>
 							Testing
 						</HashTag>

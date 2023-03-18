@@ -1,21 +1,14 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './ModalPartials.module.scss';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { ModalBodyNameContext } from '../../Header/Header';
-import { AuthUserContext } from '~/App';
-import { useLoginAuth } from '~/hooks';
-import { Password } from '@mui/icons-material';
-import { signup } from '~/services/AuthService';
 import useSignupAuth from '~/hooks/useSignupAuth';
+import { ModalBodyNameContext } from '../Modal';
 const cx = classNames.bind(styles);
 
-function SignUpWithEmailAndPassword({ onClose }) {
+function SignUpWithEmailAndPassword() {
 	const value = useContext(ModalBodyNameContext);
-	const { AuthUser, setAuthUser } = useContext(AuthUserContext);
 	const [signupUser] = useSignupAuth();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');

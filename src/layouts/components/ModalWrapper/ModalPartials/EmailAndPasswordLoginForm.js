@@ -1,11 +1,9 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './ModalPartials.module.scss';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { ModalBodyNameContext } from '../../Header/Header';
+import { ModalBodyNameContext } from '../Modal';
 import { useLoginAuth } from '~/hooks';
 import { AuthUserContext } from '~/App';
 
@@ -17,7 +15,7 @@ function EmailAndPasswordLoginForm({ onClose }) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
-	const { authUser, setAuthUser } = useContext(AuthUserContext);
+	const { setAuthUser } = useContext(AuthUserContext);
 
 	function handleSubmit(e) {
 		e.preventDefault();
@@ -84,6 +82,6 @@ function EmailAndPasswordLoginForm({ onClose }) {
 	);
 }
 
-EmailAndPasswordLoginForm.propTypes = {};
+EmailAndPasswordLoginForm.propTypes = { onClose: PropTypes.func };
 
 export default EmailAndPasswordLoginForm;

@@ -1,0 +1,217 @@
+.wrapper {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	margin: 0px auto;
+	padding: 32px 24px;
+	box-sizing: content-box;
+	min-height: calc(100vh - 59px);
+}
+
+.wrapper-content {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.user-section {
+	position: relative;
+	flex: 0 0 auto;
+	margin-bottom: 20px;
+	box-sizing: border-box;
+	max-width: 624px;
+	padding-right: 92px;
+}
+.user-info {
+	display: flex;
+	flex-direction: row;
+	-webkit-box-align: center;
+	align-items: center;
+}
+.avatar {
+	width: 116px;
+	height: 116px;
+	object-fit: cover;
+	border-radius: 999px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.info-section {
+	flex: 1 1 0%;
+	cursor: pointer;
+	overflow: visible;
+	margin-left: 20px;
+}
+.nickname {
+	font-weight: 700;
+	font-size: 32px;
+	line-height: 38px;
+	margin-bottom: 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-align: left;
+	word-break: break-word;
+}
+.fullName {
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 25px;
+	text-overflow: ellipsis;
+	height: 25px;
+	overflow: hidden;
+	max-width: 450px;
+	white-space: nowrap;
+	display: flex;
+	align-items: flex-end;
+}
+.btn-follow {
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 25px;
+	position: relative;
+	width: 208px;
+	height: 36px;
+	padding: 0px;
+	margin: 16px 0px 0px;
+}
+.engagement {
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	margin-top: 22px;
+	// color: rgba(18, 18, 18, 0.75);
+}
+
+.follow-count {
+	color: rgba(255, 255, 255, 0.9);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 25px;
+	display: flex;
+	direction: ltr;
+	-webkit-box-align: baseline;
+	align-items: baseline;
+	&:not(:last-child) {
+		margin-right: 20px;
+	}
+	& span {
+		color: rgba(255, 255, 255, 0.75);
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 22px;
+		display: inline-block;
+		margin-left: 6px;
+	}
+}
+
+.bio {
+	text-align: left;
+	color: rgba(255, 255, 255, 0.9);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 22px;
+	white-space: pre-line;
+	margin-top: 10px;
+}
+
+// video section
+
+.video-section {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	-webkit-box-pack: start;
+	justify-content: flex-start;
+	min-height: 490px;
+	align-items: flex-start;
+	min-width: 520px;
+	position: relative;
+}
+.navigate-section {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	-webkit-box-align: stretch;
+	align-items: stretch;
+	justify-content: stretch;
+	width: 460px;
+	height: 44px;
+	margin-bottom: 8px;
+}
+.liked-tab,
+.videos-tab {
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 25px;
+	position: relative;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	flex: 1 1 0%;
+	height: 44px;
+	cursor: pointer;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.5);
+}
+.liked-tab:after,
+.videos-tab:after {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	content: '';
+	width: 100%;
+	height: 1px;
+	background-color: rgba(255, 255, 255, 0.12);
+	transform: scaleY(0.5);
+}
+.videos-tab:hover,
+.liked-tab:hover {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.block {
+	position: absolute;
+	width: 50%;
+	height: 2px;
+	background: rgba(255, 255, 255, 0.9);
+	left: 0;
+	bottom: 0;
+	-webkit-transition: -webkit-transform 0.3s;
+	transition: transform 0.3s;
+	transform: translateX(var(--block-transform));
+}
+.videos-tab:hover ~ .block {
+	transform: translateX(0);
+}
+.liked-tab:hover ~ .block {
+	transform: translateX(230px);
+}
+@media screen and (min-width: 1872px) {
+	.wrapper {
+		max-width: 1776px;
+	}
+}
+@media screen and (min-width: 1672px) and (max-width: 1871px) {
+	.wrapper {
+		max-width: 1552px;
+	}
+}
+@media screen and (min-width: 1472px) and (max-width: 1671px) {
+	.wrapper {
+		max-width: 1328px;
+	}
+}
+@media screen and (min-width: 1272px) and (max-width: 1471px) {
+	.wrapper {
+		max-width: 1104px;
+	}
+}
+
+@media screen and (min-width: 904px) and (max-width: 1271px) {
+	.wrapper {
+		max-width: 880px;
+	}
+}
