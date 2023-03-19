@@ -6,25 +6,31 @@ import Header from '~/layouts/components/Header/Header';
 import Sidebar from '../components/Sidebar';
 import styles from './FullWidthLayout.module.scss';
 import { FollowAnUserProvider } from '~/hooks/useFollowAnUser';
+import CloneChildrenFullWidth from './CloneChildrenFullWidth';
+import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function FullWidthLayout({ children }) {
+	const match = useParams();
 	return (
-		<FollowAnUserProvider>
-			<div className={cx('wrapper')}>
-				<div className={cx('wrapper-content')}>
-					<Header className={'isFullWidth'} />
+		// <FollowAnUserProvider>
+		<div className={cx('wrapper')}>
+			<div className={cx('wrapper-content')}>
+				<Header className={'isFullWidth'} />
 
-					<div className={cx('container')}>
-						<div className={cx('sidebar-content')}>
-							<Sidebar />
-						</div>
-						<div className={cx('content')}>{children}</div>
+				{/* <div className={cx('sidebar-content')}>
+						<Sidebar />
 					</div>
-				</div>
+					<div className={cx('content')}>{children}</div> */}
+				{match.nickname ? (
+					<CloneChildrenFullWidth children={children} />
+				) : (
+					children
+				)}
 			</div>
-		</FollowAnUserProvider>
+		</div>
+		// </FollowAnUserProvider>
 	);
 }
 FullWidthLayout.propTypes = {

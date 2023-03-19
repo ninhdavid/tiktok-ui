@@ -210,7 +210,7 @@ function Header({ className }) {
 
 	return (
 		<header className={cx('wrapper')}>
-			<div className={!className ? cx('inner') : cx('innerSmall')}>
+			<div className={className ? cx('inner') : cx('innerSmall')}>
 				<Link to={config.routes.home} className={cx('logo')}>
 					<img src={images.logo} alt="Tiktok" />
 				</Link>
@@ -218,7 +218,11 @@ function Header({ className }) {
 				<Search />
 
 				<div className={cx('action')}>
-					<Button leftIcon={<FontAwesomeIcon icon={faPlus} />} text>
+					<Button
+						to={config.routes.upload}
+						leftIcon={<FontAwesomeIcon icon={faPlus} />}
+						text
+					>
 						Upload
 					</Button>
 
