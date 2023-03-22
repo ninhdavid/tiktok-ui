@@ -31,6 +31,7 @@ import Avatar from '~/components/Avatar';
 import Modal from '~/layouts/components/ModalWrapper/Modal';
 import config from '~/config';
 import { useStylesByElementWidth } from '~/hooks';
+import { AccountItemLink } from '~/components/AccountItem';
 
 const cx = classNames.bind(styles);
 
@@ -284,11 +285,13 @@ function Header({ className }) {
 					>
 						{authUser ? (
 							<span>
-								<Avatar
-									className={cx('user-avatar')}
-									src={authUser.data.avatar}
-									alt={authUser.data.nickname}
-								/>
+								<AccountItemLink to={`/@${authUser.data.nickname}`}>
+									<Avatar
+										className={cx('user-avatar')}
+										src={authUser.data.avatar}
+										alt={authUser.data.nickname}
+									/>
+								</AccountItemLink>
 							</span>
 						) : (
 							<button className={cx('more-btn')}>

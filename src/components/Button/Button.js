@@ -15,6 +15,7 @@ function Button({
 	rounded = false,
 	small = false,
 	large = false,
+	border = false,
 	leftIcon,
 	rightIcon,
 	className,
@@ -46,6 +47,7 @@ function Button({
 		disabled,
 		text,
 		textOutline,
+		border,
 		rounded,
 		small,
 		large,
@@ -76,5 +78,6 @@ Button.propTypes = {
 	className: PropTypes.string,
 	children: PropTypes.node.isRequired,
 	onClick: PropTypes.func,
+	border: PropTypes.bool,
 };
 export default Button;

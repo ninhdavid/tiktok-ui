@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
@@ -11,6 +11,10 @@ import {
 	faM,
 } from '@fortawesome/free-solid-svg-icons';
 import { useDebounce } from '~/hooks';
+import ToastModal from './ToastModal';
+import useUploadFile from '~/hooks/useUploadFile';
+import { AuthUserContext } from '~/App';
+import Loader from './ToastModal/Loader';
 
 const cx = classNames.bind(styles);
 
@@ -23,12 +27,20 @@ function Upload() {
 		viewable: 'public',
 		allows: ['comment', 'duet', 'stitch'],
 	};
+
 	const [state, setState] = useState(initialState);
 	useEffect(() => {
 		document.body.style.backgroundColor = 'white';
 
 		return () => (document.body.style.backgroundColor = 'rgb(18, 18, 18)');
 	}, []);
+
+	const { authUser } = useContext(AuthUserContext);
+	const accessToken =
+		authUser && authUser.meta.token ? authUser.meta.token : '';
+
+	const [uploadFile, isLoading] = useUploadFile();
+	const [isModal, setIsModal] = useState(false);
 
 	const [rows, setRows] = useState(1);
 	const [textValue, setTextValue] = useState(initialState.description);
@@ -49,6 +61,7 @@ function Upload() {
 	const formRef = useRef(null);
 	const [videoUrl, setVideoUrl] = useState(null);
 	const [thumbnails, setThumbnails] = useState([]);
+	const [isFormValid, setIsFormValid] = useState(false);
 
 	const handleFileUpload = (e) => {
 		const file = e.target.files[0];
@@ -70,6 +83,7 @@ function Upload() {
 			setVideoSrc(videoUrl);
 			generateThumbnails(file);
 			setIsVideo(true);
+			setState((prevState) => ({ ...prevState, upload_file: file }));
 		};
 
 		fileReader.readAsDataURL(file);
@@ -131,10 +145,10 @@ function Upload() {
 	}, [debouncedTextValue]);
 
 	const handleToggleSwitch = () => {
-		if (!isToggle) {
-			setIsToggle(true);
-		} else {
+		if (isToggle) {
 			setIsToggle(false);
+		} else {
+			setIsToggle(true);
 		}
 	};
 	const handleSelectChange = (e) => {
@@ -161,263 +175,329 @@ function Upload() {
 		setState((prevState) => ({ ...prevState, thumbnail_time: time }));
 	};
 
+	const handleIsShowModal = () => {
+		if (!isModal) {
+			setIsModal(true);
+		} else {
+			setIsModal(false);
+		}
+	};
 	const handleDiscard = () => {
+		setIsModal(false);
 		setState(initialState);
 		setIsVideo(false);
-		formRef.current.reset();
+		setCheckboxValue(initialState.allows);
+		setSelectValue(initialState.selectValue);
 		setThumbnails([]);
+		setIsToggle(false);
+		// formRef.current.reset();
 	};
+
+	useEffect(() => {
+		setIsFormValid(Object.values(state).every((value) => value !== ''));
+	}, [state]);
 	console.log(state);
+	const handleSubmit = (e) => {
+		if (!isFormValid) {
+			e.preventDefault();
+			console.log(state);
+			console.log('Please fill in all fields');
+		} else {
+			console.log('submit');
+			console.log(state);
+			uploadFile(state, accessToken);
+		}
+	};
+
 	return (
-		<div className={cx('wrapper')}>
-			<div className={cx('container')}>
-				<form className={cx('body-section')} ref={formRef}>
-					<div className={cx('title-section')}>
-						<p>
-							<span>Upload video</span>
-						</p>
-						<p>
-							<span>Post a video to your account</span>
-						</p>
-					</div>
-					<div className={cx('content-section')}>
-						<div className={cx('uploader-section')}>
-							<div className={cx('upload-content')}>
-								<input
-									type="file"
-									name="inputFile"
-									id="inputFile"
-									onChange={handleFileUpload}
-									ref={inputFileRef}
-									accept="video/mp4,video/webm"
-									style={{ display: 'none' }}
-									className={cx('upload')}
-									defaultValue={videoInitial}
-								/>
-								{isVideo && videoUrl && (
-									<video
-										src={videoUrl}
-										width="400"
-										height="300"
-										muted
-										controls
-									></video>
-								)}
-								<div
-									className={cx('upload-card')}
-									onClick={handleClickUploadFile}
+		<>
+			{!isLoading ? (
+				<>
+					{!isModal ? (
+						<div className={cx('wrapper')}>
+							<div className={cx('container')}>
+								<form
+									className={cx('body-section')}
+									ref={formRef}
+									onSubmit={handleSubmit}
 								>
-									<FontAwesomeIcon
-										icon={faCloudArrowUp}
-										className={cx('cloud-icon')}
-									/>
-									<p>
-										<span>Select video to upload</span>
-									</p>
-									<p>
-										<span>Or drag and drop a file</span>
-									</p>
-									<div className={cx('upload-desc')}>
+									<div className={cx('title-section')}>
 										<p>
-											<span>MP4 or WebM</span>
+											<span>Upload video</span>
 										</p>
 										<p>
-											<span>720x1280 resolution or higher</span>
-										</p>
-										<p>
-											<span>Up to 3 minutes</span>
-										</p>
-										<p>
-											<span>Less than 10 MBs</span>
+											<span>Post a video to your account</span>
 										</p>
 									</div>
-									<div className={cx('upload-btn-section')}>
-										<Button className={cx('file-btn')} primary>
-											Select file
-										</Button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className={cx('form-section')}>
-							<div className={cx('caption-section')}>
-								<div className={cx('caption-content')}>
-									<div className={cx('caption-text')}>
-										<strong>Caption</strong>
-										<p>
-											<span>{textValue.length}</span>
-											<span>/ 200</span>
-										</p>
-									</div>
-									<div className={cx('caption-input')}>
-										<div className={cx('input-content')}>
-											<textarea
-												ref={textInputRef}
-												rows={rows}
-												style={{ minHeight: `${rows * 24}px` }}
-												defaultValue=""
-												onChange={(e) => {
-													handleTextChange(e);
-												}}
-												maxLength={200}
-											/>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className={cx('cover-section')}>
-								<strong>Cover</strong>
-								<div className={cx('cover-content')}>
-									<div className={cx('thumb-section')}>
-										{thumbnails.length > 0 &&
-											thumbnails.slice(1).map((thumbnail, index) => (
+									<div className={cx('content-section')}>
+										<div className={cx('uploader-section')}>
+											<div className={cx('upload-content')}>
+												<input
+													type="file"
+													name="inputFile"
+													id="inputFile"
+													onChange={handleFileUpload}
+													ref={inputFileRef}
+													accept="video/mp4,video/webm"
+													style={{ display: 'none' }}
+													className={cx('upload')}
+													defaultValue={videoInitial}
+												/>
+												{isVideo && videoUrl && (
+													<video
+														src={videoUrl}
+														width="400"
+														height="300"
+														muted
+														controls
+													></video>
+												)}
 												<div
-													className={cx('thumb-content')}
-													key={index}
-													data-time={thumbnailTime[index]}
-													onClick={handleThumbnailClick}
+													className={cx('upload-card')}
+													onClick={handleClickUploadFile}
 												>
-													<img src={thumbnail} alt={thumbnail} />
+													<FontAwesomeIcon
+														icon={faCloudArrowUp}
+														className={cx('cloud-icon')}
+													/>
+													<p>
+														<span>Select video to upload</span>
+													</p>
+													<p>
+														<span>Or drag and drop a file</span>
+													</p>
+													<div className={cx('upload-desc')}>
+														<p>
+															<span>MP4 or WebM</span>
+														</p>
+														<p>
+															<span>720x1280 resolution or higher</span>
+														</p>
+														<p>
+															<span>Up to 3 minutes</span>
+														</p>
+														<p>
+															<span>Less than 10 MBs</span>
+														</p>
+													</div>
+													<div className={cx('upload-btn-section')}>
+														<Button className={cx('file-btn')} primary>
+															Select file
+														</Button>
+													</div>
 												</div>
-											))}
-									</div>
-								</div>
-							</div>
-							<div className={cx('allow-section')}>
-								<p>
-									<strong className={cx('allow-tile')}>
-										Who can watch this video
-									</strong>
-								</p>
-								<div className={cx('allow-select')}>
-									<div className={cx('select-content')}>
-										<select value={selectValue} onChange={handleSelectChange}>
-											<option value="public">Public</option>
-											<option value="friends">Friends</option>
-											<option value="private">Private</option>
-										</select>
-									</div>
-								</div>
-
-								<p>
-									<strong>Allow users to:</strong>
-								</p>
-
-								<div className={cx('checkbox-section')}>
-									<div className={cx('checkbox-content')}>
-										<div className={cx('comment-section')}>
-											<label htmlFor="comment" className={cx('comment-label')}>
-												Comment
-											</label>
-											<input
-												type="checkbox"
-												name="comment"
-												id="comment"
-												// defaultChecked={checkboxValue}
-												checked={checkboxValue.includes('comment')}
-												className={cx('comment-checkbox')}
-												onChange={() => handleCheckboxChange('comment')}
-											></input>
+											</div>
 										</div>
-										<div className={cx('duet-section')}>
-											<label htmlFor="duet" className={cx('duet-label')}>
-												Duet
-											</label>
-											<input
-												type="checkbox"
-												name="duet"
-												id="duet"
-												checked={checkboxValue.includes('duet')}
-												onChange={() => handleCheckboxChange('duet')}
-												className={cx('duet-checkbox')}
-											></input>
-										</div>
-										<div className={cx('stitch-section')}>
-											<label htmlFor="stitch" className={cx('stitch-label')}>
-												Stitch
-											</label>
-											<input
-												type="checkbox"
-												name="stitch"
-												id="stitch"
-												checked={checkboxValue.includes('stitch')}
-												onChange={() => handleCheckboxChange('stitch')}
-												className={cx('stitch-checkbox')}
-											></input>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className={cx('switch-section')}>
-								{/* <div className={cx('switch-content')}> */}
-								<p>
-									<strong>Run a copyright check</strong>
-								</p>
-								<div
-									className={cx('switch-btn-section')}
-									onClick={handleToggleSwitch}
-								>
-									<div
-										className={
-											!isToggle
-												? cx('switch-btn-content-f')
-												: cx('switch-btn-content-t')
-										}
-									>
-										<span
-											className={
-												!isToggle ? cx('switch-btn-f') : cx('switch-btn-t')
-											}
-										></span>
-									</div>
-								</div>
-								{/* </div> */}
-							</div>
-							{!isToggle ? (
-								<div className={cx('copyright-section')}>
-									<span>
-										We'll check your video for potential copyright infringements
-										on used sounds. If infringements are found, you can edit the
-										video before posting.
-									</span>
+										<div className={cx('form-section')}>
+											<div className={cx('caption-section')}>
+												<div className={cx('caption-content')}>
+													<div className={cx('caption-text')}>
+														<strong>Caption</strong>
+														<p>
+															<span>{textValue.length}</span>
+															<span>/ 200</span>
+														</p>
+													</div>
+													<div className={cx('caption-input')}>
+														<div className={cx('input-content')}>
+															<textarea
+																ref={textInputRef}
+																rows={rows}
+																style={{ minHeight: `${rows * 24}px` }}
+																defaultValue=""
+																onChange={(e) => {
+																	handleTextChange(e);
+																}}
+																maxLength={200}
+															/>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className={cx('cover-section')}>
+												<strong>Cover</strong>
+												<div className={cx('cover-content')}>
+													<div className={cx('thumb-section')}>
+														{thumbnails.length > 0 &&
+															thumbnails.slice(1).map((thumbnail, index) => (
+																<div
+																	className={cx('thumb-content')}
+																	key={index}
+																	data-time={thumbnailTime[index]}
+																	onClick={handleThumbnailClick}
+																>
+																	<img src={thumbnail} alt={thumbnail} />
+																</div>
+															))}
+													</div>
+												</div>
+											</div>
+											<div className={cx('allow-section')}>
+												<p>
+													<strong className={cx('allow-tile')}>
+														Who can watch this video
+													</strong>
+												</p>
+												<div className={cx('allow-select')}>
+													<div className={cx('select-content')}>
+														<select
+															value={selectValue}
+															onChange={handleSelectChange}
+														>
+															<option value="public">Public</option>
+															<option value="friends">Friends</option>
+															<option value="private">Private</option>
+														</select>
+													</div>
+												</div>
 
-									<span>
-										<span> Learn more</span>
-									</span>
-								</div>
-							) : (
-								<div className={cx('tooltip-section')}>
-									<FontAwesomeIcon
-										icon={faCircleExclamation}
-										className={cx('warning-icon')}
-									/>
-									<span>
-										{' '}
-										Copyright check will not begin until your video is uploaded.
-									</span>
-								</div>
-							)}
-							<div className={cx('btn-arrow-section')}>
-								<div className={cx('btn-cancel')}>
-									<button
-										type="reset"
-										className={cx('arrow-btn')}
-										onClick={handleDiscard}
-									>
-										<p>Discard</p>
-									</button>
-								</div>
-								<div className={cx('btn-post')}>
-									<button className={cx('arrow-btn-f')}>
-										<p>Post</p>
-									</button>
-								</div>
+												<p>
+													<strong>Allow users to:</strong>
+												</p>
+
+												<div className={cx('checkbox-section')}>
+													<div className={cx('checkbox-content')}>
+														<div className={cx('comment-section')}>
+															<label
+																htmlFor="comment"
+																className={cx('comment-label')}
+															>
+																Comment
+															</label>
+															<input
+																type="checkbox"
+																name="comment"
+																id="comment"
+																// defaultChecked={checkboxValue}
+																checked={checkboxValue.includes('comment')}
+																className={cx('comment-checkbox')}
+																onChange={() => handleCheckboxChange('comment')}
+															></input>
+														</div>
+														<div className={cx('duet-section')}>
+															<label
+																htmlFor="duet"
+																className={cx('duet-label')}
+															>
+																Duet
+															</label>
+															<input
+																type="checkbox"
+																name="duet"
+																id="duet"
+																checked={checkboxValue.includes('duet')}
+																onChange={() => handleCheckboxChange('duet')}
+																className={cx('duet-checkbox')}
+															></input>
+														</div>
+														<div className={cx('stitch-section')}>
+															<label
+																htmlFor="stitch"
+																className={cx('stitch-label')}
+															>
+																Stitch
+															</label>
+															<input
+																type="checkbox"
+																name="stitch"
+																id="stitch"
+																checked={checkboxValue.includes('stitch')}
+																onChange={() => handleCheckboxChange('stitch')}
+																className={cx('stitch-checkbox')}
+															></input>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className={cx('switch-section')}>
+												{/* <div className={cx('switch-content')}> */}
+												<p>
+													<strong>Run a copyright check</strong>
+												</p>
+												<div
+													className={cx('switch-btn-section')}
+													onClick={handleToggleSwitch}
+												>
+													<div
+														className={
+															!isToggle
+																? cx('switch-btn-content-f')
+																: cx('switch-btn-content-t')
+														}
+													>
+														<span
+															className={
+																!isToggle
+																	? cx('switch-btn-f')
+																	: cx('switch-btn-t')
+															}
+														></span>
+													</div>
+												</div>
+												{/* </div> */}
+											</div>
+											{!isToggle ? (
+												<div className={cx('copyright-section')}>
+													<span>
+														We'll check your video for potential copyright
+														infringements on used sounds. If infringements are
+														found, you can edit the video before posting.
+													</span>
+
+													<span>
+														<span> Learn more</span>
+													</span>
+												</div>
+											) : (
+												<div className={cx('tooltip-section')}>
+													<FontAwesomeIcon
+														icon={faCircleExclamation}
+														className={cx('warning-icon')}
+													/>
+													<span>
+														{' '}
+														Copyright check will not begin until your video is
+														uploaded.
+													</span>
+												</div>
+											)}
+											<div className={cx('btn-arrow-section')}>
+												<div className={cx('btn-cancel')}>
+													<button
+														type="reset"
+														className={cx('arrow-btn')}
+														onClick={handleIsShowModal}
+													>
+														<p>Discard</p>
+													</button>
+												</div>
+												<div className={cx('btn-post')}>
+													<button
+														className={cx({
+															'arrow-btn-f': !isFormValid,
+															'arrow-btn-t': isFormValid,
+														})}
+													>
+														<p>Post</p>
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
-					</div>
-				</form>
-			</div>
-		</div>
+					) : (
+						<ToastModal
+							isShowModal={handleIsShowModal}
+							isDiscard={handleDiscard}
+						/>
+					)}
+				</>
+			) : (
+				<Loader />
+			)}
+		</>
 	);
 }
 

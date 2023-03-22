@@ -18,7 +18,18 @@ export const getVideos = async ({ type, page, accessToken = '' }) => {
 		);
 	}
 };
-
+export const createAndUploadVideo = async (dataUpload, accessToken = '') => {
+	try {
+		return await httpRequest.post('videos', dataUpload, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				Authorization: `Bearer ${accessToken}`,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
 export const likedVideo = async ({ videoId, videoUuid, accessToken = '' }) => {
 	try {
 		return await httpRequest.post(`videos/${videoId}/like`, videoUuid, {
