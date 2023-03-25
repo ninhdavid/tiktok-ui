@@ -1,5 +1,6 @@
 .wrapper-l {
-	max-width: 472px;
+	// max-width: 472px;
+	max-width: 422px;
 	// width: 472px;
 
 	// z-index: 2;
@@ -8,7 +9,8 @@
 	height: 100%;
 }
 .wrapper-s {
-	max-width: 348px;
+	// max-width: 348px;
+	max-width: 328px;
 	// width: 348px;
 
 	// z-index: 2;
@@ -18,17 +20,21 @@
 }
 .simple-l {
 	max-height: calc(100vh - 80px);
-	width: 472px;
-	padding-right: 124px;
+	// width: 472px;
+	width: 422px;
+	padding-right: 70px;
+	// padding-right: 124px;
 }
 .simple-s {
 	max-height: calc(100vh - 80px);
-	width: 348px;
-
-	padding-right: 124px;
+	// width: 348px;
+	width: 328px;
+	// padding-right: 104px;
+	padding-right: 92px;
 }
 .scroll-inner {
 	padding-right: 12px;
+	position: relative;
 }
 
 .followedAccounts,
@@ -67,7 +73,7 @@
 //login button
 .login-section {
 	position: relative;
-	padding: 28px 12px 12px 0;
+	padding: 28px 16px 12px 0;
 	margin: 0;
 	line-height: 2.2rem;
 	& > p > span {

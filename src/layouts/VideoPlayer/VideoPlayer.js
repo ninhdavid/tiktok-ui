@@ -61,8 +61,8 @@ function VideoPlayer({ type, video, setIsShowModal, isShowModal }) {
 					<Tippy
 						interactive
 						disabled={isShowModal}
-						delay={[800, 500]}
-						offset={[-10, 2]}
+						delay={[800, 300]}
+						offset={[-12, 6]}
 						render={renderPreview}
 						placement="bottom-start"
 					>
@@ -87,7 +87,7 @@ function VideoPlayer({ type, video, setIsShowModal, isShowModal }) {
 						<Tippy
 							interactive
 							disabled={isShowModal}
-							delay={[800, 500]}
+							delay={[800, 300]}
 							offset={[-80, 32]}
 							render={renderPreview}
 							placement="bottom-start"
