@@ -29,6 +29,7 @@ function Profile({ isShowModal, setIsShowModal }) {
 	const handleTabClick = (tabName) => {
 		setActiveTab(tabName);
 	};
+	console.log(videosList);
 	useEffect(() => {
 		userService
 			.getUserProfile(nickname, accessToken)

@@ -58,7 +58,7 @@ function App() {
 	return (
 		<AuthUserContext.Provider value={{ authUser, setAuthUser }}>
 			<FollowAnUserProvider>
-				<Router>
+				<Router basename="/tiktok-ui">
 					<div className="App">
 						<ScrollTotop>
 							<Routes>
