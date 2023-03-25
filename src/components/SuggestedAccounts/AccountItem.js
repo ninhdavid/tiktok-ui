@@ -38,8 +38,8 @@ function AccountItem({ data, setIsShowModal, isShowModal }) {
 				disabled={isShowModal}
 				interactive={true}
 				delay={[800, 0]}
-				offset={[-20, 2]}
-				placement="bottom-start"
+				offset={[-20, 0]}
+				placement="bottom"
 				render={renderPreview}
 			>
 				<span tabIndex={-1}>

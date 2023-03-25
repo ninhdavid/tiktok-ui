@@ -428,7 +428,7 @@ export function FollowAnUserProvider({ children }) {
 			.then((res) => {
 				if (res) {
 					setFollowStatus(res.data.is_followed);
-					state(true);
+					setTimeout(() => state(true), 300);
 				} else {
 					console.log('hook: Fail to follow user');
 				}
@@ -444,7 +444,7 @@ export function FollowAnUserProvider({ children }) {
 			.then((res) => {
 				if (res) {
 					setFollowStatus(res.data.is_followed);
-					state(false);
+					setTimeout(() => state(false), 300);
 				} else {
 					console.log('hook: Fail to unfollow user');
 				}

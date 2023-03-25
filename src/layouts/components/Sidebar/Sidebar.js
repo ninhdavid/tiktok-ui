@@ -257,6 +257,15 @@ function Sidebar({ small, setIsShowModal, isShowModal }) {
 		e.preventDefault();
 		setIsShowModal(true);
 	};
+	useEffect(() => {
+		const track = document.querySelector('.simplebar-track.simplebar-vertical');
+		if (track) {
+			track.style.transform = small
+				? 'translate(-102px, -16px)'
+				: 'translate(-80px, -16px)';
+		}
+	}, [small]);
+
 	return (
 		<>
 			{/* {isShowModal && (

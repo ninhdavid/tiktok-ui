@@ -20,7 +20,7 @@ function DefaultLayout({ children }) {
 		// <FollowAnUserProvider>
 		<div className={cx('wrapper')}>
 			<div className={'wrapper-content'}>
-				<Header />
+				<Header style={{ zIndex: 2 }} />
 				<div className={cx('container')}>
 					<div className={cx('sidebar')}>
 						{/* <div className={cx('sidebar-none')}></div> */}

@@ -16,7 +16,7 @@ function useUploadFile() {
 				if (data) {
 					// alert(dataFile + ' has been successfully uploaded');
 					// console.log(data);
-					navigate(`/@${authUser.data.nickname}`);
+					setTimeout(() => navigate(`/@${authUser.data.nickname}`), 300);
 				} else {
 					setError(error);
 				}
