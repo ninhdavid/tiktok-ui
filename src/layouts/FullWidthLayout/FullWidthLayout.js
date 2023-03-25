@@ -1,4 +1,10 @@
-import { useState, useEffect, useContext, createContext, useRef } from 'react';
+import React, {
+	useState,
+	useEffect,
+	useContext,
+	createContext,
+	useRef,
+} from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
@@ -13,6 +19,8 @@ const cx = classNames.bind(styles);
 
 function FullWidthLayout({ children }) {
 	const match = useParams();
+	const [isShowModal, setIsShowModal] = useState(false);
+
 	return (
 		// <FollowAnUserProvider>
 		<div className={cx('wrapper')}>
@@ -24,7 +32,11 @@ function FullWidthLayout({ children }) {
 					</div>
 					<div className={cx('content')}>{children}</div> */}
 				{match.nickname ? (
-					<CloneChildrenFullWidth children={children} />
+					<CloneChildrenFullWidth
+						children={children}
+						isShowModal={isShowModal}
+						setIsShowModal={setIsShowModal}
+					/>
 				) : (
 					children
 				)}

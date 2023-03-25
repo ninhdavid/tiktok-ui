@@ -1,19 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
 import styles from './UserProfile.module.scss';
 import Button from '~/components/Button';
-import { useFollowAnUser } from '~/hooks';
-import { checkboxClasses } from '@mui/material';
 const cx = classNames.bind(styles);
 
-function ButtonComponent({ onClick, data, className }) {
-	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
-
+function ButtonComponent({ onClick, data, className, accessToken }) {
 	return (
 		<>
-			{data.is_followed ? (
+			{data.is_followed && accessToken !== '' ? (
 				<Button large textOutline className={cx(className)} onClick={onClick}>
 					Following
 				</Button>
@@ -30,6 +26,7 @@ ButtonComponent.propTypes = {
 	onClick: PropTypes.func.isRequired,
 	data: PropTypes.any.isRequired,
 	className: PropTypes.string,
+	accessToken: PropTypes.string,
 };
 
 export default ButtonComponent;

@@ -55,7 +55,10 @@
 		"babel-plugin-module-resolver": "^5.0.0",
 		"customize-cra": "^1.0.0",
 		"react-app-rewired": "^2.2.1",
+		"react-perfect-scrollbar": "^1.5.8",
 		"react-virtuoso": "^4.1.0",
-		"sass": "^1.57.1"
+		"sass": "^1.57.1",
+		"simplebar-react": "^3.2.2",
+		"tippy.js": "^6.3.7"
 	}
 }

@@ -41,11 +41,13 @@ function ToastModal({ isDiscard, isShowModal }) {
 					</div>
 				</div>
 			</div>
-			;
 		</div>
 	);
 }
 
-ToastModal.propTypes = {};
+ToastModal.propTypes = {
+	isDiscard: PropTypes.func,
+	isShowModal: PropTypes.func,
+};
 
 export default ToastModal;

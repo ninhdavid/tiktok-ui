@@ -10,24 +10,37 @@ import { AuthUserContext } from '~/App';
 import { useFollowAnUser } from '~/hooks/useFollowAnUser';
 import ButtonComponent from '~/components/ButtonFollow';
 import { AccountItemLink } from '../AccountItem';
+import ButtonFollow from '~/components/ButtonFollow';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview({ data, isFollowedUser, onClick }) {
+function AccountPreview({
+	data,
+	isFollowedUser,
+	onClick,
+	primary,
+	setIsShowModal,
+	setShowBtnFollow,
+}) {
 	const { authUser } = useContext(AuthUserContext);
 	const [showFollow, setShowFollow] = useState(false);
-	// const [isFollowed, setIsFollowed] = useState(false);
-	// const [isFollowed, followedUser, unFollowedUser] = useFollowAnUser(
-	// 	data.is_followed
-	// );
-	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
+
+	const { isFollowed, setIsFollowed, followedUser, unFollowedUser } =
+		useFollowAnUser();
 	const accessToken =
 		authUser && authUser.meta.token ? authUser.meta.token : '';
 	const handleToggleFollow = () => {
-		if (isFollowed) {
-			unFollowedUser(data.id, accessToken);
-		} else {
-			followedUser(data.id, accessToken);
+		if (accessToken === '') {
+			setIsShowModal(true);
+		}
+		if (isFollowed && accessToken !== '') {
+			unFollowedUser(data.id, accessToken, setShowFollow);
+			setIsFollowed(false);
+			typeof setShowBtnFollow === 'function' && setShowBtnFollow(false);
+		} else if (!isFollowed && accessToken !== '') {
+			followedUser(data.id, accessToken, setShowFollow);
+			setIsFollowed(true);
+			typeof setShowBtnFollow === 'function' && setShowBtnFollow(true);
 		}
 	};
 
@@ -61,10 +74,12 @@ function AccountPreview({ data, isFollowedUser, onClick }) {
 						alt={data.nickname}
 					/>
 				</AccountItemLink>
-				<ButtonComponent
+				<ButtonFollow
 					data={data}
-					onClick={handleToggleFollow}
+					onClick={onClick ? onClick : handleToggleFollow}
+					// onClick={handleToggleFollow}
 					className="preview-follow-btn"
+					primary={primary}
 				/>
 			</header>
 			<div className={cx('content')}>

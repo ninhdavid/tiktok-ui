@@ -40,6 +40,7 @@
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
+	z-index: 5;
 }
 .info-section {
 	flex: 1 1 0%;
@@ -240,6 +241,23 @@
 	margin-bottom: 24px;
 	color: #5a5a5a;
 	filter: opacity(0.35);
+}
+
+.icon {
+	animation: spin 2s linear infinite;
+	position: absolute;
+	top: 10%;
+	right: 50%;
+	color: #fff;
+	font-size: 2.4rem;
+}
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 @media screen and (min-width: 1872px) {

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,13 +6,32 @@ import { faAngleLeft, faClose } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './ModalWrapper.module.scss';
 import { ModalBodyNameContext } from './Modal';
+import { useLoginAuth, useSignupAuth } from '~/hooks';
 
 const cx = classNames.bind(styles);
 
 function ModalWrapper({ children, onClose }) {
 	const value = useContext(ModalBodyNameContext);
-	const [isSignUp, setIsSignup] = useState(false);
+	const [isSignUp, setIsSignup] = useState(false); //btn onchange login || signup
+	const [isToastLogin, setToastLogin] = useState(false);
+	const [isToastSignup, setIsToastSignup] = useState(false);
 
+	useEffect(() => {
+		if (isToastLogin) {
+			const timeout = setTimeout(() => {
+				setToastLogin(false);
+			}, 1500);
+			return clearTimeout(timeout);
+		}
+	}, [isToastLogin]);
+	useEffect(() => {
+		if (isToastLogin) {
+			const timeout = setTimeout(() => {
+				setIsToastSignup(false);
+			}, 1500);
+			return clearTimeout(timeout);
+		}
+	}, [isToastSignup]);
 	function handleNavigateBack(e) {
 		e.preventDefault();
 		value.handleModalBodyName(value.navigateBack);
@@ -21,15 +40,19 @@ function ModalWrapper({ children, onClose }) {
 		e.preventDefault();
 		if (!isSignUp) {
 			value.handleModalBodyName('signup');
-			setIsSignup(true);
+			// setIsSignup(true);
 		} else {
 			value.handleModalBodyName('login');
-			setIsSignup(false);
+			// setIsSignup(false);
 		}
 	}
 	const childrenWithProps = React.Children.map(children, (child) => {
 		if (React.isValidElement(child)) {
-			return React.cloneElement(child, { onClose: onClose });
+			return React.cloneElement(child, {
+				onClose: onClose,
+				setToastLogin: setToastLogin,
+				setIsToastSignup: setIsToastSignup,
+			});
 		}
 		return child;
 	});
@@ -98,6 +121,16 @@ function ModalWrapper({ children, onClose }) {
 					</div>
 				</div>
 			</div>
+			{isToastLogin && (
+				<div className={cx('toast-modal')}>
+					<p>Login success!</p>
+				</div>
+			)}
+			{isToastSignup && (
+				<div className={cx('toast-modal')}>
+					<p>User name is already registered!</p>
+				</div>
+			)}
 		</div>
 	);
 }

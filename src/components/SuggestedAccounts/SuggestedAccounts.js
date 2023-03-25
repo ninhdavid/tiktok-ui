@@ -15,6 +15,8 @@ function SuggestedAccounts({
 	moreFunc,
 	moreLabel,
 	initialData,
+	setIsShowModal,
+	isShowModal,
 }) {
 	const [isShowAll, setIsShowAll] = useState(false);
 
@@ -27,15 +29,25 @@ function SuggestedAccounts({
 			<p className={cx('label')}>{label}</p>
 			{isShowAll
 				? data.map((account) => (
-						<AccountItemLink key={account.id} to={`/@${account.nickname}`}>
-							<AccountItem data={account} />
-						</AccountItemLink>
+						// <AccountItemLink key={account.id} to={`/@${account.nickname}`}>
+						<AccountItem
+							key={account.id}
+							data={account}
+							setIsShowModal={setIsShowModal}
+							isShowModal={isShowModal}
+						/>
+						// </AccountItemLink>
 				  ))
 				: initialData &&
 				  initialData.slice(0, 5).map((account) => (
-						<AccountItemLink key={account.id} to={`/@${account.nickname}`}>
-							<AccountItem data={account} />
-						</AccountItemLink>
+						// <AccountItemLink key={account.id} to={`/@${account.nickname}`}>
+						<AccountItem
+							key={account.id}
+							data={account}
+							setIsShowModal={setIsShowModal}
+							isShowModal={isShowModal}
+						/>
+						// </AccountItemLink>
 				  ))}
 
 			{(data.length >= 5 || initialData >= 5) && (

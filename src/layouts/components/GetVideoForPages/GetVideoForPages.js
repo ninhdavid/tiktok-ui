@@ -15,7 +15,7 @@ const INIT_PAGE = 1;
 
 const cx = classNames.bind(styles);
 
-function GetVideoForPages({ type }) {
+function GetVideoForPages({ type, setIsShowModal, isShowModal }) {
 	const [videos, setVideos] = useState([]);
 	const [page, setPage] = useState(INIT_PAGE);
 	const [noMoreVideo, setNoMoreVideo] = useState(false);
@@ -60,7 +60,13 @@ function GetVideoForPages({ type }) {
 					}
 				}}
 				itemContent={(index, video) => (
-					<VideoPlayer key={video.user.id} video={video} />
+					<VideoPlayer
+						key={video.user.id}
+						video={video}
+						setIsShowModal={setIsShowModal}
+						isShowModal={isShowModal}
+						type={type}
+					/>
 				)}
 				components={{
 					Footer: () => {

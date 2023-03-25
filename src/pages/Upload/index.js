@@ -18,7 +18,7 @@ import Loader from './ToastModal/Loader';
 
 const cx = classNames.bind(styles);
 
-function Upload() {
+function Upload({ isShowModal }) {
 	const initialState = {
 		description: '',
 		upload_file: '',
@@ -39,7 +39,7 @@ function Upload() {
 	const accessToken =
 		authUser && authUser.meta.token ? authUser.meta.token : '';
 
-	const [uploadFile, isLoading] = useUploadFile();
+	const [uploadFile, isLoading, error] = useUploadFile();
 	const [isModal, setIsModal] = useState(false);
 
 	const [rows, setRows] = useState(1);
@@ -196,15 +196,12 @@ function Upload() {
 	useEffect(() => {
 		setIsFormValid(Object.values(state).every((value) => value !== ''));
 	}, [state]);
-	console.log(state);
+
 	const handleSubmit = (e) => {
 		if (!isFormValid) {
 			e.preventDefault();
-			console.log(state);
 			console.log('Please fill in all fields');
 		} else {
-			console.log('submit');
-			console.log(state);
 			uploadFile(state, accessToken);
 		}
 	};

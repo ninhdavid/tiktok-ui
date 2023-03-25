@@ -49,9 +49,14 @@
 .avatar-section:hover ~ .content-section .header-section .user-section p {
 	text-decoration: underline;
 }
-
+.avatar-section {
+	// width: 56px;
+	// border-radius: 999px;
+}
 .info-section {
-	// display: flex;
+	display: flex;
+	justify-content: center;
+	align-self: center;
 }
 
 .avatar {
@@ -59,7 +64,6 @@
 	height: 56px;
 	border-radius: 50%;
 	object-fit: cover;
-	background-color: #fff;
 }
 
 .follow-btn {

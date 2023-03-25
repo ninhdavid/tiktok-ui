@@ -14,15 +14,19 @@
 	width: var(--default-layout-width);
 	// padding: 0 var(--default-layout-horizontal-spacer);
 	padding-left: 8px;
-	width: 100vw;
+	width: 100%;
 }
 
 .sidebar-content {
-	max-width: 240px;
+	width: 232px;
+	// padding-right: 8px;
+	z-index: 1;
 }
 .content {
 	flex: 1;
 	// width: 692px;
 	// max-width: 692px;
-	margin-left: -8px;
+	margin: 0 3px;
+	position: relative;
+	z-index: -1;
 }

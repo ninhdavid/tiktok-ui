@@ -1,18 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import * as authService from '~/services/AuthService';
 
 function useLoginAuth() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [error, setError] = useState(null);
 
-	function loginUser(username, password, state) {
+	function loginUser(username, password, state, stateToast) {
 		authService
 			.login(username, password)
 			.then((data) => {
 				if (data.meta && data.meta.token) {
 					localStorage.setItem('user', JSON.stringify(data));
 					state(data);
-					setIsLoggedIn(true);
+					setTimeout(() => {
+						stateToast(true);
+					}, 100);
+
+					setTimeout(() => {
+						setIsLoggedIn(true);
+					}, 1400);
 				} else {
 					setError('Username or password is invalid! Please try again');
 				}
@@ -21,7 +27,6 @@ function useLoginAuth() {
 				setError(error.message);
 			});
 	}
-
 	return [loginUser, isLoggedIn, setIsLoggedIn, error];
 }
 

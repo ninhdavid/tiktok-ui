@@ -21,7 +21,7 @@ function VideoSection({ className, src, poster }) {
 	return (
 		<section className={className ? className : cx('video-section')}>
 			<video
-				width={className ? 208 : 280}
+				width={className ? 208 : ''}
 				controls
 				className={className ? cx('video-card--fullWidth') : cx('video-card')}
 				loop

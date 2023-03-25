@@ -10,13 +10,13 @@ import UserInfo from '../UserInfo';
 import AccountItemLink from './AccountItemLink';
 
 const cx = classNames.bind(styles);
-function AccountItem({ data }) {
+function AccountItem({ data, className }) {
 	return (
 		<AccountItemLink to={`/@${data.nickname}`} className={cx('wrapper')}>
 			{/* <Link to={`/@${data.nickname}`} className={cx('wrapper')}> */}
 			{/* <Image className={cx('avatar')} src={data.avatar} alt={data.full_name} /> */}
 			<Avatar className={cx('avatar')} src={data.avatar} alt={data.full_name} />
-			<div className={cx('info')}>
+			<div className={className ? className : cx('info')}>
 				{/* <p className={cx('name')}>
 					<span>{data.full_name}</span>
 					{data.tick && (
