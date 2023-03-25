@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import styles from './SuggestedAccounts.module.scss';
 import AccountItem from './AccountItem';
+import { AccountItemLink } from '../AccountItem';
 
 const cx = classNames.bind(styles);
 
@@ -14,6 +15,8 @@ function SuggestedAccounts({
 	moreFunc,
 	moreLabel,
 	initialData,
+	setIsShowModal,
+	isShowModal,
 }) {
 	const [isShowAll, setIsShowAll] = useState(false);
 
@@ -25,15 +28,27 @@ function SuggestedAccounts({
 		<div className={(cx('wrapper'), ([className] = className))}>
 			<p className={cx('label')}>{label}</p>
 			{isShowAll
-				? data.map((account, index) => (
-						<AccountItem key={index} data={account} />
+				? data.map((account) => (
+						// <AccountItemLink key={account.id} to={`/@${account.nickname}`}>
+						<AccountItem
+							key={account.id}
+							data={account}
+							setIsShowModal={setIsShowModal}
+							isShowModal={isShowModal}
+						/>
+						// </AccountItemLink>
 				  ))
 				: initialData &&
-				  initialData
-						.slice(0, 5)
-						.map((account, index) => (
-							<AccountItem key={index} data={account} />
-						))}
+				  initialData.slice(0, 5).map((account) => (
+						// <AccountItemLink key={account.id} to={`/@${account.nickname}`}>
+						<AccountItem
+							key={account.id}
+							data={account}
+							setIsShowModal={setIsShowModal}
+							isShowModal={isShowModal}
+						/>
+						// </AccountItemLink>
+				  ))}
 
 			{(data.length >= 5 || initialData >= 5) && (
 				<p className={cx('more-btn')} onClick={handleClick}>

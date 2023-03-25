@@ -62,12 +62,17 @@ function Search() {
 			<HeadlessTippy
 				interactive={true}
 				visible={showResult && searchResult.length > 0}
+				offset={[0, 7]}
 				render={(attrs) => (
 					<div className={cx('search-result')} tabIndex="-1" {...attrs}>
 						<PopperWrapper className={cx('result-section')}>
 							<h4 className={cx('search-title')}>Account</h4>
 							{searchResult.map((result) => (
-								<AccountItem key={result.id} data={result} />
+								<AccountItem
+									key={result.id}
+									data={result}
+									className={cx('info-section')}
+								/>
 							))}
 						</PopperWrapper>
 					</div>

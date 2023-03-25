@@ -9,24 +9,38 @@ import Avatar from '~/components/Avatar';
 import { AuthUserContext } from '~/App';
 import { useFollowAnUser } from '~/hooks/useFollowAnUser';
 import ButtonComponent from '~/components/ButtonFollow';
+import { AccountItemLink } from '../AccountItem';
+import ButtonFollow from '~/components/ButtonFollow';
 
 const cx = classNames.bind(styles);
 
-function AccountPreview({ data, isFollowedUser, onClick }) {
+function AccountPreview({
+	data,
+	isFollowedUser,
+	onClick,
+	primary,
+	setIsShowModal,
+	setShowBtnFollow,
+}) {
 	const { authUser } = useContext(AuthUserContext);
 	const [showFollow, setShowFollow] = useState(false);
-	// const [isFollowed, setIsFollowed] = useState(false);
-	// const [isFollowed, followedUser, unFollowedUser] = useFollowAnUser(
-	// 	data.is_followed
-	// );
-	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
+
+	const { isFollowed, setIsFollowed, followedUser, unFollowedUser } =
+		useFollowAnUser();
 	const accessToken =
 		authUser && authUser.meta.token ? authUser.meta.token : '';
 	const handleToggleFollow = () => {
-		if (isFollowed) {
-			unFollowedUser(data.id, accessToken);
-		} else {
-			followedUser(data.id, accessToken);
+		if (accessToken === '') {
+			setIsShowModal(true);
+		}
+		if (isFollowed && accessToken !== '') {
+			unFollowedUser(data.id, accessToken, setShowFollow);
+			setIsFollowed(false);
+			typeof setShowBtnFollow === 'function' && setShowBtnFollow(false);
+		} else if (!isFollowed && accessToken !== '') {
+			followedUser(data.id, accessToken, setShowFollow);
+			setIsFollowed(true);
+			typeof setShowBtnFollow === 'function' && setShowBtnFollow(true);
 		}
 	};
 
@@ -53,26 +67,34 @@ function AccountPreview({ data, isFollowedUser, onClick }) {
 	return (
 		<div className={cx('wrapper')}>
 			<header className={cx('header')}>
-				<Avatar
-					className={cx('avatar')}
-					src={data.avatar}
-					alt={data.nickname}
-				/>
-				<ButtonComponent
+				<AccountItemLink to={`/@${data.nickname}`}>
+					<Avatar
+						className={cx('avatar')}
+						src={data.avatar}
+						alt={data.nickname}
+					/>
+				</AccountItemLink>
+				<ButtonFollow
 					data={data}
-					onClick={handleToggleFollow}
+					onClick={onClick ? onClick : handleToggleFollow}
+					// onClick={handleToggleFollow}
 					className="preview-follow-btn"
+					primary={primary}
 				/>
 			</header>
 			<div className={cx('content')}>
-				<p className={cx('nickname')}>
-					<strong>{data.nickname}</strong>
-					{/* <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} /> */}
-					{data.tick && (
-						<span className={cx('check-icon')}>{<CheckActiveIcon />}</span>
-					)}
-				</p>
-				<p className={cx('name')}>{`${data.first_name} ${data.last_name}`} </p>
+				<AccountItemLink to={`/@${data.nickname}`}>
+					<p className={cx('nickname')}>
+						<strong>{data.nickname}</strong>
+						{/* <FontAwesomeIcon className={cx('check-icon')} icon={faCheckCircle} /> */}
+						{data.tick && (
+							<span className={cx('check-icon')}>{<CheckActiveIcon />}</span>
+						)}
+					</p>
+					<p className={cx('name')}>
+						{`${data.first_name} ${data.last_name}`}{' '}
+					</p>
+				</AccountItemLink>
 				<p className={cx('analytics')}>
 					<span>
 						<strong className={cx('value')}>{data.followers_count} </strong>
@@ -83,9 +105,11 @@ function AccountPreview({ data, isFollowedUser, onClick }) {
 						<span className={cx('label')}>Likes</span>
 					</span>
 				</p>
-				<p className={cx('bio')}>
-					<span>{data.bio}</span>
-				</p>
+				{data.bio && (
+					<p className={cx('bio')}>
+						<span>{data.bio}</span>
+					</p>
+				)}
 			</div>
 		</div>
 	);

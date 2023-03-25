@@ -1,34 +1,32 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
+import PropTypes from 'prop-types';
 
 import styles from './UserProfile.module.scss';
 import Button from '~/components/Button';
-import { useFollowAnUser } from '~/hooks';
 const cx = classNames.bind(styles);
 
-function ButtonComponent({ onClick, data }) {
-	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
-
+function ButtonComponent({ onClick, data, className, accessToken }) {
 	return (
-		<div className={cx('btn-follow')}>
-			{data.is_followed && isFollowed ? (
-				<Button
-					large
-					textOutline
-					className={cx('btn-follow')}
-					onClick={onClick}
-				>
+		<>
+			{data.is_followed && accessToken !== '' ? (
+				<Button large textOutline className={cx(className)} onClick={onClick}>
 					Following
 				</Button>
 			) : (
-				<Button large primary className={cx('btn-follow')} onClick={onClick}>
+				<Button large primary className={cx(className)} onClick={onClick}>
 					Follow
 				</Button>
 			)}
-		</div>
+		</>
 	);
 }
 
-ButtonComponent.propTypes = {};
+ButtonComponent.propTypes = {
+	onClick: PropTypes.func.isRequired,
+	data: PropTypes.any.isRequired,
+	className: PropTypes.string,
+	accessToken: PropTypes.string,
+};
 
 export default ButtonComponent;

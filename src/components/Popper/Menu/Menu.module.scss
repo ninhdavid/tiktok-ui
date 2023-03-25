@@ -1,13 +1,25 @@
 //menu wrapper
 .menu-list {
 	width: 224px;
-
+	position: relative;
 	.menu-item {
 		background-color: transparent;
 		margin-left: 0;
 	}
 }
-
+.menu-list:after {
+	position: absolute;
+	content: '';
+	top: -12px;
+	right: 10px;
+	width: 0;
+	height: 0;
+	border-bottom: 16px solid #252525;
+	border-left: 13px solid transparent;
+	border-right: 13px solid transparent;
+	// border-bottom-color: initial;
+	// transform-origin: center bottom;
+}
 //menu items
 
 .menu-popper {

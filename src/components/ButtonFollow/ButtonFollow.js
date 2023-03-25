@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
@@ -7,16 +7,16 @@ import Button from '~/components/Button';
 import { useFollowAnUser } from '~/hooks/useFollowAnUser';
 
 const cx = classNames.bind(styles);
-function ButtonComponent({ className, data, onClick }) {
-	const { isFollowed, followedUser, unFollowedUser } = useFollowAnUser();
-	const [showData, setShowData] = useState(true);
+function ButtonFollow({ className, data, onClick, primary, large }) {
+	const { isFollowed, setIsFollowed, followedUser, unFollowedUser } =
+		useFollowAnUser();
+
+	const [showData, setShowData] = useState(true); // help isFollowed from parent component
 
 	const handleButtonClick = () => {
-		setShowData(false);
-
 		onClick();
+		setShowData(false);
 	};
-
 	return (
 		<>
 			{showData ? (
@@ -24,7 +24,9 @@ function ButtonComponent({ className, data, onClick }) {
 					<Button
 						className={cx(className)}
 						textOutline
-						small
+						// small
+						// small={!large ? true : false}
+						// large={!large ? false : true}
 						onClick={handleButtonClick}
 					>
 						Following
@@ -32,8 +34,10 @@ function ButtonComponent({ className, data, onClick }) {
 				) : (
 					<Button
 						className={cx(className)}
-						outline
-						small
+						primary={!primary ? false : true}
+						outline={!primary ? true : false}
+						// small={!large ? true : false}
+						// large={!large ? false : true}
 						onClick={handleButtonClick}
 					>
 						Follow
@@ -43,7 +47,8 @@ function ButtonComponent({ className, data, onClick }) {
 				<Button
 					className={cx(className)}
 					textOutline
-					small
+					// small={!large ? true : false}
+					// large={!large ? false : true}
 					onClick={handleButtonClick}
 				>
 					Following
@@ -51,8 +56,10 @@ function ButtonComponent({ className, data, onClick }) {
 			) : (
 				<Button
 					className={cx(className)}
-					outline
-					small
+					primary={!primary ? false : true}
+					outline={!primary ? true : false}
+					// small={!large ? true : false}
+					// large={!large ? false : true}
 					onClick={handleButtonClick}
 				>
 					Follow
@@ -62,9 +69,9 @@ function ButtonComponent({ className, data, onClick }) {
 	);
 }
 
-ButtonComponent.propTypes = {
+ButtonFollow.propTypes = {
 	data: PropTypes.any,
 	onClick: PropTypes.func.isRequired,
 };
 
-export default ButtonComponent;
+export default ButtonFollow;

@@ -422,13 +422,13 @@ export function FollowAnUserProvider({ children }) {
 
 	const [isFollowed, setIsFollowed] = useState(false);
 
-	const followedUser = (userId, accessToken) => {
+	const followedUser = (userId, accessToken, state) => {
 		userService
 			.followAnUser(userId, accessToken)
 			.then((res) => {
 				if (res) {
 					setFollowStatus(res.data.is_followed);
-					console.log('hook: follow  ' + res.data.is_followed);
+					state(true);
 				} else {
 					console.log('hook: Fail to follow user');
 				}
@@ -438,13 +438,13 @@ export function FollowAnUserProvider({ children }) {
 			});
 	};
 
-	const unFollowedUser = (userId, accessToken) => {
+	const unFollowedUser = (userId, accessToken, state) => {
 		userService
 			.unFollowAnUser(userId, accessToken)
 			.then((res) => {
 				if (res) {
-					console.log('hook: unfollow  ' + res.data.is_followed);
 					setFollowStatus(res.data.is_followed);
+					state(false);
 				} else {
 					console.log('hook: Fail to unfollow user');
 				}
@@ -464,7 +464,6 @@ export function FollowAnUserProvider({ children }) {
 		followedUser,
 		unFollowedUser,
 	};
-
 	return (
 		<FollowAnUserContext.Provider value={value}>
 			{children}

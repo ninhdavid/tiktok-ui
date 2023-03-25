@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, useRef, useEffect } from 'react';
 import images from '~/assets/images';
 import styles from './Image.module.scss';
 import PropTypes from 'prop-types';
@@ -17,18 +17,24 @@ const Image = forwardRef(
 	) => {
 		const [fallback, setFallback] = useState('');
 
-		const handleError = () => {
+		const [imageSrc, setImageSrc] = useState(src);
+
+		const handleImageError = () => {
+			setImageSrc(fallback);
 			setFallback(customFallback);
 		};
+		useEffect(() => {
+			setImageSrc(src);
+		}, [src]);
 
 		return (
 			<img
 				className={classNames(styles.wrapper, className)}
 				ref={ref}
-				src={fallback || src}
+				src={imageSrc}
 				alt={alt}
 				{...props}
-				onError={handleError}
+				onError={handleImageError}
 			/>
 		);
 	}

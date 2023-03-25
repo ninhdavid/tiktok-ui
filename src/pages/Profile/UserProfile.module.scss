@@ -28,6 +28,9 @@
 	-webkit-box-align: center;
 	align-items: center;
 }
+.avatar-section {
+	border-radius: 999px;
+}
 .avatar {
 	width: 116px;
 	height: 116px;
@@ -36,6 +39,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	overflow: hidden;
+	z-index: 5;
 }
 .info-section {
 	flex: 1 1 0%;
@@ -75,6 +80,17 @@
 	padding: 0px;
 	margin: 16px 0px 0px;
 }
+.profile-follow-btn {
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 25px;
+	position: relative;
+	width: 208px;
+	height: 36px;
+	padding: 0px;
+	margin: 16px 0px 0px;
+}
+
 .engagement {
 	display: flex;
 	-webkit-box-align: center;
@@ -171,7 +187,9 @@
 .liked-tab:hover {
 	color: rgba(255, 255, 255, 0.9);
 }
-
+.lock-navigate {
+	padding-right: 10px;
+}
 .block {
 	position: absolute;
 	width: 50%;
@@ -189,6 +207,59 @@
 .liked-tab:hover ~ .block {
 	transform: translateX(230px);
 }
+.active {
+	color: rgba(255, 255, 255, 0.9);
+}
+//liked-tab section
+
+.liked-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	flex: 1 1 auto;
+	margin: 0 auto;
+	height: 100%;
+	& h1 {
+		font-size: 24px;
+		line-height: 28px;
+		font-weight: 700;
+		color: rgba(255, 255, 255, 0.9);
+		margin-top: 24px;
+	}
+	& h2 {
+		font-size: 16px;
+		line-height: 22px;
+		font-weight: 400;
+		color: rgba(255, 255, 255, 0.75);
+		margin-top: 8px;
+	}
+}
+.lock-likedTab {
+	font-size: 5.6rem;
+	margin-bottom: 24px;
+	color: #5a5a5a;
+	filter: opacity(0.35);
+}
+
+.icon {
+	animation: spin 2s linear infinite;
+	position: absolute;
+	top: 10%;
+	right: 50%;
+	color: #fff;
+	font-size: 2.4rem;
+}
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 @media screen and (min-width: 1872px) {
 	.wrapper {
 		max-width: 1776px;

@@ -12,7 +12,7 @@ function Following() {
 	useEffect(() => {
 		setIsLoggedIn(accessToken !== '');
 	}, [accessToken]);
-	if (!isLoggedIn) {
+	if (!isLoggedIn && accessToken === '') {
 		return <div>Please log in to see videos</div>;
 	}
 	return <div>{accessToken && <GetVideoForPages type="following" />}</div>;

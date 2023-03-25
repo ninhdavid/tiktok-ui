@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+
 import classNames from 'classnames/bind';
 import config from '~/config';
 import styles from './Sidebar.module.scss';
@@ -13,26 +16,30 @@ import {
 	LiveActiveIcon,
 	LiveIcon,
 } from '~/components/Icons';
-import SuggestedAccounts from '~/components/SuggestedAccounts/SuggestedAccounts';
-import * as userService from '~/services/userService';
-import { AuthUserContext } from '~/App';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopyright } from '@fortawesome/free-regular-svg-icons';
+import SimpleBar from 'simplebar-react';
+import 'simplebar-react/dist/simplebar.min.css';
+
+import { AuthUserContext } from '~/App';
+import SuggestedAccounts from '~/components/SuggestedAccounts/SuggestedAccounts';
+import * as userService from '~/services/userService';
 import HashTag from '~/components/HashTag';
 import Button from '~/components/Button';
 import { Modal } from '../ModalWrapper';
 import { useStylesByElementWidth } from '~/hooks';
+import { height } from '@mui/system';
 
 const cx = classNames.bind(styles);
 
 const INIT_PAGE = 1;
 const PER_PAGE = 5;
 
-function Sidebar() {
+function Sidebar({ small, setIsShowModal, isShowModal }) {
 	const { authUser } = useContext(AuthUserContext);
 
 	const sectionRef = useRef(null);
-	const isSmall = useStylesByElementWidth(sectionRef, 240);
+	// const isSmall = useStylesByElementWidth(sectionRef, 332);
 
 	const [suggestPerPage, setSuggestPerPage] = useState(PER_PAGE);
 	const [suggestUsers, setSuggestUsers] = useState([]);
@@ -40,7 +47,7 @@ function Sidebar() {
 	const [followUsers, setFollowUser] = useState([]);
 	const [showSuggestedAccounts, setShowSuggestedAccounts] = useState(true);
 
-	const [isShowModal, setIsShowModal] = useState(false);
+	// const [isShowModal, setIsShowModal] = useState(false);
 	const [modalBodyName, setModalBodyName] = useState('login');
 
 	const accessToken =
@@ -50,6 +57,10 @@ function Sidebar() {
 	const [initialFollowedUsers, setInitialFollowedUsers] = useState([]);
 	const location = useLocation();
 
+	if (isShowModal) {
+		// Disable scroll
+		document.body.style.overflow = 'hidden';
+	}
 	// Get suggested users
 	useEffect(() => {
 		userService
@@ -221,123 +232,181 @@ function Sidebar() {
 		));
 	}
 
-	function renderBtnLogin() {
-		return (
-			<div className={cx('login-section')}>
-				<p>
-					<span>
-						Log in to follow creators, like videos, and view comments.
-					</span>
-				</p>
-				<Button
-					className={cx('login-btn')}
-					outline
-					onClick={(e) => {
-						e.preventDefault();
-						setIsShowModal(true);
-					}}
-				>
-					Log in
-				</Button>
-			</div>
-		);
-	}
-
+	// function renderBtnLogin() {
+	// 	return (
+	// 		<div className={cx('login-section')}>
+	// 			<p>
+	// 				<span>
+	// 					Log in to follow creators, like videos, and view comments.
+	// 				</span>
+	// 			</p>
+	// 			<Button
+	// 				className={cx('login-btn')}
+	// 				outline
+	// 				onClick={(e) => {
+	// 					e.preventDefault();
+	// 					setIsShowModal(true);
+	// 				}}
+	// 			>
+	// 				Log in
+	// 			</Button>
+	// 		</div>
+	// 	);
+	// }
+	const handleLoginBtn = (e) => {
+		e.preventDefault();
+		setIsShowModal(true);
+	};
 	return (
-		<aside className={cx('wrapper')}>
-			<Menu className={cx('menu')}>
-				<MenuItem
-					title="For You"
-					to={config.routes.home}
-					icon={<HomeIcon />}
-					activeIcon={<HomeIconActive />}
-					onClick={() => handleMenuItemClick(config.routes.home)}
-				/>
-				<MenuItem
-					title="Following"
-					to={config.routes.following}
-					icon={<FollowedUsersIcon />}
-					activeIcon={<FollowedUsersActiveIcon />}
-					onClick={() => handleMenuItemClick(config.routes.following)}
-				/>
-				<MenuItem
-					title="LIVE"
-					to={config.routes.live}
-					icon={<LiveIcon />}
-					activeIcon={<LiveActiveIcon />}
-					onClick={() => handleMenuItemClick(config.routes.live)}
-				/>
-
-				{!accessToken && renderBtnLogin()}
-			</Menu>
-
-			{isShowModal && (
+		<>
+			{/* {isShowModal && (
 				<Modal
 					onClose={() => {
 						setIsShowModal(false);
+						document.body.style.overflow = 'auto';
 						setModalBodyName('');
 					}}
 				/>
-			)}
+			)} */}
+			<aside className={!small ? cx('wrapper-l') : cx('wrapper-s')}>
+				{/* <PerfectScrollbar> */}
+				<SimpleBar
+					forceVisible="y"
+					autoHide={false}
+					className={!small ? cx('simple-l') : cx('simple-s')}
+				>
+					<div className={cx('scroll-inner')}>
+						<Menu className={cx('menu')}>
+							<MenuItem
+								title="For You"
+								to={config.routes.home}
+								icon={<HomeIcon />}
+								activeIcon={<HomeIconActive />}
+								onClick={() => handleMenuItemClick(config.routes.home)}
+							/>
+							<MenuItem
+								title="Following"
+								to={config.routes.following}
+								icon={<FollowedUsersIcon />}
+								activeIcon={<FollowedUsersActiveIcon />}
+								onClick={() => handleMenuItemClick(config.routes.following)}
+							/>
+							<MenuItem
+								title="LIVE"
+								to={config.routes.live}
+								icon={<LiveIcon />}
+								activeIcon={<LiveActiveIcon />}
+								onClick={() => handleMenuItemClick(config.routes.live)}
+							/>
 
-			{showSuggestedAccounts && (
-				<SuggestedAccounts
-					className={cx('suggestedAccounts')}
-					label="Suggested Accounts"
-					// moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
-					data={suggestUsers}
-					moreFunc={moreSuggestUsers}
-					initialData={initialSuggestedUsers}
-				/>
-			)}
-			{accessToken && (
-				<SuggestedAccounts
-					className={cx('followedAccounts')}
-					label="Following Accounts"
-					// moreLabel={
-					// 	followUsers.length === PER_PAGE * 6 ||
-					// 	followUsers.length < PER_PAGE * followPerPage
-					// 		? 'See less'
-					// 		: 'See more'
-					// }
-					data={followUsers}
-					moreFunc={moreFollowUsers}
-					initialData={initialFollowedUsers}
-				/>
-			)}
-			<div className={cx('discover-section')}>
-				<p>Discover</p>
-				<section>
-					<div className={cx('hashtag')}>
-						<HashTag primary rounded tag="hashtag" className={cx('icon')}>
-							Testing hashtag
-						</HashTag>
-					</div>
-					<div
-						ref={sectionRef}
-						className={!isSmall ? cx('music') : cx('small-section')}
-					>
-						<HashTag primary rounded tag="music" className={cx('icon')}>
-							Testing
-						</HashTag>
-						<HashTag primary rounded tag="music" className={cx('icon')}>
-							Testing
-						</HashTag>
-					</div>
-				</section>
-			</div>
+							{/* {!accessToken && renderBtnLogin()} */}
+							{!accessToken && (
+								<div className={cx('login-section')}>
+									<p>
+										<span>
+											Log in to follow creators, like videos, and view comments.
+										</span>
+									</p>
+									<Button
+										className={cx('login-btn')}
+										outline
+										onClick={handleLoginBtn}
+									>
+										Log in
+									</Button>
+								</div>
+							)}
+						</Menu>
 
-			<div className={cx('footer-section')}>
-				<div className={cx('footer-content')}>
-					<div className={cx('footer-introduce')}>{renderLink(introduce)}</div>
-					<div className={cx('footer-recommend')}>{renderLink(recommend)}</div>
-					<div className={cx('footer-support')}>{renderLink(support)}</div>
-					<div className={cx('footer-copyright')}>
-						<FontAwesomeIcon icon={faCopyright} /> 2023 TikTok
+						{isShowModal && (
+							<Modal
+								onClose={() => {
+									setIsShowModal(false);
+									document.body.style.overflow = 'auto';
+									setModalBodyName('');
+								}}
+							/>
+						)}
+						{showSuggestedAccounts && (
+							<SuggestedAccounts
+								className={cx('suggestedAccounts')}
+								label="Suggested Accounts"
+								// moreLabel={suggestUsers.length === PER_PAGE ? 'See all' : 'See less'}
+								data={suggestUsers}
+								moreFunc={moreSuggestUsers}
+								initialData={initialSuggestedUsers}
+								setIsShowModal={setIsShowModal}
+								isShowModal={isShowModal}
+							/>
+						)}
+						{accessToken && (
+							<SuggestedAccounts
+								className={cx('followedAccounts')}
+								label="Following Accounts"
+								// moreLabel={
+								// 	followUsers.length === PER_PAGE * 6 ||
+								// 	followUsers.length < PER_PAGE * followPerPage
+								// 		? 'See less'
+								// 		: 'See more'
+								// }
+								data={followUsers}
+								moreFunc={moreFollowUsers}
+								initialData={initialFollowedUsers}
+								setIsShowModal={setIsShowModal}
+								isShowModal={isShowModal}
+							/>
+						)}
+						<div className={cx('discover-section')}>
+							<p>Discover</p>
+							<section>
+								<div
+									ref={sectionRef}
+									className={!small ? cx('music') : cx('small-section')}
+								>
+									<HashTag primary rounded tag="hashtag" className={cx('icon')}>
+										suthatla
+									</HashTag>
+									<HashTag primary rounded tag="hashtag" className={cx('icon')}>
+										sansangthaydoi
+									</HashTag>
+								</div>
+								<div className={cx('hashtag')}>
+									<HashTag primary rounded tag="music" className={cx('icon')}>
+										Yêu đơn phương là gì (MEE Remix) - Mee media & h0n & BHMedia
+									</HashTag>
+								</div>
+								<div
+									ref={sectionRef}
+									className={!small ? cx('music') : cx('small-section')}
+								>
+									<HashTag primary rounded tag="hashtag" className={cx('icon')}>
+										genzlife
+									</HashTag>
+								</div>
+							</section>
+						</div>
+
+						<div className={cx('footer-section')}>
+							<div className={cx('footer-content')}>
+								<div className={cx('footer-introduce')}>
+									{renderLink(introduce)}
+								</div>
+								<div className={cx('footer-recommend')}>
+									{renderLink(recommend)}
+								</div>
+								<div className={cx('footer-support')}>
+									{renderLink(support)}
+								</div>
+								<div className={cx('footer-copyright')}>
+									<FontAwesomeIcon icon={faCopyright} /> 2023 TikTok
+								</div>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-		</aside>
+				</SimpleBar>
+				{/* </PerfectScrollbar> */}
+			</aside>
+		</>
 	);
 }
 

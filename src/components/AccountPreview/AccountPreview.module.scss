@@ -1,6 +1,7 @@
 .wrapper {
 	padding: 20px;
 	width: 320px;
+
 	// background: rgb(18, 18, 18);
 	// background: var(--text-color);
 	// background-color: hsl(0, 0%, 43%);
@@ -31,12 +32,14 @@
 	margin-top: 12px;
 }
 .nickname {
+	cursor: pointer;
 	font-size: 1.8rem;
 }
 .check-icon {
 	margin-left: 5px;
 }
 .name {
+	cursor: pointer;
 	font-size: 1.4rem;
 }
 .analytics {

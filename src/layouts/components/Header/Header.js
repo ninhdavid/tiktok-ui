@@ -17,7 +17,7 @@ import {
 	faPaperPlane,
 	faUser,
 } from '@fortawesome/free-regular-svg-icons';
-import Tippy from '@tippyjs/react/';
+import Tippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
 
 import styles from './Header.module.scss';
@@ -31,6 +31,7 @@ import Avatar from '~/components/Avatar';
 import Modal from '~/layouts/components/ModalWrapper/Modal';
 import config from '~/config';
 import { useStylesByElementWidth } from '~/hooks';
+import { AccountItemLink } from '~/components/AccountItem';
 
 const cx = classNames.bind(styles);
 
@@ -58,93 +59,13 @@ const MENU_ITEMS = [
 					code: 'ja-jp',
 					title: '日本語 (日本)',
 				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
-				{
-					type: 'language',
-					code: 'en',
-					title: 'English',
-				},
-				{
-					type: 'language',
-					code: 'vi-vn',
-					title: 'Tiếng Việt (Việt Nam)',
-				},
 			],
 		},
 	},
 	{
 		icon: <FontAwesomeIcon icon={faCircleQuestion} />,
 		title: 'Feedback and help',
-		to: '/feedback',
+		to: '',
 	},
 	{
 		icon: <FontAwesomeIcon icon={faKeyboard} />,
@@ -153,11 +74,15 @@ const MENU_ITEMS = [
 ];
 
 function Header({ className }) {
-	const [isShowModal, setIsShowModal] = useState(false);
 	const [modalBodyName, setModalBodyName] = useState('login');
+	const [isShowModal, setIsShowModal] = useState(false);
 
 	const { authUser } = useContext(AuthUserContext); //authUser nhận giá trị là JSON.parse(localStorage.getItem('user'));
 
+	if (isShowModal) {
+		// Disable scroll
+		document.body.style.overflow = 'hidden';
+	}
 	const handleMenuChange = (menuItem) => {
 		switch (menuItem.type) {
 			case 'languages':
@@ -169,6 +94,7 @@ function Header({ className }) {
 			case '/logout':
 				localStorage.removeItem('user');
 				window.location.reload();
+				window.location.href = '/';
 				break;
 			case '/@profile':
 				window.location.href = `/@${authUser.data.nickname}`;
@@ -181,23 +107,23 @@ function Header({ className }) {
 	const userMenu = [
 		{
 			icon: <FontAwesomeIcon icon={faUser} />,
-			title: 'Feedback and help',
-			to: '/@hoaa',
+			title: 'View profile',
+			to: '/@profile',
 		},
 		{
 			icon: <FontAwesomeIcon icon={faCoins} />,
 			title: 'Get coins',
-			to: '/coin',
+			to: '',
 		},
 		{
 			icon: <FontAwesomeIcon icon={faVideoCamera} />,
 			title: 'Live Studio',
-			to: '/live',
+			to: '',
 		},
 		{
 			icon: <FontAwesomeIcon icon={faGear} />,
 			title: 'Setting',
-			to: '/setting',
+			to: '',
 		},
 		...MENU_ITEMS,
 		{
@@ -207,10 +133,16 @@ function Header({ className }) {
 			separate: true,
 		},
 	];
-
+	const handleUploadBtn = (e) => {
+		if (authUser && authUser.meta && authUser.meta.token) {
+			window.location.href = '/upload';
+		} else {
+			setIsShowModal(true);
+		}
+	};
 	return (
 		<header className={cx('wrapper')}>
-			<div className={!className ? cx('inner') : cx('innerSmall')}>
+			<div className={className ? cx('inner') : cx('innerSmall')}>
 				<Link to={config.routes.home} className={cx('logo')}>
 					<img src={images.logo} alt="Tiktok" />
 				</Link>
@@ -218,7 +150,12 @@ function Header({ className }) {
 				<Search />
 
 				<div className={cx('action')}>
-					<Button leftIcon={<FontAwesomeIcon icon={faPlus} />} text>
+					<Button
+						// to={config.routes.upload}
+						leftIcon={<FontAwesomeIcon icon={faPlus} />}
+						text
+						onClick={handleUploadBtn}
+					>
 						Upload
 					</Button>
 
@@ -254,25 +191,6 @@ function Header({ className }) {
 						</>
 					)}
 
-					{/* <ModalBodyNameContext.Provider value={value}>
-							{isShowModal && (
-								<ModalWrapper
-									children={children}
-									onClose={() => {
-										setIsShowModal(false);
-										setModalBodyName('');
-									}}
-								/>
-							)}
-						</ModalBodyNameContext.Provider> */}
-					{isShowModal && (
-						<Modal
-							onClose={() => {
-								setIsShowModal(false);
-								setModalBodyName('');
-							}}
-						/>
-					)}
 					<Menu
 						key={authUser ? 'userMenu' : 'defaultMenu'}
 						items={authUser ? userMenu : MENU_ITEMS}
@@ -311,6 +229,26 @@ function Header({ className }) {
 							</Menu>
 						)} */}
 				</div>
+				{/* <ModalBodyNameContext.Provider value={value}>
+							{isShowModal && (
+								<ModalWrapper
+									children={children}
+									onClose={() => {
+										setIsShowModal(false);
+										setModalBodyName('');
+									}}
+								/>
+							)}
+						</ModalBodyNameContext.Provider> */}
+				{isShowModal && (
+					<Modal
+						onClose={() => {
+							setIsShowModal(false);
+							setModalBodyName('');
+							document.body.style.overflow = 'auto';
+						}}
+					/>
+				)}
 			</div>
 		</header>
 	);

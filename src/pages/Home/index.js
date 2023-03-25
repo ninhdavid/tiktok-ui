@@ -1,7 +1,13 @@
 import GetVideoForPages from '~/layouts/components/GetVideoForPages';
 
-function Home() {
-	return <GetVideoForPages type="for-you" />;
+function Home({ isShowModal, setIsShowModal }) {
+	return (
+		<GetVideoForPages
+			type="for-you"
+			isShowModal={isShowModal}
+			setIsShowModal={setIsShowModal}
+		/>
+	);
 }
 
 export default Home;

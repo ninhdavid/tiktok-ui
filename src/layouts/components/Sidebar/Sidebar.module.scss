@@ -1,7 +1,36 @@
-.wrapper {
-	max-width: 356px;
-	padding: 20px 0 26px 8px;
+.wrapper-l {
+	max-width: 472px;
+	// width: 472px;
+
+	// z-index: 2;
+	position: fixed;
+	padding: 20px 0px 26px 8px;
+	height: 100%;
 }
+.wrapper-s {
+	max-width: 348px;
+	// width: 348px;
+
+	// z-index: 2;
+	// position: fixed;
+	padding: 20px 0 26px 8px;
+	height: 100%;
+}
+.simple-l {
+	max-height: calc(100vh - 80px);
+	width: 472px;
+	padding-right: 124px;
+}
+.simple-s {
+	max-height: calc(100vh - 80px);
+	width: 348px;
+
+	padding-right: 124px;
+}
+.scroll-inner {
+	padding-right: 12px;
+}
+
 .followedAccounts,
 .suggestedAccounts,
 .discover-section {
@@ -9,10 +38,10 @@
 	position: relative;
 }
 
-.followedAccounts,
-.suggestedAccounts {
-	padding: 8px 0;
-}
+// .followedAccounts,
+// .suggestedAccounts {
+// 	padding: 8px 0;
+// }
 .menu {
 	position: relative;
 	padding-bottom: 12px;
@@ -29,7 +58,7 @@
 	-moz-transform: scaleY(0.5);
 	-ms-transform: scaleY(0.5);
 	border-top: 1px solid rgba(255, 255, 255, 0.12);
-	left: 8px;
+	left: 2px;
 	right: 8px;
 	bottom: 0;
 	height: 1px;
@@ -38,7 +67,7 @@
 //login button
 .login-section {
 	position: relative;
-	padding: 28px 8px 12px 0;
+	padding: 28px 12px 12px 0;
 	margin: 0;
 	line-height: 2.2rem;
 	& > p > span {
@@ -65,7 +94,8 @@
 .discover-section {
 	display: flex;
 	flex-direction: column;
-	// padding-left: 8px;
+	margin-right: 16px;
+	padding-bottom: 12px;
 
 	& > p {
 		flex: 1;
@@ -84,7 +114,7 @@
 //footer
 .footer-section {
 	color: rgba(255, 255, 255, 0.5);
-	padding: 16px 0 0 0;
+	padding: 16px 8px 0 0;
 }
 .footer-content {
 	display: flex;
@@ -115,6 +145,7 @@
 	font-size: 1.2rem;
 	font-weight: 600;
 	line-height: 16px;
+	padding-bottom: 32px;
 }
 
 .icon {
