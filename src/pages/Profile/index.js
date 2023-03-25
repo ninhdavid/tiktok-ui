@@ -24,12 +24,11 @@ function Profile({ isShowModal, setIsShowModal }) {
 	const [userProfileData, setUserProfileData] = useState([]);
 	const [isRendered, setIsRendered] = useState(false);
 
-	const videosList = userProfileData.videos;
+	const videosList = userProfileData?.videos;
 	const [activeTab, setActiveTab] = useState('videos');
 	const handleTabClick = (tabName) => {
 		setActiveTab(tabName);
 	};
-	console.log(videosList);
 	useEffect(() => {
 		userService
 			.getUserProfile(nickname, accessToken)

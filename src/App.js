@@ -4,7 +4,7 @@ import { publicRoutes } from '~/routes';
 import { DefaultLayout } from '~/layouts';
 import { useLoginAuth } from '~/hooks';
 import { FollowAnUserProvider } from './hooks/useFollowAnUser';
-import ScrollTotop from './components/ScrollTotop';
+import ScrollToTop from '~/components/ScrollToTop';
 
 export const AuthUserContext = createContext();
 function App() {
@@ -59,8 +59,9 @@ function App() {
 		<AuthUserContext.Provider value={{ authUser, setAuthUser }}>
 			<FollowAnUserProvider>
 				<Router basename="/tiktok-ui">
+					{/* <Router basename="/"> */}
 					<div className="App">
-						<ScrollTotop>
+						<ScrollToTop>
 							<Routes>
 								{publicRoutes.map((route, index) => {
 									const Page = route.component;
@@ -88,7 +89,7 @@ function App() {
 									);
 								})}
 							</Routes>
-						</ScrollTotop>
+						</ScrollToTop>
 					</div>
 				</Router>
 			</FollowAnUserProvider>

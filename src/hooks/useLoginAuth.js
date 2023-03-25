@@ -18,7 +18,7 @@ function useLoginAuth() {
 
 					setTimeout(() => {
 						setIsLoggedIn(true);
-					}, 1400);
+					}, 1300);
 				} else {
 					setError('Username or password is invalid! Please try again');
 				}

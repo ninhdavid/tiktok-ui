@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, redirect } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -74,10 +74,15 @@ const MENU_ITEMS = [
 ];
 
 function Header({ className }) {
+	const navigate = useNavigate();
 	const [modalBodyName, setModalBodyName] = useState('login');
 	const [isShowModal, setIsShowModal] = useState(false);
 
 	const { authUser } = useContext(AuthUserContext); //authUser nhận giá trị là JSON.parse(localStorage.getItem('user'));
+	const accessToken =
+		authUser && authUser.data && authUser.data.nickname
+			? authUser.data.nickname
+			: '';
 
 	if (isShowModal) {
 		// Disable scroll
@@ -93,11 +98,14 @@ function Header({ className }) {
 		switch (menuItem.to) {
 			case '/logout':
 				localStorage.removeItem('user');
+				navigate('/');
 				window.location.reload();
-				window.location.href = '/';
+				// window.location.href = window.location.origin + '/tiktok-ui/';
+
 				break;
 			case '/@profile':
-				window.location.href = `/@${authUser.data.nickname}`;
+				// window.location.href = `/@${authUser.data.nickname}`;
+				navigate(`/@${authUser.data.nickname}`);
 				break;
 			default:
 				break;
@@ -108,7 +116,7 @@ function Header({ className }) {
 		{
 			icon: <FontAwesomeIcon icon={faUser} />,
 			title: 'View profile',
-			to: '/@profile',
+			to: `/@${accessToken}`,
 		},
 		{
 			icon: <FontAwesomeIcon icon={faCoins} />,
@@ -135,7 +143,7 @@ function Header({ className }) {
 	];
 	const handleUploadBtn = (e) => {
 		if (authUser && authUser.meta && authUser.meta.token) {
-			window.location.href = '/upload';
+			navigate('/upload');
 		} else {
 			setIsShowModal(true);
 		}
@@ -159,7 +167,7 @@ function Header({ className }) {
 						Upload
 					</Button>
 
-					{authUser ? (
+					{accessToken ? (
 						<>
 							<Tippy delay="300" content="Create effects">
 								<div className={cx('logo')}>
@@ -192,11 +200,11 @@ function Header({ className }) {
 					)}
 
 					<Menu
-						key={authUser ? 'userMenu' : 'defaultMenu'}
-						items={authUser ? userMenu : MENU_ITEMS}
+						key={accessToken ? 'userMenu' : 'defaultMenu'}
+						items={accessToken ? userMenu : MENU_ITEMS}
 						onChange={handleMenuChange}
 					>
-						{authUser ? (
+						{accessToken ? (
 							<span>
 								<Avatar
 									className={cx('user-avatar')}
