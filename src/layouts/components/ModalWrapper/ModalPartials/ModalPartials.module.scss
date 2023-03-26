@@ -204,9 +204,9 @@
 	justify-content: center;
 	align-items: center;
 	border-radius: 4px;
-	transition: all 1.2s ease-in;
-	animation: fade 1.2s ease-in;
-	@keyframes fade {
+	transition: all 1.3s ease-in;
+	animation: downUp 1.3s ease-in;
+	@keyframes downUp {
 		0% {
 			top: -72px;
 		}
