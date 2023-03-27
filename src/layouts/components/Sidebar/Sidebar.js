@@ -281,7 +281,6 @@ function Sidebar({ small, setIsShowModal, isShowModal }) {
 				{/* <PerfectScrollbar> */}
 				<SimpleBar
 					forceVisible="y"
-					autoHide={false}
 					className={!small ? cx('simple-l') : cx('simple-s')}
 				>
 					<div className={cx('scroll-inner')}>
